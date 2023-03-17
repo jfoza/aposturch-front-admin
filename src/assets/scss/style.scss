@@ -1,0 +1,89 @@
+/*================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+@import "./variables/variables";
+.main-menu.menu-light .navigation>li.active>a {
+  background: $custom-rose;
+  box-shadow: none;
+}
+
+.button-form {
+  background-color: $custom-rose;
+  color: #FFF;
+  transition: .3s background-color;
+}
+
+.button-form:hover {
+  background-color: #dc6a6c;
+  color: #FFF;
+}
+
+.btn-outline-form {
+  background-color: transparent;
+  border: solid 1px $custom-rose;
+  color: $custom-rose;
+  transition: .3s background-color;
+}
+
+.btn-outline-form:hover {
+  background-color: transparent;
+  border: solid 1px $custom-rose;
+  color: $custom-rose;
+  text-decoration: underline;
+}
+
+.custom-alert {
+  display: flex;
+  padding: 0.71rem 1rem;
+  justify-content: space-between;
+}
+
+.wizard-tab-content {
+  width: 100% !important;
+}
+
+.main-menu .navbar-header .navbar-brand .brand-logo img {
+  max-width: 230px;
+}
+
+.main-menu.menu-light .navigation > li ul .active {
+  background: linear-gradient(118deg, $custom-rose, rgba(239, 141, 142, 0.7));
+}
+
+.main-menu.menu-light .navigation > li ul .active {
+  box-shadow: 0 0 10px 1px rgb(239 141 142 / 70%);
+  border-radius: 4px;
+}
+
+.button-config {
+  margin-top: .4rem;
+}
+
+.spinner-area {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-menu .navbar-header .navbar-brand {
+  margin-top: .5rem;
+}
+
+.main-menu.menu-light .navigation {
+  margin-top: 1.3rem;
+}
+
+.p-card-form {
+  padding: 3rem 2rem;
+}
+
+@media(max-width: 576px) {
+  .button-config {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}

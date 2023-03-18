@@ -1,6 +1,6 @@
 <template>
   <img
-    :src="require('@/assets/images/custom/logo/lalak-logo-medium.png')"
+    :src="require('@/assets/images/custom/logo/aposturch-logo-medium.png')"
     alt=""
   >
 </template>

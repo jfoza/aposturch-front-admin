@@ -2,7 +2,7 @@
   <div class="welcome-img-container">
     <div class="welcome-img">
       <img
-        :src="require('@/assets/images/custom/logo/lalak-logo-large.png')"
+        :src="require('@/assets/images/custom/logo/aposturch-logo.png')"
         alt=""
       >
     </div>

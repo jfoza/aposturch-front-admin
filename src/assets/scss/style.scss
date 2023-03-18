@@ -6,32 +6,32 @@ PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
 @import "./variables/variables";
 .main-menu.menu-light .navigation>li.active>a {
-  background: $custom-rose;
+  background: $black;
   box-shadow: none;
 }
 
 .button-form {
-  background-color: $custom-rose;
+  background-color: $black;
   color: #FFF;
   transition: .3s background-color;
 }
 
 .button-form:hover {
-  background-color: #dc6a6c;
+  background-color: $black-hover;
   color: #FFF;
 }
 
 .btn-outline-form {
   background-color: transparent;
-  border: solid 1px $custom-rose;
-  color: $custom-rose;
+  border: solid 1px $black;
+  color: $black;
   transition: .3s background-color;
 }
 
 .btn-outline-form:hover {
   background-color: transparent;
-  border: solid 1px $custom-rose;
-  color: $custom-rose;
+  border: solid 1px $black;
+  color: $black;
   text-decoration: underline;
 }
 
@@ -50,11 +50,11 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 }
 
 .main-menu.menu-light .navigation > li ul .active {
-  background: linear-gradient(118deg, $custom-rose, rgba(239, 141, 142, 0.7));
+  background: linear-gradient(118deg, $black, rgba(57, 255, 20, 0.7));
 }
 
 .main-menu.menu-light .navigation > li ul .active {
-  box-shadow: 0 0 10px 1px rgb(239 141 142 / 70%);
+  box-shadow: 0 0 10px 1px rgb(57 255 20 / 70%);
   border-radius: 4px;
 }
 

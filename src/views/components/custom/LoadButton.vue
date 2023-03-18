@@ -1,12 +1,14 @@
 <template>
   <button
-      :disabled="!getState"
-      :type="type"
-      class="btn"
-      :style="getStyles"
-      @click="actionButton"
+    :disabled="!getState"
+    :type="type"
+    class="btn load-button"
+    @click="actionButton"
   >
-    <b-spinner v-if="!getState" variant="custom"></b-spinner>
+    <b-spinner
+      v-if="!getState"
+      variant="custom"
+    />
     <span v-else>{{ getMessage }}</span>
   </button>
 </template>
@@ -15,6 +17,10 @@
 import { BSpinner } from 'bootstrap-vue'
 
 export default {
+
+  components: {
+    BSpinner,
+  },
   props: {
     state: {
       type: Boolean,
@@ -26,20 +32,8 @@ export default {
     },
     message: {
       type: String,
-      default: 'Submit'
+      default: 'Submit',
     },
-    bgColor: {
-      type: String,
-      default: '#ec7c7d'
-    },
-    color: {
-      type: String,
-      default: '#fff'
-    }
-  },
-
-  components: {
-    BSpinner
   },
 
   data() {
@@ -48,34 +42,36 @@ export default {
     }
   },
 
-  methods: {
-    actionButton() {
-      this.$emit('action');
-    }
-  },
-
   computed: {
-    getStyles() {
-      return {
-        width: '100%',
-        backgroundColor: this.bgColor,
-        color: this.color,
-        transition: '.3s background-color',
-        marginBottom: '2rem'
-      }
-    },
-
     getState() {
       return this.state
     },
 
     getMessage() {
       return this.message
-    }
+    },
+  },
+
+  methods: {
+    actionButton() {
+      this.$emit('action')
+    },
   },
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/assets/scss/variables/_variables.scss";
 
+.load-button {
+  background-color: $black;
+  color: $white;
+  width: 100%;
+  margin-bottom: 2rem;
+  transition: .3s background-color;
+}
+
+.load-button:hover {
+  background-color: $black-hover;
+}
 </style>

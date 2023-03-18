@@ -1,10 +1,5 @@
-/*================================================================================
-
-NOTE:
-------
-PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
-WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
 @import "./variables/variables";
+
 .main-menu.menu-light .navigation>li.active>a {
   background: $black;
   box-shadow: none;
@@ -73,8 +68,12 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
   margin-top: .5rem;
 }
 
+.main-menu .navbar-header {
+  padding: 1.5rem 1rem 0.3rem 1rem;
+}
+
 .main-menu.menu-light .navigation {
-  margin-top: 1.3rem;
+  margin-top: 2rem;
 }
 
 .p-card-form {

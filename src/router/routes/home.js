@@ -7,7 +7,7 @@ export default [
     component: () => import('@/views/home/Home.vue'),
     meta: {
       resource: 'ACL',
-      subject: subjects.HOME_PAGE,
+      subject: subjects.ROOT,
       action: actions.VIEW,
     },
   },

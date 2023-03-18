@@ -22,9 +22,6 @@ import '@/libs/vue-select'
 import '@/libs/tour'
 import '@/@core/scss/vue/libs/vue-select.scss'
 
-// Axios Mock Adapter
-import '@/@fake-db/db'
-
 // BSV Plugin Registration
 Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)

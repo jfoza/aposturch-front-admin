@@ -1,8 +1,8 @@
 @import "@/assets/scss/variables/_variables.scss";
 
 .confirm-button-sweet {
-  background-color: $custom-rose !important;
+  background-color: $black !important;
   color: #FFF;
   margin-right: 5px;
-  box-shadow: 0 0 0 0 rgb(112 102 224 / 50%) !important;
+  box-shadow: none !important;
 }

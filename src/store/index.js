@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 // Modules
+import createPersistedState from 'vuex-persistedstate'
 import ecommerceStoreModule from '@/views/apps/e-commerce/eCommerceStoreModule'
 import sessions from '@/store/sessions'
 import app from './app'
@@ -18,5 +19,12 @@ export default new Vuex.Store({
     verticalMenu,
     'app-ecommerce': ecommerceStoreModule,
   },
+  plugins: [
+    createPersistedState({
+      paths: [
+        'sessions',
+      ],
+    }),
+  ],
   strict: process.env.DEV,
 })

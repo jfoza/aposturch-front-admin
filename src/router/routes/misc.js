@@ -20,8 +20,7 @@ export default [
   {
     path: '/admin/sessao-expirada',
     name: 'disconnected',
-    component: () =>
-        import ('@/views/pages/miscellaneous/Disconnected.vue'),
+    component: () => import('@/views/pages/miscellaneous/Disconnected.vue'),
     meta: {
       layout: 'full',
     },
@@ -30,8 +29,7 @@ export default [
   {
     path: '/admin/pagina-nao-encontrada',
     name: 'error-404',
-    component: () =>
-        import ('@/views/error/Error404.vue'),
+    component: () => import('@/views/error/Error404.vue'),
     meta: {
       layout: 'full',
     },

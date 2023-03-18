@@ -2,13 +2,13 @@
   <div class="auth-wrapper auth-v2">
     <b-row class="w-100 m-0">
       <b-col
-          lg="12"
-          class="d-flex justify-content-center"
+        lg="12"
+        class="d-flex justify-content-center"
       >
         <div class="page-misc-view">
           <application-logo />
           <div class="page-misc-card">
-            <slot></slot>
+            <slot />
           </div>
         </div>
       </b-col>

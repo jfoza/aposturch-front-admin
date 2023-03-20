@@ -23,7 +23,7 @@ export const groupsModuleRouter = {
   name: 'groups-home',
 }
 
-export const schedule = {
+export const scheduleModuleRouter = {
   path: '/agenda',
   name: 'schedule-home',
 }

@@ -1,12 +1,11 @@
 <template>
   <div>
-    Financial Module
+    Groups Module
   </div>
 </template>
 
 <script>
 export default {
-  name: 'FinancialHome',
 }
 </script>
 

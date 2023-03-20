@@ -3,14 +3,22 @@
     :to="{ name: routerName }"
   >
     <b-card
-      img-src="https://placekitten.com/50/50"
-      img-alt="Card image"
-      img-left
       class="mb-3"
     >
-      <b-card-text>
-        Some quick example text to build on the card and make up the bulk of the card's content.
-      </b-card-text>
+      <div class="card-content">
+        <img
+          :src="icon"
+          :alt="title"
+        >
+
+        <div class="card-text">
+          <h4>{{ title }}</h4>
+
+          <p>
+            {{ description }}
+          </p>
+        </div>
+      </div>
     </b-card>
   </b-link>
 </template>
@@ -19,14 +27,12 @@
 import {
   BLink,
   BCard,
-  BCardText,
 } from 'bootstrap-vue'
 
 export default {
   components: {
     BLink,
     BCard,
-    BCardText,
   },
 
   props: {
@@ -56,5 +62,21 @@ export default {
 <style scoped>
   .card-content {
     display: flex;
+    align-items: center;
+  }
+
+  .card-text {
+    width: 100%;
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (max-width: 300px) {
+    .card-content {
+      display: flex;
+      flex-direction: column;
+    }
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <b-container
     fluid
-    class="m-container"
+    class="p-container"
   >
     <b-row>
       <b-col
@@ -31,6 +31,19 @@ import {
 } from 'bootstrap-vue'
 
 import ModulesCard from '@/views/components/custom/ModulesCard.vue'
+import financialImg from '@/assets/images/custom/modules/financial.png'
+import bookstoreImg from '@/assets/images/custom/modules/bookstore.png'
+import membersImg from '@/assets/images/custom/modules/members.png'
+import groupsImg from '@/assets/images/custom/modules/groups.png'
+import scheduleImg from '@/assets/images/custom/modules/schedule.png'
+
+import {
+  financialModuleRouter,
+  membersModuleRouter,
+  bookstoreModuleRouter,
+  groupsModuleRouter,
+  scheduleModuleRouter,
+} from '@/router/path/modules'
 
 export default {
   components: {
@@ -44,10 +57,34 @@ export default {
     return {
       modules: [
         {
-          icon: '',
-          title: '',
+          icon: financialImg,
+          title: 'Financeiro',
           description: '',
-          routerName: '',
+          routerName: financialModuleRouter.name,
+        },
+        {
+          icon: bookstoreImg,
+          title: 'Livraria',
+          description: '',
+          routerName: bookstoreModuleRouter.name,
+        },
+        {
+          icon: membersImg,
+          title: 'Membresia',
+          description: '',
+          routerName: membersModuleRouter.name,
+        },
+        {
+          icon: groupsImg,
+          title: 'Grupos',
+          description: '',
+          routerName: groupsModuleRouter.name,
+        },
+        {
+          icon: scheduleImg,
+          title: 'Agenda',
+          description: '',
+          routerName: scheduleModuleRouter.name,
         },
       ],
     }
@@ -56,7 +93,7 @@ export default {
 </script>
 
 <style scoped>
-  .m-container {
-    margin: 3rem 1rem;
+  .p-container {
+    padding: 3rem 2rem;
   }
 </style>

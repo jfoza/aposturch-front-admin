@@ -27,6 +27,7 @@ import store from '@/store'
 import { logoutUser, startCount } from '@/auth/utils'
 
 const LayoutVertical = () => import('@/layouts/vertical/LayoutVertical.vue')
+const Modules = () => import('@/layouts/modules/Modules.vue')
 const LayoutHorizontal = () => import('@/layouts/horizontal/LayoutHorizontal.vue')
 const LayoutFull = () => import('@/layouts/full/LayoutFull.vue')
 
@@ -36,6 +37,7 @@ export default {
     // Layouts
     LayoutHorizontal,
     LayoutVertical,
+    Modules,
     LayoutFull,
 
     ScrollToTop,
@@ -44,7 +46,14 @@ export default {
   // Currently, router.currentRoute is not reactive and doesn't trigger any change
   computed: {
     layout() {
-      if (this.$route.meta.layout === 'full') return 'layout-full'
+      if (this.$route.meta.layout === 'full') {
+        return 'layout-full'
+      }
+
+      if (this.$route.meta.layout === 'modules') {
+        return 'modules'
+      }
+
       return `layout-${this.contentLayoutType}`
     },
     contentLayoutType() {

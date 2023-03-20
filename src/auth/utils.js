@@ -13,7 +13,7 @@ export const clearStore = () => {
 
 export const getHomeRouteForLoggedInUser = userRole => {
   if (userRole) {
-    return '/admin'
+    return '/'
   }
 
   clearStore()
@@ -36,13 +36,13 @@ export const redirectToNotAuthorized = () => {
 
 export const logoutUser = () => new Promise((resolve, reject) => {
   axiosIns.get(apiRoutes.logout)
-      .then(response => {
-        clearStore()
-        resolve(response)
-      })
-      .catch(error => {
-        reject(error)
-      })
+    .then(response => {
+      clearStore()
+      resolve(response)
+    })
+    .catch(error => {
+      reject(error)
+    })
 })
 
 export const logoutUserRedirectToLogin = () => {
@@ -52,9 +52,9 @@ export const logoutUserRedirectToLogin = () => {
 
 export const setLoggedUserData = () => {
   axiosIns.get(apiRoutes.me)
-      .then(response => {
-        const userData = response.data
+    .then(response => {
+      const userData = response.data
 
-        provider.commit('sessions/SET_USER_DATA', userData)
-      })
+      provider.commit('sessions/SET_USER_DATA', userData)
+    })
 }

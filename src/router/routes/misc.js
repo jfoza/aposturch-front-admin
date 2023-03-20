@@ -1,25 +1,32 @@
+import {
+  notAuthorized,
+  notEnabled,
+  disconnected,
+  error404,
+} from '@/router/path/general'
+
 export default [
   {
-    path: '/admin/nao-autorizado',
-    name: 'misc-not-authorized',
-    component: () => import('@/views/pages/miscellaneous/NotAuthorized'),
+    path: notAuthorized.path,
+    name: notAuthorized.name,
+    component: () => import('@/views/pages/miscellaneous/NotAuthorized.vue'),
     meta: {
       layout: 'full',
     },
   },
 
   {
-    path: '/admin/nao-habilitado',
-    name: 'misc-not-enabled',
-    component: () => import('@/views/pages/miscellaneous/NotEnabled'),
+    path: notEnabled.path,
+    name: notEnabled.name,
+    component: () => import('@/views/pages/miscellaneous/NotEnabled.vue'),
     meta: {
       layout: 'full',
     },
   },
 
   {
-    path: '/admin/sessao-expirada',
-    name: 'disconnected',
+    path: disconnected.path,
+    name: disconnected.name,
     component: () => import('@/views/pages/miscellaneous/Disconnected.vue'),
     meta: {
       layout: 'full',
@@ -27,8 +34,8 @@ export default [
   },
 
   {
-    path: '/admin/pagina-nao-encontrada',
-    name: 'error-404',
+    path: error404.path,
+    name: error404.name,
     component: () => import('@/views/error/Error404.vue'),
     meta: {
       layout: 'full',

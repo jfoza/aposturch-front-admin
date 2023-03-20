@@ -102,7 +102,7 @@
           </b-form>
 
           <b-link
-            :to="{name: ''}"
+            :to="{ name: '' }"
             class="text-center"
           >
             <BIconChevronLeft />

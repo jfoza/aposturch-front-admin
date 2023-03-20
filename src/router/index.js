@@ -6,7 +6,7 @@ import { canNavigate } from '@/libs/acl/routeProtection'
 import { getHomeRouteForLoggedInUser, getUserData, isUserLoggedIn } from '@/auth/utils'
 import auth from './routes/auth'
 import misc from './routes/misc'
-import home from './routes/home'
+import root from './routes/root'
 
 Vue.use(VueRouter)
 
@@ -20,7 +20,7 @@ const router = new VueRouter({
     { path: '/', redirect: { name: 'home' } },
     ...auth,
     ...misc,
-    ...home,
+    ...root,
     {
       path: '*',
       redirect: { name: 'error-404' },

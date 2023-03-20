@@ -1,38 +1,48 @@
 <template>
-  <b-link
-    :to="{ name: routerName }"
+  <b-col
+    v-if="$can(getAbility.action, getAbility.subject)"
+    xl="3"
+    lg="4"
+    md="6"
+    sm="12"
   >
-    <b-card
-      class="mb-3"
+    <b-link
+      @click="handleRedirectToModule"
     >
-      <div class="card-content">
-        <img
-          :src="icon"
-          :alt="title"
-        >
+      <b-card
+        class="mb-3"
+      >
+        <div class="card-content">
+          <img
+            :src="icon"
+            :alt="title"
+          >
 
-        <div class="card-text">
-          <h4>{{ title }}</h4>
+          <div class="card-text">
+            <h4>{{ title }}</h4>
 
-          <p>
-            {{ description }}
-          </p>
+            <p>
+              {{ description }}
+            </p>
+          </div>
         </div>
-      </div>
-    </b-card>
-  </b-link>
+      </b-card>
+    </b-link>
+  </b-col>
 </template>
 
 <script>
 import {
   BLink,
   BCard,
+  BCol,
 } from 'bootstrap-vue'
 
 export default {
   components: {
     BLink,
     BCard,
+    BCol,
   },
 
   props: {
@@ -51,9 +61,37 @@ export default {
       default: '',
     },
 
+    ability: {
+      type: Object,
+      default: null,
+    },
+
+    menus: {
+      type: Array,
+      default: () => [],
+    },
+
     routerName: {
       type: String,
       default: '',
+    },
+  },
+
+  computed: {
+    getMenus() {
+      return this.menus
+    },
+
+    getAbility() {
+      return this.ability
+    },
+  },
+
+  methods: {
+    handleRedirectToModule() {
+      this.$store.commit('defineMenus/HANDLE_DEFINE_MENUS', this.getMenus)
+
+      this.$router.push({ name: this.routerName })
     },
   },
 }

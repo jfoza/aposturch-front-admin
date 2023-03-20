@@ -15,9 +15,8 @@ export default [
     component: () => import('@/views/modules/Index.vue'),
     meta: {
       layout: 'modules',
-      resource: 'AUTH',
-      // subject: subjects.ROOT,
-      // action: actions.VIEW,
+      subject: subjects.ROOT,
+      action: actions.VIEW,
     },
   },
 
@@ -26,9 +25,8 @@ export default [
     name: financialModuleRouter.name,
     component: () => import('@/views/modules/financial/home/FinancialHome.vue'),
     meta: {
-      resource: 'AUTH',
-      // subject: subjects.ROOT,
-      // action: actions.VIEW,
+      subject: subjects.ROOT,
+      action: actions.VIEW,
     },
   },
 
@@ -37,9 +35,8 @@ export default [
     name: membersModuleRouter.name,
     component: () => import('@/views/modules/members/home/MembersHome.vue'),
     meta: {
-      resource: 'AUTH',
-      // subject: subjects.ROOT,
-      // action: actions.VIEW,
+      subject: subjects.ROOT,
+      action: actions.VIEW,
     },
   },
 
@@ -48,9 +45,8 @@ export default [
     name: bookstoreModuleRouter.name,
     component: () => import('@/views/modules/bookstore/home/BookstoreHome.vue'),
     meta: {
-      resource: 'AUTH',
-      // subject: subjects.ROOT,
-      // action: actions.VIEW,
+      subject: subjects.ROOT,
+      action: actions.VIEW,
     },
   },
 
@@ -59,9 +55,8 @@ export default [
     name: groupsModuleRouter.name,
     component: () => import('@/views/modules/groups/home/GroupsHome.vue'),
     meta: {
-      resource: 'AUTH',
-      // subject: subjects.ROOT,
-      // action: actions.VIEW,
+      subject: subjects.ROOT,
+      action: actions.VIEW,
     },
   },
 
@@ -70,9 +65,8 @@ export default [
     name: scheduleModuleRouter.name,
     component: () => import('@/views/modules/schedule/home/ScheduleHome.vue'),
     meta: {
-      resource: 'AUTH',
-      // subject: subjects.ROOT,
-      // action: actions.VIEW,
+      subject: subjects.ROOT,
+      action: actions.VIEW,
     },
   },
 ]

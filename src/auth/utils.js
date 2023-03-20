@@ -41,6 +41,7 @@ export const logoutUser = () => new Promise((resolve, reject) => {
       resolve(response)
     })
     .catch(error => {
+      clearStore()
       reject(error)
     })
 })

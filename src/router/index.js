@@ -23,7 +23,7 @@ const router = new VueRouter({
     ...root,
     {
       path: '*',
-      redirect: { name: 'error-404' },
+      redirect: { name: 'error404' },
     },
   ],
 })

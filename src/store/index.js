@@ -8,6 +8,7 @@ import sessions from '@/store/sessions'
 import app from './app'
 import appConfig from './app-config'
 import verticalMenu from './vertical-menu'
+import defineMenus from './define-menus'
 
 Vue.use(Vuex)
 
@@ -17,12 +18,14 @@ export default new Vuex.Store({
     app,
     appConfig,
     verticalMenu,
+    defineMenus,
     'app-ecommerce': ecommerceStoreModule,
   },
   plugins: [
     createPersistedState({
       paths: [
         'sessions',
+        'defineMenus',
       ],
     }),
   ],

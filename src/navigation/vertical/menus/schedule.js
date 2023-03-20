@@ -1,10 +1,11 @@
 import { subjects, actions } from '@/libs/acl/rules'
+import { scheduleModuleRouter } from '@/router/path/modules'
 
 export default [
   {
-    title: 'Início',
+    title: 'Schedule',
     icon: 'HomeIcon',
-    route: 'home',
+    route: scheduleModuleRouter.name,
     resource: subjects.ROOT,
     action: actions.VIEW,
   },

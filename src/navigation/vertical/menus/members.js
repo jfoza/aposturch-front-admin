@@ -6,7 +6,7 @@ export default [
     title: 'Members',
     icon: 'HomeIcon',
     route: membersModuleRouter.name,
-    resource: subjects.ROOT,
+    resource: subjects.MEMBERS_MODULE,
     action: actions.VIEW,
   },
 ]

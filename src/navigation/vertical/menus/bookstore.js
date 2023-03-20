@@ -6,7 +6,7 @@ export default [
     title: 'Bookstore',
     icon: 'HomeIcon',
     route: bookstoreModuleRouter.name,
-    resource: subjects.ROOT,
+    resource: subjects.BOOKSTORE_MODULE,
     action: actions.VIEW,
   },
 ]

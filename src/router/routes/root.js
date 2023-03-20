@@ -6,6 +6,7 @@ import {
   bookstoreModuleRouter,
   groupsModuleRouter,
   scheduleModuleRouter,
+  usersModuleRouter,
 } from '@/router/path/modules'
 
 export default [
@@ -21,11 +22,21 @@ export default [
   },
 
   {
+    path: usersModuleRouter.path,
+    name: usersModuleRouter.name,
+    component: () => import('@/views/modules/users/Users.vue'),
+    meta: {
+      subject: subjects.USERS_MODULE,
+      action: actions.VIEW,
+    },
+  },
+
+  {
     path: financialModuleRouter.path,
     name: financialModuleRouter.name,
     component: () => import('@/views/modules/financial/home/FinancialHome.vue'),
     meta: {
-      subject: subjects.ROOT,
+      subject: subjects.FINANCE_MODULE,
       action: actions.VIEW,
     },
   },
@@ -35,7 +46,7 @@ export default [
     name: membersModuleRouter.name,
     component: () => import('@/views/modules/members/home/MembersHome.vue'),
     meta: {
-      subject: subjects.ROOT,
+      subject: subjects.MEMBERS_MODULE,
       action: actions.VIEW,
     },
   },
@@ -45,7 +56,7 @@ export default [
     name: bookstoreModuleRouter.name,
     component: () => import('@/views/modules/bookstore/home/BookstoreHome.vue'),
     meta: {
-      subject: subjects.ROOT,
+      subject: subjects.BOOKSTORE_MODULE,
       action: actions.VIEW,
     },
   },
@@ -55,7 +66,7 @@ export default [
     name: groupsModuleRouter.name,
     component: () => import('@/views/modules/groups/home/GroupsHome.vue'),
     meta: {
-      subject: subjects.ROOT,
+      subject: subjects.GROUPS_MODULE,
       action: actions.VIEW,
     },
   },
@@ -65,7 +76,7 @@ export default [
     name: scheduleModuleRouter.name,
     component: () => import('@/views/modules/schedule/home/ScheduleHome.vue'),
     meta: {
-      subject: subjects.ROOT,
+      subject: subjects.SCHEDULE_MODULE,
       action: actions.VIEW,
     },
   },

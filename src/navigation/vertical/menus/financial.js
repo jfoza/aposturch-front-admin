@@ -6,7 +6,7 @@ export default [
     title: 'Financial',
     icon: 'HomeIcon',
     route: financialModuleRouter.name,
-    resource: subjects.ROOT,
+    resource: subjects.FINANCE_MODULE,
     action: actions.VIEW,
   },
 ]

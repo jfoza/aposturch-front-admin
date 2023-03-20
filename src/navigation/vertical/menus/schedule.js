@@ -6,7 +6,7 @@ export default [
     title: 'Schedule',
     icon: 'HomeIcon',
     route: scheduleModuleRouter.name,
-    resource: subjects.ROOT,
+    resource: subjects.SCHEDULE_MODULE,
     action: actions.VIEW,
   },
 ]

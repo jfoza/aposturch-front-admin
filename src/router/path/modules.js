@@ -3,6 +3,11 @@ export const homeRouter = {
   name: 'home',
 }
 
+export const usersModuleRouter = {
+  path: '/usuarios',
+  name: 'users-home',
+}
+
 export const financialModuleRouter = {
   path: '/financeiro',
   name: 'financial-home',

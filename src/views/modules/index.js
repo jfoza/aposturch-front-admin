@@ -1,7 +1,5 @@
-/* eslint-disable global-require */
 import { actions, subjects } from '@/libs/acl/rules'
 import menus from '@/navigation/vertical'
-
 import usersModuleRoutes from '@/views/modules/users/routes'
 import financialModuleRoutes from '@/views/modules/financial/routes'
 import bookstoreModuleRoutes from '@/views/modules/bookstore/routes'
@@ -13,10 +11,6 @@ export default [
   {
     icon: 'UsersIcon',
     title: 'Usuários',
-    hoverStyle: {
-      hoverBg: '#5BC0BE',
-      hoverColor: '#fff',
-    },
     description: '',
     ability: {
       subject: subjects.USERS_MODULE,
@@ -29,10 +23,6 @@ export default [
   {
     icon: 'DollarSignIcon',
     title: 'Financeiro',
-    hoverStyle: {
-      hoverBg: '#5BC0BE',
-      hoverColor: '#fff',
-    },
     description: '',
     ability: {
       subject: subjects.FINANCE_MODULE,
@@ -45,10 +35,6 @@ export default [
   {
     icon: 'BookOpenIcon',
     title: 'Livraria',
-    hoverStyle: {
-      hoverBg: '#5BC0BE',
-      hoverColor: '#fff',
-    },
     description: '',
     ability: {
       subject: subjects.BOOKSTORE_MODULE,
@@ -61,10 +47,6 @@ export default [
   {
     icon: 'UserIcon',
     title: 'Membresia',
-    hoverStyle: {
-      hoverBg: '#5BC0BE',
-      hoverColor: '#fff',
-    },
     description: '',
     ability: {
       subject: subjects.MEMBERS_MODULE,
@@ -77,10 +59,6 @@ export default [
   {
     icon: 'LayersIcon',
     title: 'Grupos',
-    hoverStyle: {
-      hoverBg: '#5BC0BE',
-      hoverColor: '#fff',
-    },
     description: '',
     ability: {
       subject: subjects.GROUPS_MODULE,
@@ -93,10 +71,6 @@ export default [
   {
     icon: 'CalendarIcon',
     title: 'Agenda',
-    hoverStyle: {
-      hoverBg: '#5BC0BE',
-      hoverColor: '#fff',
-    },
     description: '',
     ability: {
       subject: subjects.SCHEDULE_MODULE,

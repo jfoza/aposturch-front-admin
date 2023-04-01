@@ -8,7 +8,6 @@
         v-for="(module, index) in modules"
         :key="index"
         :icon="module.icon"
-        :hover-style="module.hoverStyle"
         :title="module.title"
         :description="module.description"
         :ability="module.ability"

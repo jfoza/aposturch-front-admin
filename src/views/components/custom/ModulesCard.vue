@@ -6,7 +6,6 @@
   >
     <b-card
       class="mb-3 b-card-style"
-      :style="getStyles"
     >
       <feather-icon
         :icon="icon"
@@ -41,14 +40,6 @@ export default {
     title: {
       type: String,
       default: '',
-    },
-
-    hoverStyle: {
-      type: Object,
-      default: () => ({
-        hoverBg: '',
-        hoverColor: '',
-      }),
     },
 
     description: {
@@ -86,13 +77,6 @@ export default {
     getAbility() {
       return this.ability
     },
-
-    getStyles() {
-      return {
-        '--bg-color-hover': this.hoverStyle.hoverBg,
-        '--color-hover': this.hoverStyle.hoverColor,
-      }
-    },
   },
 
   methods: {
@@ -106,11 +90,6 @@ export default {
 </script>
 
 <style scoped>
-  :root {
-    --color-hover: '';
-    --bg-color-hover: '';
-  }
-
   .module-card {
     width: 130px;
     margin: 0 15px;
@@ -123,8 +102,8 @@ export default {
   }
 
   .b-card-style:hover {
-    background-color: var(--bg-color-hover);
-    color: var(--color-hover);
+    background-color: #5BC0BE;
+    color: #fff;
   }
 
   .card-body {
@@ -142,9 +121,4 @@ export default {
   .module-card .card-title {
     font-size: 15px;
   }
-
-  /*.module-card .card-icon {*/
-  /*  color: #5e5873;*/
-  /*  transition: .4s background-color;*/
-  /*}*/
 </style>

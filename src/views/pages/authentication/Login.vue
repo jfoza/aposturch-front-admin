@@ -256,7 +256,7 @@ export default {
 
       this.$ability.update(userData.ability)
 
-      this.$router.replace(getHomeRouteForLoggedInUser('admin'))
+      this.$router.replace(getHomeRouteForLoggedInUser('/'))
         .then(() => {
           this.$toast({
             component: ToastificationContent,

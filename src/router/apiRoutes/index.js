@@ -1,6 +1,4 @@
-import Vue from 'vue'
-
-export const apiRoutes = {
+export default {
   login: '/admin/auth/login',
   logout: '/auth/logout',
 
@@ -35,5 +33,3 @@ export const apiRoutes = {
   system: '/admin/system',
   systemId: id => `/admin/system/${id}`,
 }
-
-Vue.prototype.$apiRoutes = apiRoutes

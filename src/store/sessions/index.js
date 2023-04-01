@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 // eslint-disable-next-line import/no-cycle
 import api from '@/libs/api'
-import { apiRoutes } from '@/router/apiRoutes'
+import apiRoutes from '@/router/apiRoutes'
 
 const defaultCount = parseInt(process.env.VUE_APP_SESSION_EXPIRED)
 

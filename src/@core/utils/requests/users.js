@@ -1,5 +1,5 @@
 import axiosIns from '@/libs/axios'
-import { apiRoutes } from '@/router/apiRoutes'
+import apiRoutes from '@/router/apiRoutes'
 
 export const getAdminUsers = params => new Promise((resolve, reject) => {
   axiosIns

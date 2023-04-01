@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import CustomMisc from '@/views/components/custom/CustomMisc'
-import LoadButton from '@/views/components/custom/LoadButton'
+import CustomMisc from '@/views/components/custom/CustomMisc.vue'
+import LoadButton from '@/views/components/custom/LoadButton.vue'
 import { CoffeeIcon } from 'vue-feather-icons'
 
 export default {

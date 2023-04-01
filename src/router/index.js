@@ -7,6 +7,12 @@ import { getHomeRouteForLoggedInUser, getUserData, isUserLoggedIn } from '@/auth
 import auth from './routes/auth'
 import misc from './routes/misc'
 import root from './routes/root'
+import users from './routes/users'
+import financial from './routes/financial'
+import bookstore from './routes/bookstore'
+import members from './routes/members'
+import groups from './routes/groups'
+import schedule from './routes/schedule'
 
 Vue.use(VueRouter)
 
@@ -21,6 +27,12 @@ const router = new VueRouter({
     ...auth,
     ...misc,
     ...root,
+    ...users,
+    ...financial,
+    ...bookstore,
+    ...members,
+    ...groups,
+    ...schedule,
     {
       path: '*',
       redirect: { name: 'error404' },

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Modules from '@core/layouts/layout-vertical/Modules.vue'
+import Modules from '@core/layouts/layout-horizontal/Modules.vue'
 
 export default {
   components: {

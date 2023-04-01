@@ -1,11 +1,12 @@
 import provider from '@/store'
 import axiosIns from '@/libs/axios'
-import { apiRoutes } from '@/router/apiRoutes'
+import apiRoutes from '@/router/apiRoutes'
+import general from '@/router/description'
 
 const baseURL = process.env.VUE_APP_APP_URL
 
-const login = `${baseURL}/admin/login`
-const notAuthorized = `${baseURL}/admin/nao-autorizado`
+const login = baseURL + general.loginRouter
+const notAuthorized = baseURL + general.notAuthorized
 
 export const clearStore = () => {
   provider.dispatch('sessions/logout').then()

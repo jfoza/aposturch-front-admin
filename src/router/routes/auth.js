@@ -1,9 +1,9 @@
-import { loginRouter } from '@/router/path/general'
+import general from '@/router/description'
 
 export default [
   {
-    path: loginRouter.path,
-    name: loginRouter.name,
+    path: general.loginRouter.path,
+    name: general.loginRouter.name,
     component: () => import('@/views/pages/authentication/Login.vue'),
     meta: {
       layout: 'full',

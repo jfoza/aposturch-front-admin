@@ -1,48 +1,35 @@
 <template>
-  <b-col
+  <b-link
     v-if="$can(getAbility.action, getAbility.subject)"
-    xl="3"
-    lg="4"
-    md="6"
-    sm="12"
+    class="module-card"
+    @click="handleRedirectToModule"
   >
-    <b-link
-      @click="handleRedirectToModule"
+    <b-card
+      class="mb-3 b-card-style"
+      :style="getStyles"
     >
-      <b-card
-        class="mb-3"
-      >
-        <div class="card-content">
-          <img
-            :src="icon"
-            :alt="title"
-          >
+      <feather-icon
+        :icon="icon"
+        size="30"
+        class="card-icon"
+      />
 
-          <div class="card-text">
-            <h4>{{ title }}</h4>
+      <span class="card-title">{{ title }}</span>
+    </b-card>
+  </b-link>
 
-            <p>
-              {{ description }}
-            </p>
-          </div>
-        </div>
-      </b-card>
-    </b-link>
-  </b-col>
 </template>
 
 <script>
 import {
   BLink,
   BCard,
-  BCol,
 } from 'bootstrap-vue'
 
 export default {
   components: {
     BLink,
     BCard,
-    BCol,
   },
 
   props: {
@@ -54,6 +41,14 @@ export default {
     title: {
       type: String,
       default: '',
+    },
+
+    hoverStyle: {
+      type: Object,
+      default: () => ({
+        hoverBg: '',
+        hoverColor: '',
+      }),
     },
 
     description: {
@@ -77,6 +72,12 @@ export default {
     },
   },
 
+  data() {
+    return {
+      classLink: 'card-link',
+    }
+  },
+
   computed: {
     getMenus() {
       return this.menus
@@ -84,6 +85,13 @@ export default {
 
     getAbility() {
       return this.ability
+    },
+
+    getStyles() {
+      return {
+        '--bg-color-hover': this.hoverStyle.hoverBg,
+        '--color-hover': this.hoverStyle.hoverColor,
+      }
     },
   },
 
@@ -98,23 +106,45 @@ export default {
 </script>
 
 <style scoped>
-  .card-content {
-    display: flex;
-    align-items: center;
+  :root {
+    --color-hover: '';
+    --bg-color-hover: '';
   }
 
-  .card-text {
-    width: 100%;
-    margin: 1rem;
+  .module-card {
+    width: 130px;
+    margin: 0 15px;
+  }
+
+  .b-card-style {
+    background-color: #fff;
+    color: #5e5873;
+    transition: .4s background-color;
+  }
+
+  .b-card-style:hover {
+    background-color: var(--bg-color-hover);
+    color: var(--color-hover);
+  }
+
+  .card-body {
+    padding: 2.3rem 1.5rem;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    align-items: center;
   }
 
-  @media (max-width: 300px) {
-    .card-content {
-      display: flex;
-      flex-direction: column;
-    }
+  .module-card .card-icon {
+    margin-bottom: 20px;
   }
+
+  .module-card .card-title {
+    font-size: 15px;
+  }
+
+  /*.module-card .card-icon {*/
+  /*  color: #5e5873;*/
+  /*  transition: .4s background-color;*/
+  /*}*/
 </style>

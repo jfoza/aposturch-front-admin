@@ -1,34 +1,4 @@
-@import "./variables/variables";
-
-.main-menu.menu-light .navigation>li.active>a {
-  background: $black;
-  box-shadow: none;
-}
-
-.button-form {
-  background-color: $black;
-  color: #FFF;
-  transition: .3s background-color;
-}
-
-.button-form:hover {
-  background-color: $black-hover;
-  color: #FFF;
-}
-
-.btn-outline-form {
-  background-color: transparent;
-  border: solid 1px $black;
-  color: $black;
-  transition: .3s background-color;
-}
-
-.btn-outline-form:hover {
-  background-color: transparent;
-  border: solid 1px $black;
-  color: $black;
-  text-decoration: underline;
-}
+@import './variables/variables';
 
 .custom-alert {
   display: flex;
@@ -42,15 +12,6 @@
 
 .main-menu .navbar-header .navbar-brand .brand-logo img {
   max-width: 230px;
-}
-
-.main-menu.menu-light .navigation > li ul .active {
-  background: linear-gradient(118deg, $black, rgba(57, 255, 20, 0.7));
-}
-
-.main-menu.menu-light .navigation > li ul .active {
-  box-shadow: 0 0 10px 1px rgb(57 255 20 / 70%);
-  border-radius: 4px;
 }
 
 .button-config {
@@ -73,11 +34,65 @@
 }
 
 .main-menu.menu-light .navigation {
-  margin-top: 2rem;
+  margin-top: 3rem;
 }
 
 .p-card-form {
   padding: 3rem 2rem;
+}
+
+.main-menu.menu-light .navigation>li.active>a {
+  background: $green;
+  box-shadow: none;
+}
+
+.button-form {
+  background-color: $green;
+  color: #FFF;
+  transition: .3s background-color;
+}
+
+.button-form:hover {
+  background-color: $green;
+  color: #FFF;
+}
+
+.btn-outline-form {
+  background-color: transparent;
+  border: solid 1px $green;
+  color: $white;
+  transition: .3s background-color;
+}
+
+.btn-outline-form:hover {
+  background-color: transparent;
+  border: solid 1px $green-hover;
+  color: $white;
+  text-decoration: underline;
+}
+
+.main-menu.menu-light .navigation > li ul .active {
+  background: $green;
+}
+
+.main-menu.menu-light .navigation > li ul .active {
+  box-shadow: 0 0 10px 1px rgb(57 255 20 / 70%);
+  border-radius: 4px;
+}
+
+
+// Horizontal Menu
+[dir=ltr] .horizontal-menu .header-navbar.navbar-horizontal ul#main-menu-navigation > li.active > a {
+  background: linear-gradient(118deg, $green, rgba(48, 222, 15, 0.7)) !important;
+}
+
+.horizontal-menu .header-navbar.navbar-horizontal ul#main-menu-navigation > li.active > a {
+  box-shadow: 0 0 6px 1px rgba(57, 255, 20, 0.6) !important;
+  border-radius: 4px;
+}
+
+.horizontal-menu .header-navbar.navbar-brand-center .navbar-header .navbar-brand .brand-logo img {
+  max-width: 200px !important;
 }
 
 @media(max-width: 576px) {

@@ -1,5 +1,5 @@
 <template>
-  <div>Users</div>
+  <div>List</div>
 </template>
 
 <script>
@@ -7,6 +7,5 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
 </style>

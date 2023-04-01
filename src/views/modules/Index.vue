@@ -3,34 +3,33 @@
     fluid
     class="p-container"
   >
-    <b-row>
+    <section class="cards-area">
       <modules-card
         v-for="(module, index) in modules"
         :key="index"
         :icon="module.icon"
+        :hover-style="module.hoverStyle"
         :title="module.title"
         :description="module.description"
         :ability="module.ability"
         :menus="module.menus"
         :router-name="module.routerName"
       />
-    </b-row>
+    </section>
   </b-container>
 </template>
 
 <script>
 import {
   BContainer,
-  BRow,
 } from 'bootstrap-vue'
 
 import ModulesCard from '@/views/components/custom/ModulesCard.vue'
-import modules from './modules'
+import modules from '@/views/modules'
 
 export default {
   components: {
     BContainer,
-    BRow,
     ModulesCard,
   },
 
@@ -44,6 +43,11 @@ export default {
 
 <style scoped>
   .p-container {
-    padding: 3rem 2rem;
+    padding: 7.6rem 2rem;
+  }
+
+  .cards-area {
+    display: flex;
+    justify-content: center;
   }
 </style>

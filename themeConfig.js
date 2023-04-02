@@ -11,7 +11,7 @@ export const $themeConfig = {
   app: {
     appName: 'Aposturch', // Will update name in navigation menu (Branding)
     // eslint-disable-next-line global-require
-    appLogoImage: require('@/assets/images/custom/logo/aposturch-logo-medium.png'), // Will update logo in navigation menu (Branding)
+    appLogoImage: require('@/assets/images/custom/logo/aposturch-logo-medium-new.png'), // Will update logo in navigation menu (Branding)
   },
   layout: {
     isRTL: false,

@@ -16,13 +16,13 @@ export default [
     children: [
       {
         title: 'Cadastrar novo',
-        route: usersModuleRouter.usersList.name,
+        route: usersModuleRouter.usersInsert.name,
         resource: subjects.ADMIN_USERS_INSERT,
         action: actions.INSERT,
       },
       {
         title: 'Ver usuários',
-        route: usersModuleRouter.usersUpdate.name,
+        route: usersModuleRouter.usersList.name,
         resource: subjects.ADMIN_USERS_VIEW,
         action: actions.VIEW,
       },

@@ -7,19 +7,6 @@ export default {
   adminUserId: id => `/admin/admin-users/${id}`,
   profiles: '/admin/profiles',
 
-  themes: '/admin/themes',
-  themeId: id => `/admin/themes/${id}`,
-
-  categories: '/admin/categories',
-  categoryId: id => `/admin/categories/${id}`,
-
-  events: '/admin/events',
-  eventId: id => `/admin/events/${id}`,
-
-  products: '/admin/products',
-  productImage: '/images/products',
-  productId: id => `/admin/products/${id}`,
-
   customers: '/admin/customers',
   customerId: id => `/admin/customers/${id}`,
   generateNewPassCustomerUserId: id => `/admin/customers/new-password/${id}`,
@@ -29,7 +16,4 @@ export default {
   citiesInPersons: '/cities/in-persons',
 
   zipCode: zip => `/zip-code?zipCode=${zip}`,
-
-  system: '/admin/system',
-  systemId: id => `/admin/system/${id}`,
 }

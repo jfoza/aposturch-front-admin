@@ -64,7 +64,7 @@ export default {
 @import "@/assets/scss/variables/_variables.scss";
 
 .load-button {
-  background-color: $black;
+  background-color: $colors-palette2;
   color: $white;
   width: 100%;
   margin-bottom: 2rem;
@@ -72,6 +72,6 @@ export default {
 }
 
 .load-button:hover {
-  background-color: $black-hover;
+  background-color: $colors-palette1;
 }
 </style>

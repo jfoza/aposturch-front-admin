@@ -9,7 +9,7 @@ import scheduleModuleRoutes from '@/views/modules/schedule/routes'
 
 export default [
   {
-    icon: 'UsersIcon',
+    icon: 'fa-solid fa-users',
     title: 'Usuários',
     description: '',
     ability: {
@@ -21,7 +21,7 @@ export default [
   },
 
   {
-    icon: 'DollarSignIcon',
+    icon: 'fa-solid fa-hand-holding-dollar',
     title: 'Financeiro',
     description: '',
     ability: {
@@ -33,7 +33,7 @@ export default [
   },
 
   {
-    icon: 'BookOpenIcon',
+    icon: 'fa-solid fa-book-open-reader',
     title: 'Livraria',
     description: '',
     ability: {
@@ -45,7 +45,7 @@ export default [
   },
 
   {
-    icon: 'UserIcon',
+    icon: 'fa-solid fa-church',
     title: 'Membresia',
     description: '',
     ability: {
@@ -57,7 +57,7 @@ export default [
   },
 
   {
-    icon: 'LayersIcon',
+    icon: 'fa-solid fa-people-roof',
     title: 'Grupos',
     description: '',
     ability: {
@@ -69,7 +69,7 @@ export default [
   },
 
   {
-    icon: 'CalendarIcon',
+    icon: 'fa-solid fa-calendar-check',
     title: 'Agenda',
     description: '',
     ability: {

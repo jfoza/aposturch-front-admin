@@ -2,6 +2,7 @@
   <div class="navbar-container d-flex content align-items-center">
     <!-- Right Col -->
     <b-navbar-nav class="nav align-items-center ml-auto">
+      <notification-dropdown />
       <user-dropdown />
     </b-navbar-nav>
   </div>
@@ -12,6 +13,7 @@ import {
   BNavbarNav,
 } from 'bootstrap-vue'
 
+import NotificationDropdown from './components/NotificationDropdown.vue'
 import UserDropdown from './components/UserDropdown.vue'
 
 export default {
@@ -19,6 +21,7 @@ export default {
 
     // Navbar Components
     BNavbarNav,
+    NotificationDropdown,
     UserDropdown,
   },
   props: {

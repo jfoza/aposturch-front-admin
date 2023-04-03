@@ -42,7 +42,7 @@ export default {
 
 <style scoped>
   .p-container {
-    padding: 7.6rem 2rem;
+    padding: 5rem 2rem;
   }
 
   .cards-area {

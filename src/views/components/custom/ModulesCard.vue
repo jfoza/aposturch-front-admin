@@ -7,10 +7,9 @@
     <b-card
       class="mb-3 b-card-style"
     >
-      <feather-icon
+      <font-awesome-icon
         :icon="icon"
-        size="30"
-        class="card-icon"
+        :style="getStylesIcon"
       />
 
       <span class="card-title">{{ title }}</span>
@@ -20,10 +19,33 @@
 </template>
 
 <script>
+/* eslint-disable import/no-extraneous-dependencies */
 import {
   BLink,
   BCard,
 } from 'bootstrap-vue'
+import Vue from 'vue'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import {
+  faUsers,
+  faHandHoldingDollar,
+  faBookOpenReader,
+  faChurch,
+  faPeopleRoof,
+  faCalendarCheck,
+} from '@fortawesome/free-solid-svg-icons'
+
+library.add(
+  faUsers,
+  faHandHoldingDollar,
+  faBookOpenReader,
+  faChurch,
+  faPeopleRoof,
+  faCalendarCheck,
+)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 export default {
   components: {
@@ -63,12 +85,6 @@ export default {
     },
   },
 
-  data() {
-    return {
-      classLink: 'card-link',
-    }
-  },
-
   computed: {
     getMenus() {
       return this.menus
@@ -76,6 +92,14 @@ export default {
 
     getAbility() {
       return this.ability
+    },
+
+    getStylesIcon() {
+      return {
+        width: '35px',
+        height: '35px',
+        marginBottom: '20px',
+      }
     },
   },
 

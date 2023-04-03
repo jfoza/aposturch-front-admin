@@ -1,4 +1,4 @@
-import general from '@/router/description'
+import general from '@/router/general'
 
 export default [
   {

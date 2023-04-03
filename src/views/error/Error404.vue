@@ -1,73 +1,55 @@
 <template>
-  <!-- Error page-->
-  <div class="misc-wrapper">
-    <b-link class="brand-logo">
-      <vuexy-logo />
-      <h2 class="brand-text text-primary ml-1">
-        Vuexy
+  <custom-misc>
+    <span class="icon-page-misc mb-2">
+      <AlertCircleIcon />
+    </span>
+
+    <div class="text-center mb-1">
+      <h2 class="text-center">
+        Página não encontrada
       </h2>
-    </b-link>
-
-    <div class="misc-inner p-2 p-sm-3">
-      <div class="w-100 text-center">
-        <h2 class="mb-1">
-          Page Not Found 🕵🏻‍♀️
-        </h2>
-        <p class="mb-2">
-          Oops! 😖 The requested URL was not found on this server.
-        </p>
-
-        <b-button
-          variant="primary"
-          class="mb-2 btn-sm-block"
-          :to="{path:'/'}"
-        >
-          Back to home
-        </b-button>
-
-        <!-- image -->
-        <b-img
-          fluid
-          :src="imgUrl"
-          alt="Error page"
-        />
-      </div>
+      <p class="text-center">
+        Não foi possível carregar sua requisição.
+      </p>
     </div>
-  </div>
-<!-- / Error page-->
+
+    <load-button
+      :message="getMessageButton"
+      @action="handleRedirect"
+    />
+  </custom-misc>
 </template>
 
 <script>
-/* eslint-disable global-require */
-import { BLink, BButton, BImg } from 'bootstrap-vue'
-import VuexyLogo from '@core/layouts/components/Logo.vue'
-import store from '@/store/index'
+import CustomMisc from '@/views/components/custom/CustomMisc.vue'
+import LoadButton from '@/views/components/custom/LoadButton.vue'
+import { AlertCircleIcon } from 'vue-feather-icons'
 
 export default {
   components: {
-    VuexyLogo,
-    BLink,
-    BButton,
-    BImg,
+    CustomMisc,
+    LoadButton,
+    AlertCircleIcon,
   },
-  data() {
-    return {
-      downImg: require('@/assets/images/pages/error.svg'),
-    }
-  },
+
   computed: {
-    imgUrl() {
-      if (store.state.appConfig.layout.skin === 'dark') {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.downImg = require('@/assets/images/pages/error-dark.svg')
-        return this.downImg
+    getMessageButton() {
+      if (this.$store.getters['sessions/isLoggedIn']) {
+        return 'Voltar para o início'
       }
-      return this.downImg
+
+      return 'Ir para o login'
+    },
+  },
+
+  methods: {
+    handleRedirect() {
+      this.$router.replace({
+        name: this.$store.getters['sessions/isLoggedIn']
+          ? 'home'
+          : 'auth-login',
+      })
     },
   },
 }
 </script>
-
-<style lang="scss">
-@import '@core/scss/vue/pages/page-misc.scss';
-</style>

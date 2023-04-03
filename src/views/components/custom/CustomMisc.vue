@@ -17,14 +17,11 @@
 </template>
 
 <script>
-import ApplicationLogo from '@/views/components/custom/ApplicationLogo'
+import ApplicationLogo from '@/views/components/custom/ApplicationLogo.vue'
 // eslint-disable-next-line import/extensions
 import {
   BRow,
   BCol,
-  BLink,
-  BImg,
-  BButton,
 } from 'bootstrap-vue'
 
 export default {
@@ -32,9 +29,6 @@ export default {
     ApplicationLogo,
     BRow,
     BCol,
-    BLink,
-    BImg,
-    BButton,
   },
   data() {
     return {}

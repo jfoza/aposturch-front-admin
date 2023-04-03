@@ -1,7 +1,7 @@
 import provider from '@/store'
 import axiosIns from '@/libs/axios'
 import apiRoutes from '@/router/apiRoutes'
-import general from '@/router/description'
+import general from '@/router/general'
 
 const baseURL = process.env.VUE_APP_APP_URL
 

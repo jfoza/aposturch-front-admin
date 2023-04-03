@@ -1,5 +1,5 @@
 import { actions, subjects } from '@/libs/acl/rules'
-import general from '@/router/description'
+import general from '@/router/general'
 
 export default [
   {

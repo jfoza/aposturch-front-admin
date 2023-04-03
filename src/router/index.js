@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 // Routes
 import { canNavigate } from '@/libs/acl/routeProtection'
 import { getHomeRouteForLoggedInUser, getUserData, isUserLoggedIn } from '@/auth/utils'
+import generalRoutes from '@/router/general'
 import auth from './routes/auth'
 import misc from './routes/misc'
 import root from './routes/root'
@@ -23,7 +24,7 @@ const router = new VueRouter({
     return { x: 0, y: 0 }
   },
   routes: [
-    { path: '/', redirect: { name: 'home' } },
+    { path: '/', redirect: { name: generalRoutes.homeRouter.name } },
     ...auth,
     ...misc,
     ...root,
@@ -35,7 +36,7 @@ const router = new VueRouter({
     ...schedule,
     {
       path: '*',
-      redirect: { name: 'error404' },
+      redirect: { name: generalRoutes.error404.name },
     },
   ],
 })
@@ -49,10 +50,10 @@ router.beforeEach((to, _, next) => {
   }
 
   if (to.meta.resource === 'ACL') {
-    if (!isLoggedIn) return next({ name: 'auth-login' })
+    if (!isLoggedIn) return next({ name: generalRoutes.loginRouter.name })
 
     if (!canNavigate(to)) {
-      return next({ name: 'misc-not-authorized' })
+      return next({ name: generalRoutes.notAuthorized.name })
     }
   }
 

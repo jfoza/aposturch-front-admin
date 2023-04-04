@@ -3,8 +3,8 @@
     fluid
     class="p-container"
   >
-    <section class="cards-area">
-      <modules-card
+    <b-row class="cards-area">
+      <Card
         v-for="(module, index) in modules"
         :key="index"
         :icon="module.icon"
@@ -14,22 +14,24 @@
         :menus="module.menus"
         :router-name="module.routerName"
       />
-    </section>
+    </b-row>
   </b-container>
 </template>
 
 <script>
 import {
   BContainer,
+  BRow,
 } from 'bootstrap-vue'
 
-import ModulesCard from '@/views/components/custom/ModulesCard.vue'
+import Card from '@/views/components/custom/Card.vue'
 import modules from '@/views/modules'
 
 export default {
   components: {
     BContainer,
-    ModulesCard,
+    BRow,
+    Card,
   },
 
   data() {

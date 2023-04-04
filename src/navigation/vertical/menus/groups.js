@@ -1,5 +1,5 @@
 import { subjects, actions } from '@/libs/acl/rules'
-import groupsModuleRouter from '@/views/modules/financial/routes'
+import groupsModuleRouter from '@/views/modules/groups/routes'
 
 export default [
   {

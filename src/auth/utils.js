@@ -5,8 +5,8 @@ import general from '@/router/general'
 
 const baseURL = process.env.VUE_APP_APP_URL
 
-const login = baseURL + general.loginRouter
-const notAuthorized = baseURL + general.notAuthorized
+const login = baseURL + general.loginRouter.path
+const notAuthorized = baseURL + general.notAuthorized.path
 
 export const clearStore = () => {
   provider.dispatch('sessions/logout').then()
@@ -32,7 +32,7 @@ export const startCount = () => {
 }
 
 export const redirectToNotAuthorized = () => {
-  location.href = notAuthorized
+  window.location.href = notAuthorized
 }
 
 export const logoutUser = () => new Promise((resolve, reject) => {
@@ -49,7 +49,7 @@ export const logoutUser = () => new Promise((resolve, reject) => {
 
 export const logoutUserRedirectToLogin = () => {
   clearStore()
-  location.href = login
+  window.location.href = login
 }
 
 export const setLoggedUserData = () => {

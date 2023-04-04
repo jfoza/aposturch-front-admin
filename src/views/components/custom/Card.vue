@@ -1,7 +1,7 @@
 <template>
   <b-link
     v-if="$can(getAbility.action, getAbility.subject)"
-    class="module-card"
+    class="custom-card"
     @click="handleRedirectToModule"
   >
     <b-card
@@ -34,6 +34,7 @@ import {
   faChurch,
   faPeopleRoof,
   faCalendarCheck,
+  faScrewdriverWrench,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -43,6 +44,7 @@ library.add(
   faChurch,
   faPeopleRoof,
   faCalendarCheck,
+  faScrewdriverWrench,
 )
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
@@ -83,6 +85,11 @@ export default {
       type: String,
       default: '',
     },
+
+    defineMenus: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   computed: {
@@ -105,7 +112,9 @@ export default {
 
   methods: {
     handleRedirectToModule() {
-      this.$store.commit('defineMenus/HANDLE_DEFINE_MENUS', this.getMenus)
+      if (this.defineMenus) {
+        this.$store.commit('defineMenus/HANDLE_DEFINE_MENUS', this.getMenus)
+      }
 
       this.$router.push({ name: this.routerName })
     },
@@ -114,7 +123,7 @@ export default {
 </script>
 
 <style scoped>
-  .module-card {
+  .custom-card {
     width: 130px;
     margin: 0 15px;
   }
@@ -138,11 +147,11 @@ export default {
     justify-content: center;
   }
 
-  .module-card .card-icon {
+  .custom-card .card-icon {
     margin-bottom: 20px;
   }
 
-  .module-card .card-title {
+  .custom-card .card-title {
     font-size: 15px;
   }
 </style>

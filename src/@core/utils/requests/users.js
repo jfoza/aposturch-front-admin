@@ -23,6 +23,17 @@ export const getUserId = id => new Promise((resolve, reject) => {
     })
 })
 
+export const getCountUsersByProfiles = () => new Promise((resolve, reject) => {
+  axiosIns
+    .get(apiRoutes.countUsers)
+    .then(response => {
+      resolve(response)
+    })
+    .catch(error => {
+      reject(error)
+    })
+})
+
 export const getProfiles = () => new Promise((resolve, reject) => {
   axiosIns
     .get(apiRoutes.profiles)

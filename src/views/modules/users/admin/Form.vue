@@ -462,6 +462,7 @@ export default {
 
     cancel() {
       if (this.getMode === this.formActions.insertAction) {
+        this.redirect = true
         this.clear()
       } else {
         this.$router.replace({

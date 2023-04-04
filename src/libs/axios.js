@@ -5,6 +5,7 @@ import {
   redirectToNotAuthorized,
   startCount,
   logoutUserRedirectToLogin,
+  isUserLoggedIn,
 } from '@/auth/utils'
 
 const axiosIns = api
@@ -25,10 +26,8 @@ axiosIns.interceptors.response.use(response => {
 }, error => {
   const { status } = error.response
 
-  if (status === 401) {
-    if (error.response.data.invalidToken) {
-      logoutUserRedirectToLogin()
-    }
+  if (status === 401 && isUserLoggedIn()) {
+    logoutUserRedirectToLogin()
   }
 
   if (status === 403) {

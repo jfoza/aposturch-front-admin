@@ -4,7 +4,8 @@ export default {
 
   me: '/admin/admin-users/me',
   adminUsers: '/admin/admin-users',
-  adminUserId: id => `/admin/admin-users/${id}`,
+  adminUserId: id => `/admin/admin-users/id/${id}`,
+  countUsers: '/admin/admin-users/count/profiles',
   profiles: '/admin/profiles',
 
   customers: '/admin/customers',

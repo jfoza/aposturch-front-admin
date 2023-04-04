@@ -6,6 +6,7 @@ import bookstoreModuleRoutes from '@/views/modules/bookstore/routes'
 import membersModuleRoutes from '@/views/modules/members/routes'
 import groupsModuleRoutes from '@/views/modules/groups/routes'
 import scheduleModuleRoutes from '@/views/modules/schedule/routes'
+import patrimonyModuleRoutes from '@/views/modules/patrimony/routes'
 
 export default [
   {
@@ -78,5 +79,17 @@ export default [
     },
     menus: menus.scheduleMenus,
     routerName: scheduleModuleRoutes.home.name,
+  },
+
+  {
+    icon: 'fa-solid fa-screwdriver-wrench',
+    title: 'Patrimônio',
+    description: '',
+    ability: {
+      subject: subjects.PATRIMONY_MODULE,
+      action: actions.VIEW,
+    },
+    menus: menus.patrimonyMenus,
+    routerName: patrimonyModuleRoutes.home.name,
   },
 ]

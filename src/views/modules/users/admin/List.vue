@@ -70,6 +70,27 @@
               </b-col>
 
               <b-col
+                sm="6"
+                lg="4"
+              >
+                <b-form-group
+                  label="Perfil"
+                  label-for="profile"
+                >
+                  <v-select
+                    id="categories"
+                    v-model="search.profile"
+                    :options="profiles"
+                    variant="custom"
+                    item-text="description"
+                    item-value="id"
+                    placeholder="Selecione um perfil"
+                    label="description"
+                  />
+                </b-form-group>
+              </b-col>
+
+              <b-col
                 sm="12"
                 lg="4"
                 class="actions-area"
@@ -271,7 +292,7 @@ import {
 import PageHeader from '@/views/components/custom/PageHeader'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { required, email } from '@validations'
-import { getAdminUsers } from '@core/utils/requests/users'
+import { getAdminUsers, getProfiles } from '@core/utils/requests/users'
 import moment from 'moment'
 import vSelect from 'vue-select'
 import CustomPagination from '@/views/components/custom/CustomPagination'
@@ -319,9 +340,12 @@ export default {
         },
       ],
 
+      profiles: [],
+
       search: {
         name: '',
         email: '',
+        profile: null,
       },
 
       loadingTable: false,
@@ -366,12 +390,28 @@ export default {
   },
 
   mounted() {
+    this.findAllProfiles()
+
     if (this.getDispatchList) {
       this.findAll()
     }
   },
 
   methods: {
+    async findAllProfiles() {
+      this.loading = true
+
+      await getProfiles()
+        .then(response => {
+          this.profiles = response.data
+        })
+        .catch(() => {
+
+        })
+
+      this.loading = false
+    },
+
     findAll() {
       this.tabela.erroTabela = false
       this.tabela.semDados = false
@@ -418,6 +458,7 @@ export default {
     clearFilters() {
       this.search.name = ''
       this.search.email = ''
+      this.search.profile = null
       this.showTable = false
     },
 
@@ -435,6 +476,7 @@ export default {
         perPage: this.paginationData.defaultSize,
         page: this.paginationData.currentPage,
         name: this.search.name,
+        profileId: this.search.profile ? this.search.profile.id : null,
         email: this.search.email,
       }
     },

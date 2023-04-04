@@ -8,7 +8,7 @@ const defaultCount = parseInt(process.env.VUE_APP_SESSION_EXPIRED)
 const state = {
   count: defaultCount,
   token: null,
-  userData: {},
+  userData: null,
   refCount: null,
 }
 
@@ -25,7 +25,7 @@ const mutations = {
   // eslint-disable-next-line no-shadow
   LOGOUT_USER(state) {
     state.token = null
-    state.userData = {}
+    state.userData = null
   },
   // eslint-disable-next-line no-shadow
   START_COUNT(state) {

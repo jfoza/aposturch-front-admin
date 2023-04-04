@@ -13,6 +13,7 @@ import financial from './routes/financial'
 import bookstore from './routes/bookstore'
 import members from './routes/members'
 import groups from './routes/groups'
+import patrimony from './routes/patrimony'
 import schedule from './routes/schedule'
 
 Vue.use(VueRouter)
@@ -33,6 +34,7 @@ const router = new VueRouter({
     ...bookstore,
     ...members,
     ...groups,
+    ...patrimony,
     ...schedule,
     {
       path: '*',

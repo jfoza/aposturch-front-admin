@@ -30,7 +30,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
   faUsers,
   faHandHoldingDollar,
-  faBookOpenReader,
+  faCartShopping,
   faChurch,
   faPeopleRoof,
   faCalendarCheck,
@@ -40,7 +40,7 @@ import {
 library.add(
   faUsers,
   faHandHoldingDollar,
-  faBookOpenReader,
+  faCartShopping,
   faChurch,
   faPeopleRoof,
   faCalendarCheck,

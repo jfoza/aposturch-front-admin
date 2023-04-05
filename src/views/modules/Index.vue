@@ -13,6 +13,7 @@
         :ability="module.ability"
         :menus="module.menus"
         :router-name="module.routerName"
+        :define-menus="true"
       />
     </b-row>
   </b-container>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    Bookstore Module
+    Store Module
   </div>
 </template>
 

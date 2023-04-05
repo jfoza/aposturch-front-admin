@@ -10,7 +10,7 @@ import misc from './routes/misc'
 import root from './routes/root'
 import users from './routes/users'
 import financial from './routes/financial'
-import bookstore from './routes/bookstore'
+import store from './routes/store'
 import members from './routes/members'
 import groups from './routes/groups'
 import patrimony from './routes/patrimony'
@@ -31,7 +31,7 @@ const router = new VueRouter({
     ...root,
     ...users,
     ...financial,
-    ...bookstore,
+    ...store,
     ...members,
     ...groups,
     ...patrimony,

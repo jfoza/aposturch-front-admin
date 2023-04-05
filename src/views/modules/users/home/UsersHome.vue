@@ -30,11 +30,11 @@
       />
 
       <dashboard-card
-        :icon="adminDepartmentCard.icon"
-        :title="adminDepartmentCard.title"
-        :statistic="adminDepartmentCard.statistic"
-        :ability="adminDepartmentCard.ability"
-        :router-name="adminDepartmentCard.routerName"
+        :icon="adminModuleCard.icon"
+        :title="adminModuleCard.title"
+        :statistic="adminModuleCard.statistic"
+        :ability="adminModuleCard.ability"
+        :router-name="adminModuleCard.routerName"
       />
 
       <dashboard-card
@@ -83,7 +83,7 @@ export default {
         title: 'Admin Master',
         statistic: 0,
         ability: {
-          subject: subjects.ROOT,
+          subject: subjects.ADMIN_USERS_ADMIN_MASTER,
           action: actions.VIEW,
         },
         routerName: '',
@@ -94,18 +94,18 @@ export default {
         title: 'Admin Igreja',
         statistic: 0,
         ability: {
-          subject: subjects.ROOT,
+          subject: subjects.ADMIN_USERS_ADMIN_CHURCH,
           action: actions.VIEW,
         },
         routerName: '',
       },
 
-      adminDepartmentCard: {
+      adminModuleCard: {
         icon: 'UsersIcon',
-        title: 'Admin Departamento',
+        title: 'Admin Módulo',
         statistic: 0,
         ability: {
-          subject: subjects.ROOT,
+          subject: subjects.ADMIN_USERS_ADMIN_MODULE,
           action: actions.VIEW,
         },
         routerName: '',
@@ -116,7 +116,7 @@ export default {
         title: 'Auxiliar',
         statistic: 0,
         ability: {
-          subject: subjects.ROOT,
+          subject: subjects.ADMIN_USERS_ADMIN_ASSISTANT,
           action: actions.VIEW,
         },
         routerName: '',
@@ -127,7 +127,7 @@ export default {
         title: 'Membro',
         statistic: 0,
         ability: {
-          subject: subjects.ROOT,
+          subject: subjects.ADMIN_USERS_ADMIN_MEMBER,
           action: actions.VIEW,
         },
         routerName: '',
@@ -150,7 +150,7 @@ export default {
 
             this.adminMasterCard.statistic = res.adminMasterCount ? res.adminMasterCount : 0
             this.adminChurchCard.statistic = res.adminChurchCount ? res.adminChurchCount : 0
-            this.adminDepartmentCard.statistic = res.adminDepartmentCount ? res.adminDepartmentCount : 0
+            this.adminModuleCard.statistic = res.adminModuleCount ? res.adminModuleCount : 0
             this.assistantCard.statistic = res.assistantCount ? res.assistantCount : 0
             this.membersCard.statistic = res.memberCount ? res.memberCount : 0
           }

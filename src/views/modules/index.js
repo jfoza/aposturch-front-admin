@@ -2,11 +2,11 @@ import { actions, subjects } from '@/libs/acl/rules'
 import menus from '@/navigation/vertical'
 import usersModuleRoutes from '@/views/modules/users/routes'
 import financialModuleRoutes from '@/views/modules/financial/routes'
-import bookstoreModuleRoutes from '@/views/modules/bookstore/routes'
 import membersModuleRoutes from '@/views/modules/members/routes'
 import groupsModuleRoutes from '@/views/modules/groups/routes'
 import scheduleModuleRoutes from '@/views/modules/schedule/routes'
 import patrimonyModuleRoutes from '@/views/modules/patrimony/routes'
+import storeModuleRoutes from '@/views/modules/store/routes'
 
 export default [
   {
@@ -34,15 +34,15 @@ export default [
   },
 
   {
-    icon: 'fa-solid fa-book-open-reader',
-    title: 'Livraria',
+    icon: 'fa-solid fa-cart-shopping',
+    title: 'Loja',
     description: '',
     ability: {
-      subject: subjects.BOOKSTORE_MODULE,
+      subject: subjects.STORE_MODULE,
       action: actions.VIEW,
     },
-    menus: menus.bookstoreMenus,
-    routerName: bookstoreModuleRoutes.home.name,
+    menus: menus.storeMenus,
+    routerName: storeModuleRoutes.home.name,
   },
 
   {

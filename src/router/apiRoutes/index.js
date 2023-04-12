@@ -17,4 +17,8 @@ export default {
   citiesInPersons: '/cities/in-persons',
 
   zipCode: zip => `/zip-code?zipCode=${zip}`,
+
+  churches: 'admin/modules/members/churches',
+  churchId: id => `admin/modules/members/churches/${id}`,
+  churchImage: 'admin/modules/members/churches/upload/image',
 }

@@ -27,6 +27,8 @@ Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)
 Vue.use(VueMask)
 
+Vue.directive('mask', VueMaskDirective)
+
 // Composition API
 Vue.use(VueCompositionAPI)
 

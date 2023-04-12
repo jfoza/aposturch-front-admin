@@ -29,6 +29,7 @@ export default new Vuex.Store({
       paths: [
         'sessions',
         'defineMenus',
+        'chooseData',
       ],
     }),
   ],

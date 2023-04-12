@@ -2,7 +2,7 @@
   <ul>
     <component
       :is="resolveNavItemComponent(item)"
-      v-for="item in items"
+      v-for="item in getItems"
       :key="item.header || item.title"
       :item="item"
     />
@@ -26,6 +26,12 @@ export default {
     items: {
       type: Array,
       required: true,
+    },
+  },
+
+  computed: {
+    getItems() {
+      return this.items
     },
   },
   setup() {

@@ -2,6 +2,7 @@
 const state = {
   chooseUser: null,
   chooseCustomer: null,
+  chooseChurch: null,
 }
 
 const mutations = {
@@ -10,6 +11,9 @@ const mutations = {
   },
   SET_CHOOSE_CUSTOMER(state, itemData) {
     state.chooseCustomer = itemData
+  },
+  SET_CHOOSE_CHURCH(state, itemData) {
+    state.chooseChurch = itemData
   },
 }
 

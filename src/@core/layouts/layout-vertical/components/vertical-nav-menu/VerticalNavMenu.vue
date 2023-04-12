@@ -113,7 +113,7 @@ export default {
     const { appName, appLogoImage } = $themeConfig.app
 
     return {
-      navMenuItems: provider.state.defineMenus.menus,
+      navMenuItems: computed(() => provider.state.defineMenus.menus),
       perfectScrollbarSettings,
       isVerticalMenuCollapsed,
       collapseTogglerIcon,

@@ -40,7 +40,7 @@ export default {
         color: this.color,
         backgroundColor: 'transparent',
         padding: 0,
-        margin: '.15rem',
+        margin: '.2rem',
         border: 'none',
       }
     },

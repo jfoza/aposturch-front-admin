@@ -10,7 +10,8 @@ import app from './app'
 import appConfig from './app-config'
 import verticalMenu from './vertical-menu'
 import defineMenus from './define-menus'
-import chooseData from './choose-data'
+import chooseDataUsersModule from './choose-data/users'
+import chooseDataMembersModule from './choose-data/members'
 
 Vue.use(Vuex)
 
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     appConfig,
     verticalMenu,
     defineMenus,
-    chooseData,
+    chooseDataUsersModule,
+    chooseDataMembersModule,
     'app-ecommerce': ecommerceStoreModule,
   },
   plugins: [
@@ -29,7 +31,8 @@ export default new Vuex.Store({
       paths: [
         'sessions',
         'defineMenus',
-        'chooseData',
+        'chooseDataUsersModule',
+        'chooseDataMembersModule',
       ],
     }),
   ],

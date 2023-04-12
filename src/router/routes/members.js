@@ -25,6 +25,17 @@ export default [
   },
 
   {
+    path: membersModuleRouter.churchView.path,
+    name: membersModuleRouter.churchView.name,
+    component: () => import('@/views/modules/members/churches/View.vue'),
+    meta: {
+      resource: 'ACL',
+      subject: subjects.MEMBERS_MODULE_CHURCH,
+      action: actions.VIEW,
+    },
+  },
+
+  {
     path: membersModuleRouter.churchesInsert.path,
     name: membersModuleRouter.churchesInsert.name,
     component: () => import('@/views/modules/members/churches/Insert.vue'),

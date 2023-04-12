@@ -10,6 +10,11 @@ export default {
     name: 'members-churches',
   },
 
+  churchView: {
+    path: '/membresia/igrejas/visualizar',
+    name: 'members-church-view',
+  },
+
   churchesInsert: {
     path: '/membresia/igrejas/novo',
     name: 'members-churches-insert',

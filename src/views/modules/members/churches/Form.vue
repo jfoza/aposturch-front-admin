@@ -720,7 +720,7 @@ export default {
 
     clear() {
       this.$emit('clear')
-      this.$store.commit('chooseData/SET_CHOOSE_CHURCH', null)
+      this.$store.commit('chooseDataMembersModule/SET_CHOOSE_CHURCH', null)
 
       if (this.redirect) {
         this.$router.replace({

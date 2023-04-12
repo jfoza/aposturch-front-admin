@@ -450,7 +450,7 @@ export default {
     },
 
     redirectUpdatePage({ user_id }) {
-      this.$store.commit('chooseData/SET_CHOOSE_USER', user_id)
+      this.$store.commit('chooseDataUsersModule/SET_CHOOSE_USER', user_id)
 
       this.$router.replace({ name: usersModuleRoutes.usersUpdate.name })
     },

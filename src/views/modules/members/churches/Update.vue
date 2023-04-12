@@ -64,7 +64,7 @@ export default {
 
       formActions,
 
-      churchIdStore: this.$store.state.chooseData.chooseChurch,
+      churchIdStore: this.$store.state.chooseDataMembersModule.chooseChurch,
 
       form: {
         id: '',
@@ -179,7 +179,7 @@ export default {
 
     redirectToMainPage() {
       this.clearForm()
-      this.$store.commit('chooseData/SET_CHOOSE_CHURCH', null)
+      this.$store.commit('chooseDataMembersModule/SET_CHOOSE_CHURCH', null)
       this.$router.replace({ name: 'home' })
     },
 

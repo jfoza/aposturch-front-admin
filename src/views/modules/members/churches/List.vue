@@ -414,7 +414,7 @@ export default {
     },
 
     redirectUpdatePage({ id }) {
-      this.$store.commit('chooseData/SET_CHOOSE_CHURCH', id)
+      this.$store.commit('chooseDataMembersModule/SET_CHOOSE_CHURCH', id)
 
       this.$router.replace({ name: membersModuleRoutes.churchesUpdate.name })
     },

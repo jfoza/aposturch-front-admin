@@ -4,7 +4,6 @@ export default {
 
   me: '/admin/admin-users/me',
   usersMembers: '/admin/users',
-  removeRelationshipChurch: id => `/admin/users/${id}/relationship/church`,
   adminUsers: '/admin/admin-users',
   adminUserId: id => `/admin/admin-users/id/${id}`,
   countUsers: '/admin/admin-users/count/profiles',
@@ -22,6 +21,7 @@ export default {
 
   churches: 'admin/modules/members/churches',
   churchId: id => `admin/modules/members/churches/id/${id}`,
-  churchUniqueName: uniqueName => `admin/modules/members/churches/unique-name/${uniqueName}`,
-  churchImage: 'admin/modules/members/churches/upload/image',
+  churchUniqueName: uniqueName => `/admin/modules/members/churches/unique-name/${uniqueName}`,
+  removeRelationshipChurch: id => `/admin/modules/members/churches/user/relationship/${id}`,
+  churchImage: '/admin/modules/members/churches/upload/image',
 }

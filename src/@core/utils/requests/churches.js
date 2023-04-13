@@ -23,6 +23,17 @@ export const getChurchId = id => new Promise((resolve, reject) => {
     })
 })
 
+export const getChurchUniqueName = uniqueName => new Promise((resolve, reject) => {
+  axiosIns
+    .get(apiRoutes.churchUniqueName(uniqueName))
+    .then(response => {
+      resolve(response)
+    })
+    .catch(error => {
+      reject(error)
+    })
+})
+
 export const createChurch = form => new Promise((resolve, reject) => {
   axiosIns
     .post(apiRoutes.churches, form)

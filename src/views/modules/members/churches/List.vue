@@ -221,6 +221,7 @@
                   color="#2772C0"
                   size="18"
                   feather-icon="EyeIcon"
+                  @action="redirectViewPage(row.item)"
                 />
                 <button-icon
                   color="#2772C0"
@@ -413,10 +414,14 @@ export default {
         })
     },
 
-    redirectUpdatePage({ id }) {
-      this.$store.commit('chooseDataMembersModule/SET_CHOOSE_CHURCH', id)
+    redirectUpdatePage(chooseItem) {
+      this.$store.commit('chooseDataMembersModule/SET_CHOOSE_CHURCH', chooseItem)
 
       this.$router.replace({ name: membersModuleRoutes.churchesUpdate.name })
+    },
+
+    redirectViewPage(chooseItem) {
+      this.$router.push({ path: `${membersModuleRoutes.churchView.path}/${chooseItem.unique_name}` })
     },
 
     openModalDelete({ id }) {

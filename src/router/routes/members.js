@@ -25,9 +25,10 @@ export default [
   },
 
   {
-    path: membersModuleRouter.churchView.path,
+    path: `${membersModuleRouter.churchView.path}/:churchUniqueName`,
     name: membersModuleRouter.churchView.name,
     component: () => import('@/views/modules/members/churches/View.vue'),
+    props: true,
     meta: {
       resource: 'ACL',
       subject: subjects.MEMBERS_MODULE_CHURCH,

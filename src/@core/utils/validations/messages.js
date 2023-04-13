@@ -17,6 +17,7 @@ export const messages = {
   tokenForgotPasswordNotFound: 'Token de verificação não encontrado!',
 
   confirmDelete: 'Deseja excluir este registro ?',
+  confirmDeleteUserChurch: 'Deseja remover o vínculo deste usuário com esta igreja ?',
   confirmGenerateNewPassword: 'Tem certeza que deseja gerar uma nova senha para este usuário ?',
 
   countField: value => `Este campo deve conter no mínimo ${value} caracteres.`,

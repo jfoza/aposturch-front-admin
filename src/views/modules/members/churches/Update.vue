@@ -125,7 +125,7 @@ export default {
     async getChooseChurch() {
       this.loading = true
 
-      await getChurchId(this.churchIdStore)
+      await getChurchId(this.churchIdStore.id)
         .then(response => {
           const {
             id,

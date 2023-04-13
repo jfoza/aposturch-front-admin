@@ -2,37 +2,223 @@
   <div
     id="user-profile"
   >
-    <view-header :header-data="churchData.header" />
+    <div
+      v-if="loading"
+      class="spinner-area"
+    >
+      <b-spinner />
+    </div>
+
+    <div
+      v-if="!loading"
+    >
+
+      <b-link
+        style="color: #5e5873"
+        :to="{ name: membersModuleRouter.churches.name }"
+      >
+        <feather-icon
+          class="mb-2"
+          icon="ArrowLeftIcon"
+          size="19"
+        />
+      </b-link>
+
+      <view-header
+        ref="navHeader"
+        :header-data="churchData.header"
+        @generalData="showGeneralData"
+        @addressData="showAddressData"
+        @membersData="showMembersData"
+      />
+
+      <view-general
+        v-if="tab1 === currentTab"
+        :general-data="churchData.general"
+        class-name="card p-card-form"
+      />
+
+      <view-address
+        v-if="tab2 === currentTab"
+        :address-data="churchData.address"
+        class-name="card p-card-form"
+      />
+
+      <view-members
+        v-if="tab3 === currentTab"
+        :church-id="churchData.id"
+        class-name="card"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import { BRow, BCol } from 'bootstrap-vue'
-
+import { BSpinner, BLink } from 'bootstrap-vue'
 import ViewHeader from '@/views/modules/members/churches/components/ViewHeader.vue'
+import ViewGeneral from '@/views/modules/members/churches/components/ViewGeneral.vue'
+import ViewAddress from '@/views/modules/members/churches/components/ViewAddress.vue'
+import ViewMembers from '@/views/modules/members/churches/components/ViewMembers.vue'
+import { getChurchUniqueName } from '@core/utils/requests/churches'
+import { warningMessage } from '@/libs/alerts/sweetalerts'
+import { messages } from '@core/utils/validations/messages'
+import membersModuleRouter from '@/views/modules/members/routes'
 
 /* eslint-disable global-require */
 export default {
   components: {
-    BRow,
-    BCol,
+    BSpinner,
+    BLink,
     ViewHeader,
+    ViewGeneral,
+    ViewAddress,
+    ViewMembers,
   },
+
+  props: {
+    churchUniqueName: {
+      type: String,
+      required: true,
+    },
+  },
+
   data() {
     return {
+      loading: true,
+
+      currentTab: 1,
+
+      membersModuleRouter,
+
+      tab1: 1,
+      tab2: 2,
+      tab3: 3,
+
       churchData: {
+        id: '',
         header: {
-          coverImg: require('@/assets/images/custom/background-view.jpg'),
-          profileImg: require('@/assets/images/custom/ibv.jpg'),
-          name: 'Igreja Viver NH',
+          profileImg: '',
+          name: '',
+        },
+
+        general: {
+          name: '',
+          phone: '',
+          email: '',
+          youtube: '',
+          facebook: '',
+          instagram: '',
+          active: '',
+        },
+
+        address: {
+          zipCode: '',
+          address: '',
+          numberAddress: '',
+          complement: '',
+          district: '',
+          city: '',
+          uf: '',
+        },
+
+        members: {
+          membersData: [],
         },
       },
     }
+  },
+
+  computed: {
+    getChurchUniqueName() {
+      return this.churchUniqueName
+    },
+  },
+
+  created() {
+    if (!this.getChurchUniqueName) {
+      this.$router.replace({ name: 'home' })
+
+      return false
+    }
+
+    return this.handleGetChurchByUniqueName()
+  },
+
+  methods: {
+    async handleGetChurchByUniqueName() {
+      this.loading = true
+
+      await getChurchUniqueName(this.getChurchUniqueName)
+        .then(response => {
+          const {
+            id,
+            name,
+            phone,
+            email,
+            youtube,
+            facebook,
+            instagram,
+            zip_code,
+            address,
+            number_address,
+            complement,
+            district,
+            image,
+            uf,
+            city,
+            active,
+          } = response.data
+
+          this.churchData.id = id
+
+          this.churchData.header = {
+            profileImg: image ? image.path : null,
+            name,
+          }
+
+          this.churchData.general = {
+            name,
+            phone,
+            email,
+            youtube,
+            facebook,
+            instagram,
+            active: active ? 'Ativo' : 'Inativo',
+          }
+
+          this.churchData.address = {
+            zipCode: zip_code,
+            address,
+            numberAddress: number_address,
+            complement,
+            district,
+            city,
+            uf,
+          }
+        })
+        .catch(() => {
+          warningMessage(messages.impossible)
+        })
+
+      this.loading = false
+    },
+
+    showGeneralData(tab) {
+      this.currentTab = tab
+    },
+
+    showAddressData(tab) {
+      this.currentTab = tab
+    },
+
+    showMembersData(tab) {
+      this.currentTab = tab
+    },
   },
 }
 /* eslint-disable global-require */
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 @import '@core/scss/vue/pages/page-profile.scss';
 </style>

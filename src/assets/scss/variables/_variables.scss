@@ -23,3 +23,11 @@ $colors-palette2: #1C2541;
 $colors-palette3: #3A506B;
 $colors-palette4: #5BC0BE;
 $colors-palette5: #6FFFE9;
+
+$theme-colors: (
+  "colors-palette1": $colors-palette1,
+  "colors-palette2": $colors-palette2,
+  "colors-palette3": $colors-palette3,
+  "colors-palette4": $colors-palette4,
+  "colors-palette5": $colors-palette5,
+);

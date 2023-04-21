@@ -378,20 +378,6 @@ export default {
       return this.$can(actions.INSERT, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)
     },
 
-    getAbilityUpdate() {
-      const adminMaster = this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)
-      const adminChurch = this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH)
-
-      return adminMaster || adminChurch
-    },
-
-    getAbilityView() {
-      const adminMaster = this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER_DETAILS)
-      const adminChurch = this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH_DETAILS)
-
-      return adminMaster || adminChurch
-    },
-
     getAbilityDelete() {
       return this.$can(actions.DELETE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)
     },
@@ -458,11 +444,27 @@ export default {
     },
 
     isEnabledToView({ id }) {
-      return this.getAbilityView && this.userLogged.churches.find(e => e.id === id)
+      if (this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER_DETAILS)) {
+        return true
+      }
+
+      if (this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH_DETAILS)) {
+        return this.userLogged.churches.find(e => e.id === id)
+      }
+
+      return false
     },
 
     isEnabledToUpdate({ id }) {
-      return this.getAbilityUpdate && this.userLogged.churches.find(e => e.id === id)
+      if (this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)) {
+        return true
+      }
+
+      if (this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH)) {
+        return this.userLogged.churches.find(e => e.id === id)
+      }
+
+      return false
     },
 
     redirectUpdatePage(chooseItem) {

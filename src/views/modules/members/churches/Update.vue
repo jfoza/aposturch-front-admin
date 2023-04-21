@@ -102,13 +102,6 @@ export default {
     getValidation() {
       return this.validation
     },
-
-    getAbilityView() {
-      const adminMaster = this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)
-      const adminChurch = this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH)
-
-      return adminMaster || adminChurch
-    },
   },
 
   // eslint-disable-next-line consistent-return
@@ -119,8 +112,8 @@ export default {
       return false
     }
 
-    if (!this.isEnabledToView()) {
-      // this.$router.replace({ name: this.generalRoutes.notAuthorized.name })
+    if (!this.isEnabledToUpdate()) {
+      this.$router.replace({ name: this.generalRoutes.notAuthorized.name })
 
       return false
     }
@@ -188,10 +181,18 @@ export default {
       this.loading = false
     },
 
-    isEnabledToView() {
-      const userLogged = this.$store.state.sessions.userData
+    isEnabledToUpdate() {
+      if (this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)) {
+        return true
+      }
 
-      return this.getAbilityView && userLogged.churches.find(e => e.id === this.chooseChurch.id)
+      if (this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH)) {
+        const userLogged = this.$store.state.sessions.userData
+
+        return userLogged.churches.find(e => e.id === this.chooseChurch.id)
+      }
+
+      return false
     },
 
     redirectToMainPage() {

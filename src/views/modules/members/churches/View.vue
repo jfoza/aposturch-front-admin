@@ -135,13 +135,6 @@ export default {
     getChurchUniqueName() {
       return this.churchUniqueName
     },
-
-    getAbilityView() {
-      const adminMaster = this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER_DETAILS)
-      const adminChurch = this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH_DETAILS)
-
-      return adminMaster || adminChurch
-    },
   },
 
   created() {
@@ -219,9 +212,17 @@ export default {
     },
 
     isEnabledToView() {
-      const userLogged = this.$store.state.sessions.userData
+      if (this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER_DETAILS)) {
+        return true
+      }
 
-      return this.getAbilityView && userLogged.churches.find(e => e.unique_name === this.getChurchUniqueName)
+      if (this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH_DETAILS)) {
+        const userLogged = this.$store.state.sessions.userData
+
+        return userLogged.churches.find(e => e.unique_name === this.getChurchUniqueName)
+      }
+
+      return false
     },
 
     showGeneralData(tab) {

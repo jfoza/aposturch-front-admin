@@ -51,12 +51,15 @@
                   label="Cidade"
                   label-for="city"
                 >
-                  <b-form-input
-                    id="city"
+                  <v-select
+                    id="categories"
                     v-model="search.city"
-                    placeholder="Cidade"
-                    autocomplete="off"
-                    type="text"
+                    :options="cities"
+                    variant="custom"
+                    item-text="description"
+                    item-value="id"
+                    placeholder="Selecione uma cidade"
+                    label="description"
                   />
                 </b-form-group>
               </b-col>
@@ -92,7 +95,10 @@
               </b-col>
             </b-row>
 
-            <b-row class="mt-3 mb-1">
+            <b-row
+              v-if="getAbilityInsert"
+              class="mt-3 mb-1"
+            >
               <b-col>
                 <b-link
                   type="button"
@@ -218,18 +224,21 @@
 
               <template #cell(actions)="row">
                 <button-icon
+                  v-if="isEnabledToView(row.item)"
                   color="#2772C0"
                   size="18"
                   feather-icon="EyeIcon"
                   @action="redirectViewPage(row.item)"
                 />
                 <button-icon
+                  v-if="isEnabledToUpdate(row.item)"
                   color="#2772C0"
                   size="18"
                   feather-icon="EditIcon"
                   @action="redirectUpdatePage(row.item)"
                 />
                 <button-icon
+                  v-if="getAbilityDelete"
                   color="#2772C0"
                   size="18"
                   feather-icon="Trash2Icon"
@@ -258,15 +267,7 @@
 <script>
 /* eslint-disable import/extensions,import/no-extraneous-dependencies */
 import {
-  BRow,
-  BCol,
-  BForm,
-  BFormGroup,
-  BFormInput,
-  BTable,
-  BSpinner,
-  BAlert,
-  BLink,
+  BAlert, BCol, BForm, BFormGroup, BFormInput, BLink, BRow, BSpinner, BTable,
 } from 'bootstrap-vue'
 import PageHeader from '@/views/components/custom/PageHeader'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
@@ -280,6 +281,8 @@ import membersModuleRoutes from '@/views/modules/members/routes'
 import { getAllChurches, removeChurch } from '@core/utils/requests/churches'
 import { confirmAction, successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
+import { actions, subjects } from '@/libs/acl/rules'
+import { getCitiesInChurches } from '@core/utils/requests/cities'
 
 export default {
   components: {
@@ -310,6 +313,8 @@ export default {
 
       titlePage: '',
 
+      userLogged: this.$store.state.sessions.userData,
+
       membersModuleRoutes,
 
       linkItems: [
@@ -323,7 +328,7 @@ export default {
         },
       ],
 
-      profiles: [],
+      cities: [],
 
       search: {
         name: '',
@@ -368,15 +373,53 @@ export default {
     getDispatchList() {
       return this.$route.params.dispatchList
     },
+
+    getAbilityInsert() {
+      return this.$can(actions.INSERT, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)
+    },
+
+    getAbilityUpdate() {
+      const adminMaster = this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)
+      const adminChurch = this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH)
+
+      return adminMaster || adminChurch
+    },
+
+    getAbilityView() {
+      const adminMaster = this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER_DETAILS)
+      const adminChurch = this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH_DETAILS)
+
+      return adminMaster || adminChurch
+    },
+
+    getAbilityDelete() {
+      return this.$can(actions.DELETE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)
+    },
   },
 
   mounted() {
+    this.findAllCities()
+
     if (this.getDispatchList) {
       this.findAll()
     }
   },
 
   methods: {
+    async findAllCities() {
+      this.loading = true
+
+      await getCitiesInChurches()
+        .then(response => {
+          this.cities = response.data
+        })
+        .catch(() => {
+
+        })
+
+      this.loading = false
+    },
+
     findAll() {
       this.table.tableError = false
       this.table.tableEmpty = false
@@ -412,6 +455,14 @@ export default {
             this.findAll()
           }
         })
+    },
+
+    isEnabledToView({ id }) {
+      return this.getAbilityView && this.userLogged.churches.find(e => e.id === id)
+    },
+
+    isEnabledToUpdate({ id }) {
+      return this.getAbilityUpdate && this.userLogged.churches.find(e => e.id === id)
     },
 
     redirectUpdatePage(chooseItem) {
@@ -474,6 +525,7 @@ export default {
         perPage: this.paginationData.defaultSize,
         page: this.paginationData.currentPage,
         name: this.search.name,
+        cityId: this.search.city ? this.search.city.id : null,
       }
     },
 

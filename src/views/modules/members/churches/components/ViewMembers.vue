@@ -225,7 +225,7 @@ import CustomPagination from '@/views/components/custom/CustomPagination'
 import ButtonIcon from '@/views/components/custom/ButtonIcon'
 import { confirmAction, successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
-import { getUsersMembers, removeUserChurch } from '@core/utils/requests/users'
+import { getUsersByChurchId, getUsersMembers, removeUserChurch } from '@core/utils/requests/users'
 
 export default {
   components: {
@@ -309,7 +309,7 @@ export default {
       this.table.tableEmpty = false
       this.loadingTable = true
 
-      getUsersMembers(this.setParams())
+      getUsersByChurchId(this.churchId, this.setParams())
         .then(response => {
           if (response.status === 200) {
             if (response.data.data.length > 0) {
@@ -390,7 +390,6 @@ export default {
         perPage: this.paginationData.defaultSize,
         page: this.paginationData.currentPage,
         name: this.search.name,
-        churchId: this.churchId,
       }
     },
 

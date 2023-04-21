@@ -79,6 +79,7 @@
               <b-button
                 variant="outline-colors-palette2"
                 class="ml-auto"
+                @click="redirectUpdatePage"
               >
                 <feather-icon
                   icon="EditIcon"
@@ -112,6 +113,7 @@ import bg6 from '@/assets/images/custom/background/bg-view-6.png'
 import bg7 from '@/assets/images/custom/background/bg-view-7.png'
 import defaultProfileImage from '@/assets/images/custom/logo/default-church.png'
 import { randomNumberInterval } from '@core/helpers/helpers'
+import membersModuleRoutes from '@/views/modules/members/routes'
 
 export default {
   components: {
@@ -192,6 +194,12 @@ export default {
   },
 
   methods: {
+    redirectUpdatePage() {
+      this.$store.commit('chooseDataMembersModule/SET_CHOOSE_CHURCH', this.headerData)
+
+      this.$router.replace({ name: membersModuleRoutes.churchesUpdate.name })
+    },
+
     handleChooseTab(tab) {
       this.currentTab = tab.id
       this.$emit(tab.event, tab.id)

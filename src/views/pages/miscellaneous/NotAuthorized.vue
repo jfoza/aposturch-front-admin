@@ -58,7 +58,7 @@ export default {
 
   methods: {
     handleRedirect() {
-      setLoggedUserData()
+      // setLoggedUserData()
 
       this.countClick()
       this.$router.replace({ name: 'home' })

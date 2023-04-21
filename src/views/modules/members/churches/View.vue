@@ -46,7 +46,7 @@
 
       <view-members
         v-if="tab3 === currentTab"
-        :church-id="churchData.id"
+        :church-id="churchData.header.id"
         class-name="card"
       />
     </div>
@@ -63,6 +63,8 @@ import { getChurchUniqueName } from '@core/utils/requests/churches'
 import { warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
 import membersModuleRouter from '@/views/modules/members/routes'
+import { actions, subjects } from '@/libs/acl/rules'
+import generalRoutes from '@/router/general/index'
 
 /* eslint-disable global-require */
 export default {
@@ -89,14 +91,15 @@ export default {
       currentTab: 1,
 
       membersModuleRouter,
+      generalRoutes,
 
       tab1: 1,
       tab2: 2,
       tab3: 3,
 
       churchData: {
-        id: '',
         header: {
+          id: '',
           profileImg: '',
           name: '',
         },
@@ -132,11 +135,24 @@ export default {
     getChurchUniqueName() {
       return this.churchUniqueName
     },
+
+    getAbilityView() {
+      const adminMaster = this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER_DETAILS)
+      const adminChurch = this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH_DETAILS)
+
+      return adminMaster || adminChurch
+    },
   },
 
   created() {
     if (!this.getChurchUniqueName) {
-      this.$router.replace({ name: 'home' })
+      this.$router.replace({ name: this.generalRoutes.homeRouter.name })
+
+      return false
+    }
+
+    if (!this.isEnabledToView()) {
+      this.$router.replace({ name: this.generalRoutes.notAuthorized.name })
 
       return false
     }
@@ -169,9 +185,8 @@ export default {
             active,
           } = response.data
 
-          this.churchData.id = id
-
           this.churchData.header = {
+            id,
             profileImg: image ? image.path : null,
             name,
           }
@@ -201,6 +216,12 @@ export default {
         })
 
       this.loading = false
+    },
+
+    isEnabledToView() {
+      const userLogged = this.$store.state.sessions.userData
+
+      return this.getAbilityView && userLogged.churches.find(e => e.unique_name === this.getChurchUniqueName)
     },
 
     showGeneralData(tab) {

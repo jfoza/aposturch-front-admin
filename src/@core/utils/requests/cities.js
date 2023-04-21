@@ -33,3 +33,14 @@ export const getCitiesInPersons = () => new Promise((resolve, reject) => {
       reject(error)
     })
 })
+
+export const getCitiesInChurches = () => new Promise((resolve, reject) => {
+  axiosIns
+    .get(apiRoutes.citiesInChurches)
+    .then(response => {
+      resolve(response)
+    })
+    .catch(error => {
+      reject(error)
+    })
+})

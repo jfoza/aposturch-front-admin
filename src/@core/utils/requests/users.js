@@ -1,9 +1,9 @@
 import axiosIns from '@/libs/axios'
 import apiRoutes from '@/router/apiRoutes'
 
-export const getUsersMembers = params => new Promise((resolve, reject) => {
+export const getUsersByChurchId = (id, params) => new Promise((resolve, reject) => {
   axiosIns
-    .get(apiRoutes.usersMembers, { params })
+    .get(apiRoutes.usersByChurchId(id), { params })
     .then(response => {
       resolve(response)
     })

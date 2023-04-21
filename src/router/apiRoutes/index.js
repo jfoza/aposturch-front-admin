@@ -3,7 +3,7 @@ export default {
   logout: '/auth/logout',
 
   me: '/admin/admin-users/me',
-  usersMembers: '/admin/users',
+  usersByChurchId: id => `admin/users/church/${id}`,
   adminUsers: '/admin/admin-users',
   adminUserId: id => `/admin/admin-users/id/${id}`,
   countUsers: '/admin/admin-users/count/profiles',
@@ -16,6 +16,7 @@ export default {
   citiesByUf: uf => `/cities/uf/${uf}`,
   citiesById: id => `/cities/id/${id}`,
   citiesInPersons: '/cities/in-persons',
+  citiesInChurches: '/cities/in-churches',
 
   zipCode: zip => `/zip-code?zipCode=${zip}`,
 

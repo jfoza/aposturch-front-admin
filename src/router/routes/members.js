@@ -31,7 +31,7 @@ export default [
     props: true,
     meta: {
       resource: 'ACL',
-      subject: subjects.MEMBERS_MODULE_CHURCH,
+      subject: subjects.MEMBERS_MODULE_CHURCH_DETAILS,
       action: actions.VIEW,
     },
   },

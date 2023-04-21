@@ -36,6 +36,8 @@ import { warningMessage } from '@/libs/alerts/sweetalerts'
 import { formActions } from '@core/utils/formActions'
 import { messages } from '@core/utils/validations/messages'
 import { getChurchId } from '@core/utils/requests/churches'
+import { actions, subjects } from '@/libs/acl/rules'
+import generalRoutes from '@/router/general/index'
 import Form from './Form.vue'
 
 export default {
@@ -58,13 +60,15 @@ export default {
         },
       ],
 
+      generalRoutes,
+
       loading: false,
 
       validation: false,
 
       formActions,
 
-      churchIdStore: this.$store.state.chooseDataMembersModule.chooseChurch,
+      chooseChurch: this.$store.state.chooseDataMembersModule.chooseChurch,
 
       form: {
         id: '',
@@ -98,18 +102,25 @@ export default {
     getValidation() {
       return this.validation
     },
-  },
 
-  watch: {
-    churchIdStore(value) {
-      return value
+    getAbilityView() {
+      const adminMaster = this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)
+      const adminChurch = this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH)
+
+      return adminMaster || adminChurch
     },
   },
 
   // eslint-disable-next-line consistent-return
   created() {
-    if (!this.churchIdStore) {
+    if (!this.chooseChurch) {
       this.redirectToMainPage()
+
+      return false
+    }
+
+    if (!this.isEnabledToView()) {
+      // this.$router.replace({ name: this.generalRoutes.notAuthorized.name })
 
       return false
     }
@@ -125,7 +136,7 @@ export default {
     async getChooseChurch() {
       this.loading = true
 
-      await getChurchId(this.churchIdStore.id)
+      await getChurchId(this.chooseChurch.id)
         .then(response => {
           const {
             id,
@@ -177,10 +188,16 @@ export default {
       this.loading = false
     },
 
+    isEnabledToView() {
+      const userLogged = this.$store.state.sessions.userData
+
+      return this.getAbilityView && userLogged.churches.find(e => e.id === this.chooseChurch.id)
+    },
+
     redirectToMainPage() {
       this.clearForm()
       this.$store.commit('chooseDataMembersModule/SET_CHOOSE_CHURCH', null)
-      this.$router.replace({ name: 'home' })
+      this.$router.replace({ name: this.generalRoutes.homeRouter.name })
     },
 
     clearForm() {

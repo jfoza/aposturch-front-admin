@@ -85,6 +85,7 @@ export default {
         district: '',
         state: null,
         city: null,
+        responsible: [],
         image: {
           id: '',
           type: '',
@@ -145,6 +146,7 @@ export default {
             complement,
             district,
             image,
+            admin_user,
             uf,
             city,
             active,
@@ -163,6 +165,7 @@ export default {
             number_address,
             complement,
             district,
+            responsible: this.generateResponsibleStr(admin_user),
             image: image || { id: '', type: '', path: '' },
             state: {
               uf,
@@ -189,10 +192,23 @@ export default {
       if (this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH)) {
         const userLogged = this.$store.state.sessions.userData
 
-        return userLogged.churches.find(e => e.id === this.chooseChurch.id)
+        return userLogged.responsibleChurch.find(e => e.id === this.chooseChurch.id)
       }
 
       return false
+    },
+
+    generateResponsibleStr(adminUser) {
+      const responsibleChurch = []
+
+      adminUser.forEach(el => {
+        responsibleChurch.push({
+          admin_user_id: el.id,
+          user_name: el.user.name,
+        })
+      })
+
+      return responsibleChurch
     },
 
     redirectToMainPage() {
@@ -217,6 +233,7 @@ export default {
         district: '',
         state: null,
         city: null,
+        responsible: [],
         image: {
           id: '',
           type: '',

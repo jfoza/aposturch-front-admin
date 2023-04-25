@@ -219,7 +219,7 @@ export default {
       if (this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH_DETAILS)) {
         const userLogged = this.$store.state.sessions.userData
 
-        return userLogged.churches.find(e => e.unique_name === this.getChurchUniqueName)
+        return userLogged.responsibleChurch.find(e => e.unique_name === this.getChurchUniqueName)
       }
 
       return false

@@ -55,6 +55,7 @@ export default {
         district: '',
         state: null,
         city: null,
+        responsible: [],
         image: {
           id: '',
           type: '',
@@ -84,6 +85,7 @@ export default {
         district: '',
         state: null,
         city: null,
+        responsible: [],
         image: {
           id: '',
           type: '',

@@ -33,6 +33,39 @@
           </b-row>
 
           <b-row>
+            <!-- Responsible -->
+            <b-col
+              v-if="getAdminMasterRule"
+              sm="6"
+              lg="4"
+            >
+              <b-form-group
+                label="Responsável"
+                label-for="responsible"
+              >
+                <validation-provider
+                  #default="{ errors }"
+                  name="Responsável"
+                  rules="required"
+                >
+                  <v-select
+                    id="categories"
+                    v-model="getFormData.responsible"
+                    :options="adminUsers"
+                    variant="custom"
+                    item-text="admin_user_id"
+                    item-value="user_name"
+                    placeholder="Selecione um ou mais"
+                    label="user_name"
+                    multiple
+                    multiselect
+                  />
+
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+
             <!-- Name -->
             <b-col
               sm="6"
@@ -447,11 +480,13 @@ import { successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { formActions } from '@core/utils/formActions'
 import { getAddressByZipCode } from '@core/utils/requests/zipCode'
 import { states } from '@core/utils/states'
-import { strClear } from '@core/helpers/helpers'
+import { getArrayAttr, strClear } from '@core/helpers/helpers'
 import { getCitiesByUf } from '@core/utils/requests/cities'
 import { messages } from '@core/utils/validations/messages'
 import membersModuleRoutes from '@/views/modules/members/routes'
 import { createChurch, saveChurchImage, updateChurch } from '@core/utils/requests/churches'
+import { getAdminUsersByProfile } from '@core/utils/requests/users'
+import { actions, subjects } from '@/libs/acl/rules'
 
 export default {
   components: {
@@ -490,6 +525,8 @@ export default {
 
       cities: [],
 
+      adminUsers: [],
+
       churchCreated: null,
 
       uploadData: {
@@ -514,15 +551,36 @@ export default {
     getFormData() {
       return this.formData
     },
+
+    getAdminMasterRule() {
+      return this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)
+    },
   },
 
   mounted() {
-    if (this.getMode === this.formActions.updateAction) {
-      this.getCitiesByUFSelect()
-    }
+    this.handleGetData()
   },
 
   methods: {
+    async handleGetData() {
+      this.loading = true
+
+      await this.handleGetAdminUsersByProfile()
+
+      if (this.getMode === this.formActions.updateAction) {
+        await this.getCitiesByUFSelect()
+      }
+
+      this.loading = false
+    },
+
+    async handleGetAdminUsersByProfile() {
+      await getAdminUsersByProfile('ADMIN_CHURCH')
+        .then(response => {
+          this.adminUsers = response.data
+        })
+    },
+
     async getAddressByZipCode() {
       if (this.getFormData.zip_code.length === 9) {
         this.loading = true
@@ -565,16 +623,12 @@ export default {
 
     async getCitiesByUFSelect() {
       if (this.getFormData.state) {
-        this.loading = true
-
         await getCitiesByUf(this.getFormData.state.uf)
           .then(response => {
             if (response.status === 200) {
               this.cities = response.data
             }
           })
-
-        this.loading = false
       } else {
         this.clearZipCodeAddress()
       }
@@ -678,6 +732,9 @@ export default {
     setFormData() {
       return {
         name: this.getFormData.name,
+        responsibleIds: this.adminUsers.length > 0
+          ? getArrayAttr(this.adminUsers, 'admin_user_id')
+          : [],
         email: this.getFormData.email,
         youtube: this.getFormData.youtube,
         facebook: this.getFormData.facebook,

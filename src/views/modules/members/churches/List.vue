@@ -449,7 +449,7 @@ export default {
       }
 
       if (this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH_DETAILS)) {
-        return this.userLogged.churches.find(e => e.id === id)
+        return this.userLogged.responsibleChurch.find(e => e.id === id)
       }
 
       return false
@@ -461,7 +461,7 @@ export default {
       }
 
       if (this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH)) {
-        return this.userLogged.churches.find(e => e.id === id)
+        return this.userLogged.responsibleChurch.find(e => e.id === id)
       }
 
       return false

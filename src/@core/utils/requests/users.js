@@ -23,6 +23,17 @@ export const getAdminUsers = params => new Promise((resolve, reject) => {
     })
 })
 
+export const getAdminUsersByProfile = uniqueName => new Promise((resolve, reject) => {
+  axiosIns
+    .get(apiRoutes.adminUsersByProfile(uniqueName))
+    .then(response => {
+      resolve(response)
+    })
+    .catch(error => {
+      reject(error)
+    })
+})
+
 export const getUserId = id => new Promise((resolve, reject) => {
   axiosIns
     .get(apiRoutes.adminUserId(id))
@@ -80,7 +91,7 @@ export const updateUser = (id, form) => new Promise((resolve, reject) => {
 
 export const removeUserChurch = id => new Promise((resolve, reject) => {
   axiosIns
-    .delete(apiRoutes.removeRelationshipChurch(id))
+    .delete(apiRoutes.removeMemberRelationshipChurch(id))
     .then(response => {
       resolve(response)
     })

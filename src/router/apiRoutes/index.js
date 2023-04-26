@@ -4,6 +4,7 @@ export default {
 
   me: '/admin/admin-users/me',
   usersByChurchId: id => `admin/users/church/${id}`,
+  responsibleChurch: id => `admin/admin-users/responsible/church/${id}`,
   adminUsers: '/admin/admin-users',
   adminUsersByProfile: uniqueName => `/admin/admin-users/profile-unique-name/${uniqueName}`,
   adminUserId: id => `/admin/admin-users/id/${id}`,

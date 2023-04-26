@@ -303,6 +303,10 @@ export default {
     }
   },
 
+  mounted() {
+    this.findAll()
+  },
+
   methods: {
     findAll() {
       this.table.tableError = false

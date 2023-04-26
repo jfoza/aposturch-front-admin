@@ -29,6 +29,7 @@
         :header-data="churchData.header"
         @generalData="showGeneralData"
         @addressData="showAddressData"
+        @responsibleData="showResponsibleData"
         @membersData="showMembersData"
       />
 
@@ -44,8 +45,14 @@
         class-name="card p-card-form"
       />
 
-      <view-members
+      <view-responsible
         v-if="tab3 === currentTab"
+        :church-id="churchData.header.id"
+        class-name="card m-0"
+      />
+
+      <view-members
+        v-if="tab4 === currentTab"
         :church-id="churchData.header.id"
         class-name="card"
       />
@@ -58,6 +65,7 @@ import { BSpinner, BLink } from 'bootstrap-vue'
 import ViewHeader from '@/views/modules/members/churches/components/ViewHeader.vue'
 import ViewGeneral from '@/views/modules/members/churches/components/ViewGeneral.vue'
 import ViewAddress from '@/views/modules/members/churches/components/ViewAddress.vue'
+import ViewResponsible from '@/views/modules/members/churches/components/ViewResponsible.vue'
 import ViewMembers from '@/views/modules/members/churches/components/ViewMembers.vue'
 import { getChurchUniqueName } from '@core/utils/requests/churches'
 import { warningMessage } from '@/libs/alerts/sweetalerts'
@@ -65,6 +73,7 @@ import { messages } from '@core/utils/validations/messages'
 import membersModuleRouter from '@/views/modules/members/routes'
 import { actions, subjects } from '@/libs/acl/rules'
 import generalRoutes from '@/router/general/index'
+import { getResponsibleChurch } from '@core/utils/requests/users'
 
 /* eslint-disable global-require */
 export default {
@@ -74,6 +83,7 @@ export default {
     ViewHeader,
     ViewGeneral,
     ViewAddress,
+    ViewResponsible,
     ViewMembers,
   },
 
@@ -96,6 +106,7 @@ export default {
       tab1: 1,
       tab2: 2,
       tab3: 3,
+      tab4: 4,
 
       churchData: {
         header: {
@@ -230,6 +241,10 @@ export default {
     },
 
     showAddressData(tab) {
+      this.currentTab = tab
+    },
+
+    showResponsibleData(tab) {
       this.currentTab = tab
     },
 

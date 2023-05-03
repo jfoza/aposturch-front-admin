@@ -195,6 +195,7 @@
                   <v-select
                     id="categories"
                     v-model="getFormData.profile"
+                    :disabled="!!formActions.updateAction"
                     :options="profiles"
                     variant="custom"
                     item-text="description"
@@ -357,10 +358,15 @@ export default {
 
       await getProfiles()
         .then(response => {
-          this.profiles = response.data
+          const profiles = response.data
+
+          this.profiles = profiles.filter(
+            profile => profile.unique_name === 'TECHNICAL_SUPPORT'
+            || profile.unique_name === 'ADMIN_MASTER',
+          )
         })
         .catch(() => {
-
+          this.profiles = []
         })
 
       this.loading = false
@@ -440,7 +446,7 @@ export default {
             this.clear()
             successMessage(messages.successSave)
 
-            setLoggedUserData()
+            // setLoggedUserData()
           }
         })
         .catch(error => {

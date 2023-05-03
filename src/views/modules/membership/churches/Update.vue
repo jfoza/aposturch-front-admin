@@ -185,11 +185,11 @@ export default {
     },
 
     isEnabledToUpdate() {
-      if (this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)) {
+      if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER)) {
         return true
       }
 
-      if (this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH)) {
+      if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_CHURCH)) {
         const userLogged = this.$store.state.sessions.userData
 
         return userLogged.responsibleChurch.find(e => e.id === this.chooseChurch.id)

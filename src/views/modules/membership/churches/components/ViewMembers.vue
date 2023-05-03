@@ -225,7 +225,7 @@ import CustomPagination from '@/views/components/custom/CustomPagination'
 import ButtonIcon from '@/views/components/custom/ButtonIcon'
 import { confirmAction, successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
-import { getUsersByChurchId, getUsersMembers, removeUserChurch } from '@core/utils/requests/users'
+import { getUsersByChurchId, removeUserChurch } from '@core/utils/requests/users'
 
 export default {
   components: {

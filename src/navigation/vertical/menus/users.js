@@ -17,13 +17,13 @@ export default [
       {
         title: 'Cadastrar novo',
         route: usersModuleRouter.usersInsert.name,
-        resource: subjects.ADMIN_USERS_INSERT,
+        resource: subjects.ADMIN_USERS,
         action: actions.INSERT,
       },
       {
         title: 'Ver usuários',
         route: usersModuleRouter.usersList.name,
-        resource: subjects.ADMIN_USERS_VIEW,
+        resource: subjects.ADMIN_USERS,
         action: actions.VIEW,
       },
     ],

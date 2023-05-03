@@ -70,27 +70,6 @@
               </b-col>
 
               <b-col
-                sm="6"
-                lg="4"
-              >
-                <b-form-group
-                  label="Perfil"
-                  label-for="profile"
-                >
-                  <v-select
-                    id="categories"
-                    v-model="search.profile"
-                    :options="profiles"
-                    variant="custom"
-                    item-text="description"
-                    item-value="id"
-                    placeholder="Selecione um perfil"
-                    label="description"
-                  />
-                </b-form-group>
-              </b-col>
-
-              <b-col
                 sm="12"
                 lg="4"
                 class="actions-area"
@@ -173,7 +152,7 @@
               <v-select
                 id="orders"
                 v-model="paginationData.defaultSize"
-                :options="tabela.quantidadeLinhasVisualizar"
+                :options="table.tableRows"
                 :clearable="false"
                 @input="updateQtdView($event)"
               >
@@ -185,7 +164,7 @@
           <b-col cols="12">
             <b-alert
               variant="primary"
-              :show="tabela.semDados"
+              :show="table.empty"
               class="mx-2 mt-5"
             >
               <div class="alert-body d-flex justify-content-center">
@@ -199,7 +178,7 @@
 
             <b-alert
               variant="primary"
-              :show="tabela.erroTabela"
+              :show="table.tableError"
               class="mx-2 mt-5"
             >
               <div class="alert-body d-flex justify-content-center">
@@ -218,34 +197,33 @@
             class="my-2"
           >
             <b-table
-              id="listCompaniesTable"
               responsive
               sticky-header="380px"
-              :busy.sync="tabela.tabelaOcupada"
+              :busy.sync="table.tableBusy"
               :no-local-sorting="true"
-              :fields="tabela.fields"
-              :items="tabela.items"
+              :fields="table.fields"
+              :items="table.items"
               @context-changed="handleOrderTable"
             >
-              <template #cell(user_name)="row">
+              <template #cell(name)="row">
                 <span>{{ row.value }}</span>
               </template>
 
-              <template #cell(user_email)="row">
+              <template #cell(email)="row">
                 <span>{{ row.value }}</span>
               </template>
 
-              <template #cell(profile_description)="row">
-                <span>{{ row.value }}</span>
+              <template #cell(profile)="row">
+                <span>{{ row.item.profile[0].description }}</span>
               </template>
 
-              <template #cell(user_active)="row">
+              <template #cell(active)="row">
                 <status-field
                   :status="row.value"
                 />
               </template>
 
-              <template #cell(user_created_at)="row">
+              <template #cell(created_at)="row">
                 <span>{{ moment(row.value).format("DD/MM/YYYY HH:mm") }}</span>
               </template>
 
@@ -292,7 +270,7 @@ import {
 import PageHeader from '@/views/components/custom/PageHeader'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { required, email } from '@validations'
-import { getAdminUsers, getProfiles } from '@core/utils/requests/users'
+import { getAdminUsers } from '@core/utils/requests/users'
 import moment from 'moment'
 import vSelect from 'vue-select'
 import CustomPagination from '@/views/components/custom/CustomPagination'
@@ -340,12 +318,9 @@ export default {
         },
       ],
 
-      profiles: [],
-
       search: {
         name: '',
         email: '',
-        profile: null,
       },
 
       loadingTable: false,
@@ -359,19 +334,19 @@ export default {
         defaultSize: 10,
       },
 
-      tabela: {
-        semDados: false,
-        erroTabela: false,
-        tabelaOcupada: false,
-        quantidadeLinhasVisualizar: [10, 25, 50, 100],
-        ordem: '',
-        campoOrdenado: '',
+      table: {
+        empty: false,
+        tableError: false,
+        tableBusy: false,
+        tableRows: [10, 25, 50, 100],
+        tableOrder: '',
+        tableColumnNameOrder: '',
         fields: [
-          { key: 'user_name', label: 'NOME', sortable: true },
-          { key: 'user_email', label: 'E-MAIL', sortable: true },
-          { key: 'profile_description', label: 'PERFIL' },
-          { key: 'user_active', label: 'STATUS' },
-          { key: 'user_created_at', label: 'CRIADO EM', sortable: true },
+          { key: 'name', label: 'NOME', sortable: true },
+          { key: 'email', label: 'E-MAIL', sortable: true },
+          { key: 'profile', label: 'PERFIL' },
+          { key: 'active', label: 'STATUS' },
+          { key: 'created_at', label: 'CRIADO EM', sortable: true },
           {
             key: 'actions',
             label: 'AÇÕES',
@@ -390,31 +365,15 @@ export default {
   },
 
   mounted() {
-    this.findAllProfiles()
-
     if (this.getDispatchList) {
       this.findAll()
     }
   },
 
   methods: {
-    async findAllProfiles() {
-      this.loading = true
-
-      await getProfiles()
-        .then(response => {
-          this.profiles = response.data
-        })
-        .catch(() => {
-
-        })
-
-      this.loading = false
-    },
-
     findAll() {
-      this.tabela.erroTabela = false
-      this.tabela.semDados = false
+      this.table.tableError = false
+      this.table.empty = false
       this.loadingTable = true
 
       getAdminUsers(this.setParams())
@@ -422,18 +381,18 @@ export default {
           if (response.status === 200) {
             if (response.data.data.length > 0) {
               this.showTable = true
-              this.tabela.items = response.data.data
-              this.tabela.tabelaOcupada = false
+              this.table.items = response.data.data
+              this.table.tableBusy = false
               this.handlePagination(response.data)
               return
             }
 
-            this.tabela.semDados = true
+            this.table.empty = true
             this.showTable = false
           }
         })
         .catch(() => {
-          this.tabela.erroTabela = true
+          this.table.tableError = true
           this.showTable = false
         })
 
@@ -449,8 +408,8 @@ export default {
         })
     },
 
-    redirectUpdatePage({ user_id }) {
-      this.$store.commit('chooseDataUsersModule/SET_CHOOSE_USER', user_id)
+    redirectUpdatePage(user) {
+      this.$store.commit('chooseDataUsersModule/SET_CHOOSE_USER', user)
 
       this.$router.replace({ name: usersModuleRoutes.usersUpdate.name })
     },
@@ -458,25 +417,25 @@ export default {
     clearFilters() {
       this.search.name = ''
       this.search.email = ''
-      this.search.profile = null
       this.showTable = false
     },
 
     handleOrderTable(context) {
-      this.tabela.campoOrdenado = context.sortBy
-      this.tabela.ordem = context.sortDesc ? 'desc' : 'asc'
+      console.log(context)
+
+      this.table.tableColumnNameOrder = context.sortBy
+      this.table.tableOrder = context.sortDesc ? 'desc' : 'asc'
 
       this.findAll()
     },
 
     setParams() {
       return {
-        columnName: this.tabela.campoOrdenado,
-        columnOrder: this.tabela.ordem,
+        columnName: this.table.tableColumnNameOrder,
+        columnOrder: this.table.tableOrder,
         perPage: this.paginationData.defaultSize,
         page: this.paginationData.currentPage,
         name: this.search.name,
-        profileId: this.search.profile ? this.search.profile.id : null,
         email: this.search.email,
       }
     },

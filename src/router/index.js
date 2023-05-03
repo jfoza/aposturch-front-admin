@@ -11,7 +11,7 @@ import root from './routes/root'
 import users from './routes/users'
 import financial from './routes/financial'
 import store from './routes/store'
-import members from './routes/members'
+import membership from './routes/membership'
 import groups from './routes/groups'
 import patrimony from './routes/patrimony'
 import schedule from './routes/schedule'
@@ -32,7 +32,7 @@ const router = new VueRouter({
     ...users,
     ...financial,
     ...store,
-    ...members,
+    ...membership,
     ...groups,
     ...patrimony,
     ...schedule,

@@ -8,6 +8,7 @@ export default {
   adminUsers: '/admin/admin-users',
   adminUsersByProfile: uniqueName => `/admin/admin-users/profile-unique-name/${uniqueName}`,
   adminUserId: id => `/admin/admin-users/id/${id}`,
+  updateAdminUserId: id => `/admin/admin-users/${id}`,
   countUsers: '/admin/admin-users/count/profiles',
   profiles: '/admin/profiles',
 
@@ -22,10 +23,10 @@ export default {
 
   zipCode: zip => `/zip-code?zipCode=${zip}`,
 
-  churches: 'admin/modules/members/churches',
-  churchId: id => `admin/modules/members/churches/id/${id}`,
-  churchUniqueName: uniqueName => `/admin/modules/members/churches/unique-name/${uniqueName}`,
-  removeMemberRelationshipChurch: id => `/admin/modules/members/churches/user/member-relationship/${id}`,
-  removeResponsibleRelationshipChurch: id => `/admin/modules/members/churches/user/responsible-relationship/${id}`,
-  churchImage: '/admin/modules/members/churches/upload/image',
+  churches: 'admin/modules/membership/churches',
+  churchId: id => `admin/modules/membership/churches/id/${id}`,
+  churchUniqueName: uniqueName => `/admin/modules/membership/churches/unique-name/${uniqueName}`,
+  removeMemberRelationshipChurch: id => `/admin/modules/membership/churches/user/member-relationship/${id}`,
+  removeResponsibleRelationshipChurch: id => `/admin/modules/membership/churches/user/responsible-relationship/${id}`,
+  churchImage: '/admin/modules/membership/churches/upload/image',
 }

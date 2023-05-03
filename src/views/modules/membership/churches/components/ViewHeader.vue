@@ -113,7 +113,7 @@ import bg6 from '@/assets/images/custom/background/bg-view-6.png'
 import bg7 from '@/assets/images/custom/background/bg-view-7.png'
 import defaultProfileImage from '@/assets/images/custom/logo/default-church.png'
 import { randomNumberInterval } from '@core/helpers/helpers'
-import membersModuleRoutes from '@/views/modules/members/routes'
+import membershipModuleRoutes from '@/views/modules/membership/routes'
 
 export default {
   components: {
@@ -163,7 +163,7 @@ export default {
 
         {
           id: 4,
-          event: 'membersData',
+          event: 'membershipData',
           description: 'Membros',
         },
       ],
@@ -203,7 +203,7 @@ export default {
     redirectUpdatePage() {
       this.$store.commit('chooseDataMembersModule/SET_CHOOSE_CHURCH', this.headerData)
 
-      this.$router.replace({ name: membersModuleRoutes.churchesUpdate.name })
+      this.$router.replace({ name: membershipModuleRoutes.churchesUpdate.name })
     },
 
     handleChooseTab(tab) {

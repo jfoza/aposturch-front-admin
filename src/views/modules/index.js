@@ -2,7 +2,7 @@ import { actions, subjects } from '@/libs/acl/rules'
 import menus from '@/navigation/vertical'
 import usersModuleRoutes from '@/views/modules/users/routes'
 import financialModuleRoutes from '@/views/modules/financial/routes'
-import membersModuleRoutes from '@/views/modules/members/routes'
+import membershipModuleRoutes from '@/views/modules/membership/routes'
 import groupsModuleRoutes from '@/views/modules/groups/routes'
 import scheduleModuleRoutes from '@/views/modules/schedule/routes'
 import patrimonyModuleRoutes from '@/views/modules/patrimony/routes'
@@ -50,11 +50,11 @@ export default [
     title: 'Membresia',
     description: '',
     ability: {
-      subject: subjects.MEMBERS_MODULE,
+      subject: subjects.MEMBERSHIP_MODULE,
       action: actions.VIEW,
     },
-    menus: menus.membersMenus,
-    routerName: membersModuleRoutes.home.name,
+    menus: menus.membershipMenus,
+    routerName: membershipModuleRoutes.home.name,
   },
 
   {

@@ -1,164 +1,17 @@
 <template>
-  <b-container>
-    <b-row
-      v-if="loading"
-      class="spinner-area"
-    >
-      <b-spinner
-        variant="custom"
-        label="Loading..."
-      />
-    </b-row>
-
-    <b-row
-      v-if="!loading"
-    >
-      <dashboard-card
-        :icon="adminMasterCard.icon"
-        :title="adminMasterCard.title"
-        :statistic="adminMasterCard.statistic"
-        :ability="adminMasterCard.ability"
-        :router-name="adminMasterCard.routerName"
-      />
-
-      <dashboard-card
-        :icon="adminChurchCard.icon"
-        :title="adminChurchCard.title"
-        :statistic="adminChurchCard.statistic"
-        :ability="adminChurchCard.ability"
-        :router-name="adminChurchCard.routerName"
-      />
-
-      <dashboard-card
-        :icon="adminModuleCard.icon"
-        :title="adminModuleCard.title"
-        :statistic="adminModuleCard.statistic"
-        :ability="adminModuleCard.ability"
-        :router-name="adminModuleCard.routerName"
-      />
-
-      <dashboard-card
-        :icon="assistantCard.icon"
-        :title="assistantCard.title"
-        :statistic="assistantCard.statistic"
-        :ability="assistantCard.ability"
-        :router-name="assistantCard.routerName"
-      />
-
-      <dashboard-card
-        :icon="membersCard.icon"
-        :title="membersCard.title"
-        :statistic="membersCard.statistic"
-        :ability="membersCard.ability"
-        :router-name="membersCard.routerName"
-      />
-    </b-row>
-  </b-container>
+  <div />
 </template>
 
 <script>
-import {
-  BContainer,
-  BRow,
-  BSpinner,
-} from 'bootstrap-vue'
-import DashboardCard from '@/views/components/custom/DashboardCard.vue'
-import { actions, subjects } from '@/libs/acl/rules'
-import { getCountUsersByProfiles } from '@core/utils/requests/users'
 
 export default {
-  components: {
-    BContainer,
-    BRow,
-    BSpinner,
-    DashboardCard,
-  },
+  components: {},
 
   data() {
-    return {
-      loading: true,
-
-      adminMasterCard: {
-        icon: 'UsersIcon',
-        title: 'Admin Master',
-        statistic: 0,
-        ability: {
-          subject: subjects.ADMIN_USERS_ADMIN_MASTER,
-          action: actions.VIEW,
-        },
-        routerName: '',
-      },
-
-      adminChurchCard: {
-        icon: 'UsersIcon',
-        title: 'Admin Igreja',
-        statistic: 0,
-        ability: {
-          subject: subjects.ADMIN_USERS_ADMIN_CHURCH,
-          action: actions.VIEW,
-        },
-        routerName: '',
-      },
-
-      adminModuleCard: {
-        icon: 'UsersIcon',
-        title: 'Admin Módulo',
-        statistic: 0,
-        ability: {
-          subject: subjects.ADMIN_USERS_ADMIN_MODULE,
-          action: actions.VIEW,
-        },
-        routerName: '',
-      },
-
-      assistantCard: {
-        icon: 'UsersIcon',
-        title: 'Auxiliar',
-        statistic: 0,
-        ability: {
-          subject: subjects.ADMIN_USERS_ADMIN_ASSISTANT,
-          action: actions.VIEW,
-        },
-        routerName: '',
-      },
-
-      membersCard: {
-        icon: 'UsersIcon',
-        title: 'Membro',
-        statistic: 0,
-        ability: {
-          subject: subjects.ADMIN_USERS_ADMIN_MEMBER,
-          action: actions.VIEW,
-        },
-        routerName: '',
-      },
-    }
+    return {}
   },
 
-  mounted() {
-    this.handleGetCountUsers()
-  },
-
-  methods: {
-    async handleGetCountUsers() {
-      this.loading = true
-
-      await getCountUsersByProfiles()
-        .then(response => {
-          if (response.status === 200) {
-            const res = response.data
-
-            this.adminMasterCard.statistic = res.adminMasterCount ? res.adminMasterCount : 0
-            this.adminChurchCard.statistic = res.adminChurchCount ? res.adminChurchCount : 0
-            this.adminModuleCard.statistic = res.adminModuleCount ? res.adminModuleCount : 0
-            this.assistantCard.statistic = res.assistantCount ? res.assistantCount : 0
-            this.membersCard.statistic = res.memberCount ? res.memberCount : 0
-          }
-        })
-
-      this.loading = false
-    },
-  },
+  methods: {},
 }
 </script>
 

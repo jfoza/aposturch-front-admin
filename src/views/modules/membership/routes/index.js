@@ -1,27 +1,27 @@
 export default {
   home: {
     path: '/membresia',
-    name: 'members-home',
+    name: 'membership-home',
   },
 
   // CHURCHES
   churches: {
     path: '/membresia/igrejas',
-    name: 'members-churches',
+    name: 'membership-churches',
   },
 
   churchView: {
     path: '/membresia/igrejas/visualizar',
-    name: 'members-church-view',
+    name: 'membership-church-view',
   },
 
   churchesInsert: {
     path: '/membresia/igrejas/novo',
-    name: 'members-churches-insert',
+    name: 'membership-churches-insert',
   },
 
   churchesUpdate: {
     path: '/membresia/igrejas/atualizar',
-    name: 'members-churches-update',
+    name: 'membership-churches-update',
   },
 }

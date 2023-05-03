@@ -64,7 +64,7 @@ export default {
 
       formActions,
 
-      userIdStore: this.$store.state.chooseDataUsersModule.chooseUser,
+      userStore: this.$store.state.chooseDataUsersModule.chooseUser,
 
       form: {
         id: '',
@@ -85,16 +85,10 @@ export default {
     },
   },
 
-  watch: {
-    userIdStore(value) {
-      return value
-    },
-  },
-
   // eslint-disable-next-line consistent-return
   created() {
-    if (!this.userIdStore) {
-      this.redirectToMainPage()
+    if (!this.userStore) {
+      // this.redirectToMainPage()
 
       return false
     }
@@ -110,20 +104,25 @@ export default {
     async getChooseUser() {
       this.loading = true
 
-      await getUserId(this.userIdStore)
+      await getUserId(this.userStore.id)
         .then(response => {
-          const res = response.data
+          const {
+            id,
+            name,
+            email,
+            profile,
+            active,
+          } = response.data
 
-          this.form.id = res.user_id
-          this.form.name = res.user_name
-          this.form.email = res.user_email
-          this.form.profile = {
-            id: res.profile_id,
-            description: res.profile_description,
-          }
-          this.form.active = {
-            boolValue: res.user_active,
-            description: res.user_active ? 'Ativo' : 'Inativo',
+          this.form = {
+            id,
+            name,
+            email,
+            profile,
+            active: {
+              boolValue: active,
+              description: active ? 'Ativo' : 'Inativo',
+            },
           }
         })
         .catch(() => {

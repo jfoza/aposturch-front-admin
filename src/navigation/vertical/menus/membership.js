@@ -1,12 +1,12 @@
 import { subjects, actions } from '@/libs/acl/rules'
-import membersModuleRouter from '@/views/modules/members/routes'
+import membershipModuleRouter from '@/views/modules/membership/routes'
 
 export default [
   {
     title: 'Início',
     icon: 'HomeIcon',
-    route: membersModuleRouter.home.name,
-    resource: subjects.MEMBERS_MODULE,
+    route: membershipModuleRouter.home.name,
+    resource: subjects.MEMBERSHIP_MODULE,
     action: actions.VIEW,
   },
 
@@ -16,14 +16,14 @@ export default [
     children: [
       {
         title: 'Cadastrar nova',
-        route: membersModuleRouter.churchesInsert.name,
-        resource: subjects.MEMBERS_MODULE_CHURCH,
+        route: membershipModuleRouter.churchesInsert.name,
+        resource: subjects.MEMBERSHIP_MODULE_CHURCH,
         action: actions.INSERT,
       },
       {
         title: 'Ver igrejas',
-        route: membersModuleRouter.churches.name,
-        resource: subjects.MEMBERS_MODULE_CHURCH,
+        route: membershipModuleRouter.churches.name,
+        resource: subjects.MEMBERSHIP_MODULE_CHURCH,
         action: actions.VIEW,
       },
     ],

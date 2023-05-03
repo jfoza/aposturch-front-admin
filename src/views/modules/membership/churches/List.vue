@@ -103,7 +103,7 @@
                 <b-link
                   type="button"
                   class="btn button-form button-plus"
-                  :to="{ name: membersModuleRoutes.churchesInsert.name }"
+                  :to="{ name: membershipModuleRoutes.churchesInsert.name }"
                 >
                   <feather-icon
                     icon="PlusIcon"
@@ -277,7 +277,7 @@ import vSelect from 'vue-select'
 import CustomPagination from '@/views/components/custom/CustomPagination'
 import ButtonIcon from '@/views/components/custom/ButtonIcon'
 import StatusField from '@/views/components/custom/StatusField'
-import membersModuleRoutes from '@/views/modules/members/routes'
+import membershipModuleRoutes from '@/views/modules/membership/routes'
 import { getAllChurches, removeChurch } from '@core/utils/requests/churches'
 import { confirmAction, successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
@@ -315,7 +315,7 @@ export default {
 
       userLogged: this.$store.state.sessions.userData,
 
-      membersModuleRoutes,
+      membershipModuleRoutes,
 
       linkItems: [
         {
@@ -375,11 +375,11 @@ export default {
     },
 
     getAbilityInsert() {
-      return this.$can(actions.INSERT, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)
+      return this.$can(actions.INSERT, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER)
     },
 
     getAbilityDelete() {
-      return this.$can(actions.DELETE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)
+      return this.$can(actions.DELETE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER)
     },
   },
 
@@ -444,11 +444,11 @@ export default {
     },
 
     isEnabledToView({ id }) {
-      if (this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER_DETAILS)) {
+      if (this.$can(actions.VIEW, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER_DETAILS)) {
         return true
       }
 
-      if (this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH_DETAILS)) {
+      if (this.$can(actions.VIEW, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_CHURCH_DETAILS)) {
         return this.userLogged.responsibleChurch.find(e => e.id === id)
       }
 
@@ -456,11 +456,11 @@ export default {
     },
 
     isEnabledToUpdate({ id }) {
-      if (this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)) {
+      if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER)) {
         return true
       }
 
-      if (this.$can(actions.UPDATE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH)) {
+      if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_CHURCH)) {
         return this.userLogged.responsibleChurch.find(e => e.id === id)
       }
 
@@ -470,11 +470,11 @@ export default {
     redirectUpdatePage(chooseItem) {
       this.$store.commit('chooseDataMembersModule/SET_CHOOSE_CHURCH', chooseItem)
 
-      this.$router.replace({ name: membersModuleRoutes.churchesUpdate.name })
+      this.$router.replace({ name: membershipModuleRoutes.churchesUpdate.name })
     },
 
     redirectViewPage(chooseItem) {
-      this.$router.push({ path: `${membersModuleRoutes.churchView.path}/${chooseItem.unique_name}` })
+      this.$router.push({ path: `${membershipModuleRoutes.churchView.path}/${chooseItem.unique_name}` })
     },
 
     openModalDelete({ id }) {

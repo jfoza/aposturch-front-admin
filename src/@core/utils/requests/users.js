@@ -91,7 +91,7 @@ export const createUser = form => new Promise((resolve, reject) => {
 
 export const updateUser = (id, form) => new Promise((resolve, reject) => {
   axiosIns
-    .put(apiRoutes.adminUserId(id), form)
+    .put(apiRoutes.updateAdminUserId(id), form)
     .then(response => {
       resolve(response)
     })

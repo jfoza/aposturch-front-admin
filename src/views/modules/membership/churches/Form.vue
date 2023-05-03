@@ -483,7 +483,7 @@ import { states } from '@core/utils/states'
 import { getArrayAttr, strClear } from '@core/helpers/helpers'
 import { getCitiesByUf } from '@core/utils/requests/cities'
 import { messages } from '@core/utils/validations/messages'
-import membersModuleRoutes from '@/views/modules/members/routes'
+import membershipModuleRoutes from '@/views/modules/membership/routes'
 import { createChurch, saveChurchImage, updateChurch } from '@core/utils/requests/churches'
 import { getAdminUsersByProfile } from '@core/utils/requests/users'
 import { actions, subjects } from '@/libs/acl/rules'
@@ -553,7 +553,7 @@ export default {
     },
 
     getAdminMasterRule() {
-      return this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)
+      return this.$can(actions.VIEW, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER)
     },
   },
 
@@ -767,7 +767,7 @@ export default {
         this.clear()
       } else {
         this.$router.replace({
-          name: membersModuleRoutes.churches.name,
+          name: membershipModuleRoutes.churches.name,
           params: {
             dispatchList: true,
           },
@@ -781,7 +781,7 @@ export default {
 
       if (this.redirect) {
         this.$router.replace({
-          name: membersModuleRoutes.churches.name,
+          name: membershipModuleRoutes.churches.name,
           params: {
             dispatchList: true,
           },

@@ -15,7 +15,7 @@
 
       <b-link
         style="color: #5e5873"
-        :to="{ name: membersModuleRouter.churches.name }"
+        :to="{ name: membershipModuleRouter.churches.name }"
       >
         <feather-icon
           class="mb-2"
@@ -62,18 +62,17 @@
 
 <script>
 import { BSpinner, BLink } from 'bootstrap-vue'
-import ViewHeader from '@/views/modules/members/churches/components/ViewHeader.vue'
-import ViewGeneral from '@/views/modules/members/churches/components/ViewGeneral.vue'
-import ViewAddress from '@/views/modules/members/churches/components/ViewAddress.vue'
-import ViewResponsible from '@/views/modules/members/churches/components/ViewResponsible.vue'
-import ViewMembers from '@/views/modules/members/churches/components/ViewMembers.vue'
+import ViewHeader from '@/views/modules/membership/churches/components/ViewHeader.vue'
+import ViewGeneral from '@/views/modules/membership/churches/components/ViewGeneral.vue'
+import ViewAddress from '@/views/modules/membership/churches/components/ViewAddress.vue'
+import ViewResponsible from '@/views/modules/membership/churches/components/ViewResponsible.vue'
+import ViewMembers from '@/views/modules/membership/churches/components/ViewMembers.vue'
 import { getChurchUniqueName } from '@core/utils/requests/churches'
 import { warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
-import membersModuleRouter from '@/views/modules/members/routes'
+import membershipModuleRouter from '@/views/modules/membership/routes'
 import { actions, subjects } from '@/libs/acl/rules'
 import generalRoutes from '@/router/general/index'
-import { getResponsibleChurch } from '@core/utils/requests/users'
 
 /* eslint-disable global-require */
 export default {
@@ -100,7 +99,7 @@ export default {
 
       currentTab: 1,
 
-      membersModuleRouter,
+      membershipModuleRouter,
       generalRoutes,
 
       tab1: 1,
@@ -223,11 +222,11 @@ export default {
     },
 
     isEnabledToView() {
-      if (this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER_DETAILS)) {
+      if (this.$can(actions.VIEW, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER_DETAILS)) {
         return true
       }
 
-      if (this.$can(actions.VIEW, subjects.MEMBERS_MODULE_CHURCH_ADMIN_CHURCH_DETAILS)) {
+      if (this.$can(actions.VIEW, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_CHURCH_DETAILS)) {
         const userLogged = this.$store.state.sessions.userData
 
         return userLogged.responsibleChurch.find(e => e.unique_name === this.getChurchUniqueName)

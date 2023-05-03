@@ -19,7 +19,7 @@ export default [
     component: () => import('@/views/modules/users/admin/List.vue'),
     meta: {
       resource: 'ACL',
-      subject: subjects.ADMIN_USERS_VIEW,
+      subject: subjects.ADMIN_USERS,
       action: actions.VIEW,
     },
   },
@@ -30,7 +30,7 @@ export default [
     component: () => import('@/views/modules/users/admin/Insert.vue'),
     meta: {
       resource: 'ACL',
-      subject: subjects.ADMIN_USERS_INSERT,
+      subject: subjects.ADMIN_USERS,
       action: actions.INSERT,
     },
   },
@@ -41,7 +41,7 @@ export default [
     component: () => import('@/views/modules/users/admin/Update.vue'),
     meta: {
       resource: 'ACL',
-      subject: subjects.ADMIN_USERS_UPDATE,
+      subject: subjects.ADMIN_USERS,
       action: actions.UPDATE,
     },
   },

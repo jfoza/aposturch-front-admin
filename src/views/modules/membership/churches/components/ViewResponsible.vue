@@ -162,7 +162,7 @@ export default {
 
   computed: {
     getAdminMasterRule() {
-      return this.$can(actions.DELETE, subjects.MEMBERS_MODULE_CHURCH_ADMIN_MASTER)
+      return this.$can(actions.DELETE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER)
     },
   },
 

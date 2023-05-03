@@ -99,7 +99,6 @@
             </b-col>
 
             <b-col
-              v-if="getMode === formActions.insertAction"
               sm="6"
               lg="4"
             >
@@ -111,7 +110,7 @@
                   #default="{ errors }"
                   name="Senha"
                   vid="Password"
-                  rules="required|password"
+                  :rules="getMode === formActions.insertAction ? 'required|password' : 'password'"
                 >
                   <b-input-group
                     class="input-group-merge"
@@ -140,7 +139,6 @@
             </b-col>
 
             <b-col
-              v-if="getMode === formActions.insertAction"
               sm="6"
               lg="4"
             >
@@ -150,8 +148,8 @@
               >
                 <validation-provider
                   #default="{ errors }"
-                  name="Senha"
-                  rules="required|confirmed:Password"
+                  name="Confirmação de Senha"
+                  :rules="getMode === formActions.insertAction ? 'required|confirmed:Password' : 'confirmed:Password'"
                 >
                   <b-input-group
                     class="input-group-merge"
@@ -185,7 +183,7 @@
             >
               <b-form-group
                 label="Perfil"
-                label-for="profile"
+                label-for="profiles"
               >
                 <validation-provider
                   #default="{ errors }"
@@ -193,9 +191,9 @@
                   rules="required"
                 >
                   <v-select
-                    id="categories"
+                    id="profiles"
                     v-model="getFormData.profile"
-                    :disabled="!!formActions.updateAction"
+                    :disabled="getMode === formActions.updateAction"
                     :options="profiles"
                     variant="custom"
                     item-text="description"
@@ -268,7 +266,7 @@ import {
 } from 'bootstrap-vue'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import {
-  required, email, password, confirmed,
+   nullable, required, email, password, confirmed,
 } from '@validations'
 import { getProfiles, createUser, updateUser } from '@core/utils/requests/users'
 import { statusForm } from '@core/utils/statusForm'
@@ -308,6 +306,7 @@ export default {
 
   data() {
     return {
+      nullable,
       required,
       email,
       password,
@@ -436,8 +435,9 @@ export default {
       const formData = {
         name: this.getFormData.name,
         email: this.getFormData.email,
+        password: this.getFormData.password,
+        passwordConfirmation: this.getFormData.passwordConfirmation,
         active: this.getFormData.active.boolValue,
-        profileId: this.getFormData.profile.id,
       }
 
       await updateUser(id, formData)

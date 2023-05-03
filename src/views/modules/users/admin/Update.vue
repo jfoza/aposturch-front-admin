@@ -70,6 +70,8 @@ export default {
         id: '',
         name: '',
         email: '',
+        password: '',
+        passwordConfirmation: '',
         profile: null,
         active: {
           boolValue: true,
@@ -142,7 +144,12 @@ export default {
       this.form = {
         name: '',
         email: '',
-        active: null,
+        password: '',
+        passwordConfirmation: '',
+        active: {
+          boolValue: true,
+          description: 'Ativo',
+        },
         profile: null,
       }
     },

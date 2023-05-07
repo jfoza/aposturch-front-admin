@@ -266,7 +266,7 @@ import {
 } from 'bootstrap-vue'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import {
-   nullable, required, email, password, confirmed,
+  required, email, password, confirmed,
 } from '@validations'
 import { getProfiles, createUser, updateUser } from '@core/utils/requests/users'
 import { statusForm } from '@core/utils/statusForm'
@@ -306,7 +306,6 @@ export default {
 
   data() {
     return {
-      nullable,
       required,
       email,
       password,

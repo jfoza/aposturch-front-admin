@@ -46,17 +46,17 @@
                 <validation-provider
                   #default="{ errors }"
                   name="Responsável"
-                  rules="required"
+                  rules=""
                 >
                   <v-select
                     id="categories"
                     v-model="getFormData.responsible"
-                    :options="adminUsers"
+                    :options="responsible"
                     variant="custom"
-                    item-text="admin_user_id"
-                    item-value="user_name"
+                    item-text="id"
                     placeholder="Selecione um ou mais"
-                    label="user_name"
+                    :get-option-label="getUserOptionLabel"
+                    label="name"
                     multiple
                     multiselect
                   />
@@ -485,8 +485,8 @@ import { getCitiesByUf } from '@core/utils/requests/cities'
 import { messages } from '@core/utils/validations/messages'
 import membershipModuleRoutes from '@/views/modules/membership/routes'
 import { createChurch, saveChurchImage, updateChurch } from '@core/utils/requests/churches'
-import { getAdminUsersByProfile } from '@core/utils/requests/users'
 import { actions, subjects } from '@/libs/acl/rules'
+import { getMembersResponsible } from '@core/utils/requests/members'
 
 export default {
   components: {
@@ -525,7 +525,7 @@ export default {
 
       cities: [],
 
-      adminUsers: [],
+      responsible: [],
 
       churchCreated: null,
 
@@ -565,7 +565,7 @@ export default {
     async handleGetData() {
       this.loading = true
 
-      await this.handleGetAdminUsersByProfile()
+      await this.handleGetResponsible()
 
       if (this.getMode === this.formActions.updateAction) {
         await this.getCitiesByUFSelect()
@@ -574,10 +574,10 @@ export default {
       this.loading = false
     },
 
-    async handleGetAdminUsersByProfile() {
-      await getAdminUsersByProfile('ADMIN_CHURCH')
+    async handleGetResponsible() {
+      await getMembersResponsible()
         .then(response => {
-          this.adminUsers = response.data
+          this.responsible = response.data
         })
     },
 
@@ -632,6 +632,14 @@ export default {
       } else {
         this.clearZipCodeAddress()
       }
+    },
+
+    getUserOptionLabel(val) {
+      if (Object.keys(val.user).length > 0) {
+        return val.user.name
+      }
+
+      return null
     },
 
     async formSubmit(redirect) {
@@ -732,8 +740,8 @@ export default {
     setFormData() {
       return {
         name: this.getFormData.name,
-        responsibleIds: this.adminUsers.length > 0
-          ? getArrayAttr(this.adminUsers, 'admin_user_id')
+        responsibleMembers: this.getFormData.responsible.length > 0
+          ? getArrayAttr(this.getFormData.responsible, 'id')
           : [],
         email: this.getFormData.email,
         youtube: this.getFormData.youtube,
@@ -777,7 +785,7 @@ export default {
 
     clear() {
       this.$emit('clear')
-      this.$store.commit('chooseDataMembersModule/SET_CHOOSE_CHURCH', null)
+      this.$store.commit('chooseDataMembershipModule/SET_CHOOSE_CHURCH', null)
 
       if (this.redirect) {
         this.$router.replace({

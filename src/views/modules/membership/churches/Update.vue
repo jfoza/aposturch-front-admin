@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="getValidation"
+    v-if="validation"
     class="content-wrapper"
   >
     <page-header
@@ -68,8 +68,6 @@ export default {
 
       formActions,
 
-      chooseChurch: this.$store.state.chooseDataMembersModule.chooseChurch,
-
       form: {
         id: '',
         name: '',
@@ -100,14 +98,14 @@ export default {
   },
 
   computed: {
-    getValidation() {
-      return this.validation
+    getDataInStore() {
+      return this.$store.state.chooseDataMembershipModule.chooseChurch
     },
   },
 
   // eslint-disable-next-line consistent-return
   created() {
-    if (!this.chooseChurch) {
+    if (!this.getDataInStore) {
       this.redirectToMainPage()
 
       return false
@@ -130,7 +128,7 @@ export default {
     async getChooseChurch() {
       this.loading = true
 
-      await getChurchId(this.chooseChurch.id)
+      await getChurchId(this.getDataInStore.id)
         .then(response => {
           const {
             id,
@@ -146,7 +144,7 @@ export default {
             complement,
             district,
             image,
-            admin_user,
+            member,
             uf,
             city,
             active,
@@ -165,7 +163,7 @@ export default {
             number_address,
             complement,
             district,
-            responsible: this.generateResponsibleStr(admin_user),
+            responsible: member,
             image: image || { id: '', type: '', path: '' },
             state: {
               uf,
@@ -188,32 +186,19 @@ export default {
       if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER)) {
         return true
       }
-
-      if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_CHURCH)) {
-        const userLogged = this.$store.state.sessions.userData
-
-        return userLogged.responsibleChurch.find(e => e.id === this.chooseChurch.id)
-      }
+      //
+      // if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_CHURCH)) {
+      //   const userLogged = this.$store.state.sessions.userData
+      //
+      //   return userLogged.responsibleChurch.find(e => e.id === this.chooseChurch.id)
+      // }
 
       return false
     },
 
-    generateResponsibleStr(adminUser) {
-      const responsibleChurch = []
-
-      adminUser.forEach(el => {
-        responsibleChurch.push({
-          admin_user_id: el.id,
-          user_name: el.user.name,
-        })
-      })
-
-      return responsibleChurch
-    },
-
     redirectToMainPage() {
       this.clearForm()
-      this.$store.commit('chooseDataMembersModule/SET_CHOOSE_CHURCH', null)
+      this.$store.commit('chooseDataMembershipModule/SET_CHOOSE_CHURCH', null)
       this.$router.replace({ name: this.generalRoutes.homeRouter.name })
     },
 

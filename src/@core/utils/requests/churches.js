@@ -58,7 +58,7 @@ export const updateChurch = (id, form) => new Promise((resolve, reject) => {
 
 export const removeChurch = id => new Promise((resolve, reject) => {
   axiosIns
-    .delete(apiRoutes.churchId(id))
+    .delete(apiRoutes.churchIdDelete(id))
     .then(response => {
       resolve(response)
     })

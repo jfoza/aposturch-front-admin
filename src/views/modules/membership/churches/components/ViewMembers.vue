@@ -67,6 +67,22 @@
               </div>
             </b-col>
           </b-row>
+
+          <b-row
+            class="mt-3 mb-1"
+          >
+            <b-col>
+              <b-link
+                type="button"
+                class="btn button-form button-plus"
+              >
+                <feather-icon
+                  icon="PlusIcon"
+                />
+                Adicionar novo
+              </b-link>
+            </b-col>
+          </b-row>
         </b-form>
       </validation-observer>
     </section>
@@ -164,7 +180,7 @@
             </template>
 
             <template #cell(phone)="row">
-              <span>{{ row.item.person.phone | VMask('(##) #####-####') }}</span>
+              <span>{{ row.value | VMask('(##) #####-####') }}</span>
             </template>
 
             <template #cell(email)="row">
@@ -173,9 +189,9 @@
 
             <template #cell(address)="row">
               <span>
-                {{ row.item.person.address }}, {{ row.item.person.number_address }},<br>
-                {{ row.item.person.district }}, {{ row.item.person.city.description }} - {{ row.item.person.uf }},<br>
-                {{ row.item.person.zip_code | VMask('#####-###') }}
+                {{ row.item.address }}, {{ row.item.number_address }},<br>
+                {{ row.item.district }}, {{ row.item.user_city_description }} - {{ row.item.uf }},<br>
+                {{ row.item.zip_code | VMask('#####-###') }}
               </span>
             </template>
 
@@ -185,6 +201,11 @@
                 size="18"
                 feather-icon="Trash2Icon"
                 @action="openModalDelete(row.item)"
+              />
+              <button-icon
+                color="#2772C0"
+                size="18"
+                feather-icon="EditIcon"
               />
             </template>
           </b-table>
@@ -216,6 +237,7 @@ import {
   BTable,
   BSpinner,
   BAlert,
+  BLink,
 } from 'bootstrap-vue'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { required } from '@validations'
@@ -225,7 +247,7 @@ import CustomPagination from '@/views/components/custom/CustomPagination'
 import ButtonIcon from '@/views/components/custom/ButtonIcon'
 import { confirmAction, successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
-import { getUsersByChurchId, removeUserChurch } from '@core/utils/requests/users'
+import { getMembersByChurchId } from '@core/utils/requests/members'
 
 export default {
   components: {
@@ -240,6 +262,7 @@ export default {
     BTable,
     BSpinner,
     BAlert,
+    BLink,
     CustomPagination,
     ButtonIcon,
   },
@@ -267,6 +290,7 @@ export default {
 
       search: {
         name: '',
+        churchIds: [],
       },
 
       loadingTable: false,
@@ -313,7 +337,7 @@ export default {
       this.table.tableEmpty = false
       this.loadingTable = true
 
-      getUsersByChurchId(this.churchId, this.setParams())
+      getMembersByChurchId(this.setParams())
         .then(response => {
           if (response.status === 200) {
             if (response.data.data.length > 0) {
@@ -389,6 +413,7 @@ export default {
 
     setParams() {
       return {
+        churchIds: [this.churchId],
         columnName: this.table.tableOrderField,
         columnOrder: this.table.tableOrder,
         perPage: this.paginationData.defaultSize,

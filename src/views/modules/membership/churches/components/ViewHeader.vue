@@ -154,18 +154,6 @@ export default {
           event: 'addressData',
           description: 'Endereço',
         },
-
-        {
-          id: 3,
-          event: 'responsibleData',
-          description: 'Responsáveis',
-        },
-
-        {
-          id: 4,
-          event: 'membershipData',
-          description: 'Membros',
-        },
       ],
 
       images: [

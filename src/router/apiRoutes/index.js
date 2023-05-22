@@ -26,4 +26,5 @@ export default {
   churchImage: '/admin/modules/membership/churches/upload/image',
 
   membersResponsible: 'admin/modules/membership/members/responsible',
+  membersByChurch: 'admin/modules/membership/members/church/ids',
 }

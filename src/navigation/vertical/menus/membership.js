@@ -11,7 +11,7 @@ export default [
   },
 
   {
-    title: 'Gerenciar Igrejas',
+    title: 'Igrejas',
     icon: 'BookOpenIcon',
     children: [
       {
@@ -24,6 +24,25 @@ export default [
         title: 'Ver igrejas',
         route: membershipModuleRouter.churches.name,
         resource: subjects.MEMBERSHIP_MODULE_CHURCH,
+        action: actions.VIEW,
+      },
+    ],
+  },
+
+  {
+    title: 'Membros',
+    icon: 'UsersIcon',
+    children: [
+      {
+        title: 'Cadastrar novo',
+        route: membershipModuleRouter.membersInsert.name,
+        resource: subjects.MEMBERSHIP_MODULE_MEMBERS,
+        action: actions.INSERT,
+      },
+      {
+        title: 'Ver Membros',
+        route: membershipModuleRouter.members.name,
+        resource: subjects.MEMBERSHIP_MODULE_MEMBERS,
         action: actions.VIEW,
       },
     ],

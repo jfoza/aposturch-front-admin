@@ -11,3 +11,14 @@ export const getMembersResponsible = () => new Promise((resolve, reject) => {
       reject(error)
     })
 })
+
+export const getMembersByChurchId = params => new Promise((resolve, reject) => {
+  axiosIns
+    .get(apiRoutes.membersByChurch, { params })
+    .then(response => {
+      resolve(response)
+    })
+    .catch(error => {
+      reject(error)
+    })
+})

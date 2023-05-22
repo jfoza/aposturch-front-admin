@@ -33,39 +33,6 @@
           </b-row>
 
           <b-row>
-            <!-- Responsible -->
-            <b-col
-              v-if="getAdminMasterRule"
-              sm="6"
-              lg="4"
-            >
-              <b-form-group
-                label="Responsável"
-                label-for="responsible"
-              >
-                <validation-provider
-                  #default="{ errors }"
-                  name="Responsável"
-                  rules=""
-                >
-                  <v-select
-                    id="categories"
-                    v-model="getFormData.responsible"
-                    :options="responsible"
-                    variant="custom"
-                    item-text="id"
-                    placeholder="Selecione um ou mais"
-                    :get-option-label="getUserOptionLabel"
-                    label="name"
-                    multiple
-                    multiselect
-                  />
-
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-
             <!-- Name -->
             <b-col
               sm="6"
@@ -480,13 +447,12 @@ import { successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { formActions } from '@core/utils/formActions'
 import { getAddressByZipCode } from '@core/utils/requests/zipCode'
 import { states } from '@core/utils/states'
-import { getArrayAttr, strClear } from '@core/helpers/helpers'
+import { strClear } from '@core/helpers/helpers'
 import { getCitiesByUf } from '@core/utils/requests/cities'
 import { messages } from '@core/utils/validations/messages'
 import membershipModuleRoutes from '@/views/modules/membership/routes'
 import { createChurch, saveChurchImage, updateChurch } from '@core/utils/requests/churches'
 import { actions, subjects } from '@/libs/acl/rules'
-import { getMembersResponsible } from '@core/utils/requests/members'
 
 export default {
   components: {
@@ -524,8 +490,6 @@ export default {
       titlePage: '',
 
       cities: [],
-
-      responsible: [],
 
       churchCreated: null,
 
@@ -565,20 +529,11 @@ export default {
     async handleGetData() {
       this.loading = true
 
-      await this.handleGetResponsible()
-
       if (this.getMode === this.formActions.updateAction) {
         await this.getCitiesByUFSelect()
       }
 
       this.loading = false
-    },
-
-    async handleGetResponsible() {
-      await getMembersResponsible()
-        .then(response => {
-          this.responsible = response.data
-        })
     },
 
     async getAddressByZipCode() {
@@ -632,14 +587,6 @@ export default {
       } else {
         this.clearZipCodeAddress()
       }
-    },
-
-    getUserOptionLabel(val) {
-      if (Object.keys(val.user).length > 0) {
-        return val.user.name
-      }
-
-      return null
     },
 
     async formSubmit(redirect) {
@@ -740,9 +687,6 @@ export default {
     setFormData() {
       return {
         name: this.getFormData.name,
-        responsibleMembers: this.getFormData.responsible.length > 0
-          ? getArrayAttr(this.getFormData.responsible, 'id')
-          : [],
         email: this.getFormData.email,
         youtube: this.getFormData.youtube,
         facebook: this.getFormData.facebook,

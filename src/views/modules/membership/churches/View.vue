@@ -29,8 +29,6 @@
         :header-data="churchData.header"
         @generalData="showGeneralData"
         @addressData="showAddressData"
-        @responsibleData="showResponsibleData"
-        @membersData="showMembersData"
       />
 
       <view-general
@@ -44,18 +42,6 @@
         :address-data="churchData.address"
         class-name="card p-card-form"
       />
-
-      <view-responsible
-        v-if="tab3 === currentTab"
-        :church-id="churchData.header.id"
-        class-name="card m-0"
-      />
-
-      <view-members
-        v-if="tab4 === currentTab"
-        :church-id="churchData.header.id"
-        class-name="card"
-      />
     </div>
   </div>
 </template>
@@ -65,8 +51,6 @@ import { BSpinner, BLink } from 'bootstrap-vue'
 import ViewHeader from '@/views/modules/membership/churches/components/ViewHeader.vue'
 import ViewGeneral from '@/views/modules/membership/churches/components/ViewGeneral.vue'
 import ViewAddress from '@/views/modules/membership/churches/components/ViewAddress.vue'
-import ViewResponsible from '@/views/modules/membership/churches/components/ViewResponsible.vue'
-import ViewMembers from '@/views/modules/membership/churches/components/ViewMembers.vue'
 import { getChurchUniqueName } from '@core/utils/requests/churches'
 import { warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
@@ -82,8 +66,6 @@ export default {
     ViewHeader,
     ViewGeneral,
     ViewAddress,
-    ViewResponsible,
-    ViewMembers,
   },
 
   props: {
@@ -104,8 +86,6 @@ export default {
 
       tab1: 1,
       tab2: 2,
-      tab3: 3,
-      tab4: 4,
 
       churchData: {
         header: {
@@ -229,7 +209,7 @@ export default {
       if (this.$can(actions.VIEW, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_CHURCH_DETAILS)) {
         const userLogged = this.$store.state.sessions.userData
 
-        return userLogged.responsibleChurch.find(e => e.unique_name === this.getChurchUniqueName)
+        return userLogged.churches.find(e => e.unique_name === this.getChurchUniqueName)
       }
 
       return false
@@ -240,14 +220,6 @@ export default {
     },
 
     showAddressData(tab) {
-      this.currentTab = tab
-    },
-
-    showResponsibleData(tab) {
-      this.currentTab = tab
-    },
-
-    showMembersData(tab) {
       this.currentTab = tab
     },
   },

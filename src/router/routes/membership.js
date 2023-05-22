@@ -13,6 +13,7 @@ export default [
     },
   },
 
+  // CHURCHES
   {
     path: membershipModuleRouter.churches.path,
     name: membershipModuleRouter.churches.name,
@@ -54,6 +55,51 @@ export default [
     meta: {
       resource: 'ACL',
       subject: subjects.MEMBERSHIP_MODULE_CHURCH,
+      action: actions.UPDATE,
+    },
+  },
+
+  // MEMBERS
+  {
+    path: membershipModuleRouter.members.path,
+    name: membershipModuleRouter.members.name,
+    component: () => import('@/views/modules/membership/members/List.vue'),
+    meta: {
+      resource: 'ACL',
+      subject: subjects.MEMBERSHIP_MODULE_MEMBERS,
+      action: actions.VIEW,
+    },
+  },
+
+  {
+    path: membershipModuleRouter.membersView.path,
+    name: membershipModuleRouter.membersView.name,
+    component: () => import('@/views/modules/membership/members/View.vue'),
+    meta: {
+      resource: 'ACL',
+      subject: subjects.MEMBERSHIP_MODULE_MEMBERS_DETAILS,
+      action: actions.VIEW,
+    },
+  },
+
+  {
+    path: membershipModuleRouter.membersInsert.path,
+    name: membershipModuleRouter.membersInsert.name,
+    component: () => import('@/views/modules/membership/members/Insert.vue'),
+    meta: {
+      resource: 'ACL',
+      subject: subjects.MEMBERSHIP_MODULE_MEMBERS,
+      action: actions.INSERT,
+    },
+  },
+
+  {
+    path: membershipModuleRouter.membersUpdate.path,
+    name: membershipModuleRouter.membersUpdate.name,
+    component: () => import('@/views/modules/membership/members/Update.vue'),
+    meta: {
+      resource: 'ACL',
+      subject: subjects.MEMBERSHIP_MODULE_MEMBERS,
       action: actions.UPDATE,
     },
   },

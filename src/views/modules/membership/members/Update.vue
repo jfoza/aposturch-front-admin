@@ -144,6 +144,7 @@ export default {
             complement,
             district,
             image,
+            member,
             uf,
             city,
             active,
@@ -162,6 +163,7 @@ export default {
             number_address,
             complement,
             district,
+            responsible: member,
             image: image || { id: '', type: '', path: '' },
             state: {
               uf,
@@ -184,12 +186,12 @@ export default {
       if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER)) {
         return true
       }
-
-      if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_CHURCH)) {
-        const userLogged = this.$store.state.sessions.userData
-
-        return userLogged.churches.find(e => e.id === this.getDataInStore.id)
-      }
+      //
+      // if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_CHURCH)) {
+      //   const userLogged = this.$store.state.sessions.userData
+      //
+      //   return userLogged.responsibleChurch.find(e => e.id === this.chooseChurch.id)
+      // }
 
       return false
     },

@@ -6,7 +6,10 @@ export default {
   adminUsers: '/admin/admin-users',
   adminUserId: id => `/admin/admin-users/id/${id}`,
   updateAdminUserId: id => `/admin/admin-users/${id}`,
+  updateStatusUser: id => `/admin/users/status/id/${id}`,
+  userAlreadyExistsByEmail: email => `/admin/users/email/${email}`,
   profiles: '/admin/profiles',
+  profilesInListMembers: '/admin/profiles/members',
 
   customers: '/admin/customers',
   customerId: id => `/admin/customers/${id}`,
@@ -19,12 +22,14 @@ export default {
 
   zipCode: zip => `/zip-code?zipCode=${zip}`,
 
+  modulesList: 'admin/modules/list',
+
   churches: 'admin/modules/membership/churches',
+  churchesUserLogged: 'admin/modules/membership/churches/user',
   churchId: id => `admin/modules/membership/churches/id/${id}`,
   churchIdDelete: id => `admin/modules/membership/churches/${id}`,
   churchUniqueName: uniqueName => `/admin/modules/membership/churches/unique-name/${uniqueName}`,
   churchImage: '/admin/modules/membership/churches/upload/image',
 
-  membersResponsible: 'admin/modules/membership/members/responsible',
-  membersByChurch: 'admin/modules/membership/members/church/ids',
+  members: 'admin/modules/membership/members',
 }

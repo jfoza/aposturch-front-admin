@@ -34,6 +34,17 @@ export const getChurchUniqueName = uniqueName => new Promise((resolve, reject) =
     })
 })
 
+export const getChurchesUserLogged = () => new Promise((resolve, reject) => {
+  axiosIns
+    .get(apiRoutes.churchesUserLogged)
+    .then(response => {
+      resolve(response)
+    })
+    .catch(error => {
+      reject(error)
+    })
+})
+
 export const createChurch = form => new Promise((resolve, reject) => {
   axiosIns
     .post(apiRoutes.churches, form)

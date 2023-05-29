@@ -1,288 +1,462 @@
 <template>
   <div class="content-wrapper">
     <page-header
-      screen-name="Ver Igrejas"
+      screen-name="Ver Membros"
       :link-items="linkItems"
     />
 
     <div class="card">
-      <section class="p-2">
-        <validation-observer ref="formFilters">
-          <b-form>
-            <b-row class="mb-2">
-              <b-col cols="12">
-                <h3>Lista de Igrejas</h3>
-                <p>
-                  Para realizar uma busca, selecione o(s) filtros necessário(s) e clique no botão buscar:
-                </p>
-              </b-col>
-            </b-row>
+      <div
+        v-if="loading"
+        class="spinner-area"
+      >
+        <b-spinner
+          variant="custom"
+          label="Loading..."
+        />
+      </div>
 
-            <b-row class="align-items-center">
-              <b-col
-                sm="6"
-                lg="4"
-              >
-                <b-form-group
-                  label="Nome"
-                  label-for="name"
+      <div v-if="!loading">
+        <section class="p-2">
+          <validation-observer ref="formFilters">
+            <b-form>
+              <b-row class="mb-2">
+                <b-col cols="12">
+                  <h3>Lista de Membros</h3>
+                  <p>
+                    Para realizar uma busca, selecione o(s) filtros necessário(s) e clique no botão buscar:
+                  </p>
+                </b-col>
+              </b-row>
+
+              <b-row class="align-items-center">
+                <!-- Name -->
+                <b-col
+                  sm="6"
+                  lg="4"
                 >
-                  <validation-provider
-                    #default="{ errors }"
-                    name="Nome"
+                  <b-form-group
+                    label="Nome"
+                    label-for="name"
                   >
-                    <b-form-input
-                      id="name"
-                      v-model="search.name"
-                      placeholder="Nome"
-                      autocomplete="off"
-                    />
+                    <validation-provider
+                      #default="{ errors }"
+                      name="Nome"
+                    >
+                      <b-form-input
+                        id="name"
+                        v-model="search.name"
+                        placeholder="Nome"
+                        autocomplete="off"
+                      />
 
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </validation-provider>
-                </b-form-group>
-              </b-col>
+                      <small class="text-danger">{{ errors[0] }}</small>
+                    </validation-provider>
+                  </b-form-group>
+                </b-col>
 
-              <b-col
-                sm="6"
-                lg="4"
-              >
-                <b-form-group
-                  label="Cidade"
-                  label-for="city"
+                <!-- Email -->
+                <b-col
+                  sm="6"
+                  lg="4"
                 >
-                  <v-select
-                    id="categories"
-                    v-model="search.city"
-                    :options="cities"
-                    variant="custom"
-                    item-text="description"
-                    item-value="id"
-                    placeholder="Selecione uma cidade"
-                    label="description"
-                  />
-                </b-form-group>
-              </b-col>
+                  <b-form-group
+                    label="E-mail"
+                    label-for="email"
+                  >
+                    <validation-provider
+                      #default="{ errors }"
+                      name="E-mail"
+                      rules="email"
+                    >
+                      <b-form-input
+                        id="email"
+                        v-model="search.email"
+                        placeholder="E-mail"
+                        autocomplete="off"
+                      />
 
-              <b-col
-                sm="12"
-                lg="4"
-                class="actions-area"
+                      <small class="text-danger">{{ errors[0] }}</small>
+                    </validation-provider>
+                  </b-form-group>
+                </b-col>
+
+                <!-- Phone -->
+                <b-col
+                  sm="6"
+                  lg="4"
+                >
+                  <b-form-group
+                    label="Telefone"
+                    label-for="phone"
+                  >
+                    <validation-provider
+                      #default="{ errors }"
+                      name="Telefone"
+                    >
+                      <b-form-input
+                        id="phone"
+                        v-model="search.phone"
+                        v-mask="'(##) #####-####'"
+                        placeholder="Telefone"
+                        autocomplete="off"
+                      />
+
+                      <small class="text-danger">{{ errors[0] }}</small>
+                    </validation-provider>
+                  </b-form-group>
+                </b-col>
+
+                <!-- Profile -->
+                <b-col
+                  sm="6"
+                  lg="4"
+                >
+                  <b-form-group
+                    label="Perfil"
+                    label-for="profiles"
+                  >
+                    <v-select
+                      id="profiles"
+                      v-model="search.profile"
+                      :options="profiles"
+                      variant="custom"
+                      item-text="description"
+                      item-value="id"
+                      placeholder="Selecione um perfil"
+                      label="description"
+                    />
+                  </b-form-group>
+                </b-col>
+
+                <!-- Church -->
+                <b-col
+                  sm="6"
+                  lg="4"
+                >
+                  <b-form-group
+                    label="Igreja"
+                    label-for="churches"
+                  >
+                    <v-select
+                      id="churches"
+                      v-model="search.church"
+                      :options="churches"
+                      variant="custom"
+                      item-text="name"
+                      item-value="id"
+                      placeholder="Selecione uma igreja"
+                      label="name"
+                    />
+                  </b-form-group>
+                </b-col>
+
+                <!-- City -->
+                <b-col
+                  sm="6"
+                  lg="4"
+                >
+                  <b-form-group
+                    label="Cidade"
+                    label-for="cities"
+                  >
+                    <v-select
+                      id="categories"
+                      v-model="search.city"
+                      :options="cities"
+                      variant="custom"
+                      item-text="description"
+                      item-value="id"
+                      placeholder="Selecione uma cidade"
+                      label="description"
+                    />
+                  </b-form-group>
+                </b-col>
+
+                <b-col
+                  sm="12"
+                  lg="4"
+                  class="actions-area"
+                >
+                  <div class="action-search">
+                    <button
+                      type="button"
+                      class="btn button-form button-config mr-2"
+                      @click.prevent="handleSubmitFormFilters"
+                    >
+                      <feather-icon
+                        icon="SearchIcon"
+                      />
+                      Pesquisar
+                    </button>
+
+                    <button
+                      type="button"
+                      class="btn btn-outline-form button-config"
+                      @click="clearFilters"
+                    >
+                      <feather-icon
+                        icon="XIcon"
+                      />
+                      Limpar
+                    </button>
+                  </div>
+                </b-col>
+              </b-row>
+
+              <b-row
+                class="mt-3 mb-1"
               >
-                <div class="action-search">
-                  <button
+                <b-col>
+                  <b-link
                     type="button"
-                    class="btn button-form button-config mr-2"
-                    @click.prevent="handleSubmitFormFilters"
+                    class="btn button-form button-plus"
+                    :to="{ name: membershipModuleRoutes.membersInsert.name }"
                   >
                     <feather-icon
-                      icon="SearchIcon"
+                      icon="PlusIcon"
                     />
-                    Pesquisar
-                  </button>
+                    Adicionar novo membro
+                  </b-link>
+                </b-col>
+              </b-row>
+            </b-form>
+          </validation-observer>
+        </section>
 
-                  <button
-                    type="button"
-                    class="btn btn-outline-form button-config"
-                    @click="clearFilters"
-                  >
-                    <feather-icon
-                      icon="XIcon"
-                    />
-                    Limpar
-                  </button>
-                </div>
-              </b-col>
-            </b-row>
-
-            <b-row
-              v-if="getAbilityInsert"
-              class="mt-3 mb-1"
-            >
-              <b-col>
-                <b-link
-                  type="button"
-                  class="btn button-form button-plus"
-                  :to="{ name: membershipModuleRoutes.churchesInsert.name }"
-                >
-                  <feather-icon
-                    icon="PlusIcon"
-                  />
-                  Adicionar nova igreja
-                </b-link>
-              </b-col>
-            </b-row>
-          </b-form>
-        </validation-observer>
-      </section>
-
-      <section v-if="loadingTable">
-        <div class="spinner-area">
-          <b-spinner
-            variant="custom"
-            label="Loading..."
-          />
-        </div>
-      </section>
-
-      <section v-if="!loadingTable">
-        <b-row>
-          <b-col
-            md="12"
-            lg="6"
-          >
-            <h1 class="px-2">
-              {{ titlePage }}
-            </h1>
-          </b-col>
-        </b-row>
-
-        <b-row class="my-2">
-          <b-col
-            class="px-3"
-            sm="6"
-          >
-            <div
-              v-if="showTable"
-              class="d-flex justify-center-center align-items-center"
-            >
-              <span class="mr-50">Mostrar</span>
-              <v-select
-                id="orders"
-                v-model="paginationData.defaultSize"
-                :options="table.tableQtdRows"
-                :clearable="false"
-                @input="updateQtdView($event)"
-              >
-                <span slot="no-options">Nenhuma opção selecionável.</span>
-              </v-select>
-            </div>
-          </b-col>
-
-          <b-col cols="12">
-            <b-alert
-              variant="primary"
-              :show="table.tableEmpty"
-              class="mx-2 mt-5"
-            >
-              <div class="alert-body d-flex justify-content-center">
-                <span class="text-primary">
-                  <strong
-                    class="text-primary"
-                  >Nenhum registro encontrado.</strong>
-                </span>
-              </div>
-            </b-alert>
-
-            <b-alert
-              variant="primary"
-              :show="table.tableError"
-              class="mx-2 mt-5"
-            >
-              <div class="alert-body d-flex justify-content-center">
-                <span class="text-primary">
-                  <strong
-                    class="text-primary"
-                  >Sistema de busca indisponível no momento.</strong>
-                </span>
-              </div>
-            </b-alert>
-          </b-col>
-
-          <b-col
-            v-if="showTable"
-            cols="12"
-            class="my-2"
-          >
-            <b-table
-              id="listCompaniesTable"
-              responsive
-              sticky-header="380px"
-              :busy.sync="table.tableBusy"
-              :no-local-sorting="true"
-              :fields="table.fields"
-              :items="table.items"
-              @context-changed="handleOrderTable"
-            >
-              <template #cell(name)="row">
-                <span>{{ row.value }}</span>
-              </template>
-
-              <template #cell(city)="row">
-                <span>{{ row.item.city.description }}</span>
-              </template>
-
-              <template #cell(active)="row">
-                <status-field
-                  :status="row.value"
-                />
-              </template>
-
-              <template #cell(created_at)="row">
-                <span>{{ moment(row.value).format("DD/MM/YYYY HH:mm") }}</span>
-              </template>
-
-              <template #cell(actions)="row">
-                <button-icon
-                  v-if="isEnabledToView(row.item)"
-                  color="#2772C0"
-                  size="18"
-                  feather-icon="EyeIcon"
-                  @action="redirectViewPage(row.item)"
-                />
-                <button-icon
-                  v-if="isEnabledToUpdate(row.item)"
-                  color="#2772C0"
-                  size="18"
-                  feather-icon="EditIcon"
-                  @action="redirectUpdatePage(row.item)"
-                />
-                <button-icon
-                  v-if="getAbilityDelete"
-                  color="#2772C0"
-                  size="18"
-                  feather-icon="Trash2Icon"
-                  @action="openModalDelete(row.item)"
-                />
-              </template>
-            </b-table>
-          </b-col>
-
-          <b-col
-            v-if="showTable"
-            class="px-3"
-            sm="12"
-          >
-            <CustomPagination
-              :paginacao="paginationData"
-              @page-cliked="updateCurrentPage"
+        <section v-if="loadingTable">
+          <div class="spinner-area">
+            <b-spinner
+              variant="custom"
+              label="Loading..."
             />
-          </b-col>
-        </b-row>
-      </section>
+          </div>
+        </section>
+
+        <section v-if="!loadingTable">
+          <b-row>
+            <b-col
+              md="12"
+              lg="6"
+            >
+              <h1 class="px-2">
+                {{ titlePage }}
+              </h1>
+            </b-col>
+          </b-row>
+
+          <b-row class="my-2">
+            <b-col
+              class="px-3"
+              sm="6"
+            >
+              <div
+                v-if="showTable"
+                class="d-flex justify-center-center align-items-center"
+              >
+                <span class="mr-50">Mostrar</span>
+                <v-select
+                  id="orders"
+                  v-model="paginationData.defaultSize"
+                  :options="table.tableQtdRows"
+                  :clearable="false"
+                  @input="updateQtdView($event)"
+                >
+                  <span slot="no-options">Nenhuma opção selecionável.</span>
+                </v-select>
+              </div>
+            </b-col>
+
+            <b-col cols="12">
+              <b-alert
+                variant="primary"
+                :show="table.tableEmpty"
+                class="mx-2 mt-5"
+              >
+                <div class="alert-body d-flex justify-content-center">
+                  <span class="text-primary">
+                    <strong
+                      class="text-primary"
+                    >Nenhum registro encontrado.</strong>
+                  </span>
+                </div>
+              </b-alert>
+
+              <b-alert
+                variant="primary"
+                :show="table.tableError"
+                class="mx-2 mt-5"
+              >
+                <div class="alert-body d-flex justify-content-center">
+                  <span class="text-primary">
+                    <strong
+                      class="text-primary"
+                    >Sistema de busca indisponível no momento.</strong>
+                  </span>
+                </div>
+              </b-alert>
+            </b-col>
+
+            <b-col
+              v-if="showTable"
+              cols="12"
+              class="my-2"
+            >
+              <b-table
+                id="listCompaniesTable"
+                responsive
+                sticky-header="380px"
+                :busy.sync="table.tableBusy"
+                :no-local-sorting="true"
+                :fields="table.fields"
+                :items="table.items"
+                @context-changed="handleOrderTable"
+              >
+                <template #cell(name)="row">
+                  <div class="d-flex align-items-center">
+                    <font-awesome-icon
+                      v-if="isAdminChurch(row.item.profile_unique_name)"
+                      icon="fa-solid fa-user-tie"
+                      style="margin-right: .3rem"
+                    />
+                    <span>{{ row.value }}</span>
+                  </div>
+                </template>
+
+                <template #cell(phone)="row">
+                  <b-link
+                    @click="handleRedirectWhatsApp(row.value)"
+                  >
+                    <font-awesome-icon
+                      icon="fa-brands fa-whatsapp"
+                    />
+                    {{ row.value | VMask('(##) #####-####') }}
+                  </b-link>
+                </template>
+
+                <template #cell(profile_description)="row">
+                  <span>{{ row.value }}</span>
+                </template>
+
+                <template #cell(active)="row">
+                  <b-form-checkbox
+                    v-if="isEnabledToUpdateStatus"
+                    :disabled="disabledSwitch"
+                    :checked="row.value"
+                    class="custom-control-success"
+                    name="check-button"
+                    switch
+                    @change="handleVerifyUserIdInUpdateStatus(row.item)"
+                  >
+                    <span class="switch-icon-left">
+                      <feather-icon icon="CheckIcon" />
+                    </span>
+                    <span class="switch-icon-right">
+                      <feather-icon icon="XIcon" />
+                    </span>
+                  </b-form-checkbox>
+
+                  <status-field
+                    v-else
+                    :status="row.value"
+                  />
+                </template>
+
+                <template #cell(user_created_at)="row">
+                  <span>{{ moment(row.value).format("DD/MM/YYYY HH:mm") }}</span>
+                </template>
+
+                <template #cell(actions)="row">
+                  <!--                <button-icon-->
+                  <!--                  v-if="isEnabledToView(row.item)"-->
+                  <!--                  color="#2772C0"-->
+                  <!--                  size="18"-->
+                  <!--                  feather-icon="EyeIcon"-->
+                  <!--                  @action="redirectViewPage(row.item)"-->
+                  <!--                />-->
+                  <!--                <button-icon-->
+                  <!--                  v-if="isEnabledToUpdate(row.item)"-->
+                  <!--                  color="#2772C0"-->
+                  <!--                  size="18"-->
+                  <!--                  feather-icon="EditIcon"-->
+                  <!--                  @action="redirectUpdatePage(row.item)"-->
+                  <!--                />-->
+                  <!--                <button-icon-->
+                  <!--                  v-if="getAbilityDelete"-->
+                  <!--                  color="#2772C0"-->
+                  <!--                  size="18"-->
+                  <!--                  feather-icon="Trash2Icon"-->
+                  <!--                  @action="openModalDelete(row.item)"-->
+                  <!--                />-->
+                </template>
+              </b-table>
+            </b-col>
+
+            <b-col
+              v-if="showTable"
+              class="px-3"
+              sm="12"
+            >
+              <CustomPagination
+                :paginacao="paginationData"
+                @page-cliked="updateCurrentPage"
+              />
+            </b-col>
+          </b-row>
+        </section>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-/* eslint-disable import/extensions,import/no-extraneous-dependencies */
+/* eslint-disable import/extensions,import/no-extraneous-dependencies,camelcase */
 import {
-  BAlert, BCol, BForm, BFormGroup, BFormInput, BLink, BRow, BSpinner, BTable,
+  BAlert,
+  BCol,
+  BForm,
+  BFormGroup,
+  BFormInput,
+  BLink,
+  BRow,
+  BSpinner,
+  BTable,
+  BFormCheckbox,
 } from 'bootstrap-vue'
 import PageHeader from '@/views/components/custom/PageHeader'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { required } from '@validations'
+import { email } from '@validations'
 import moment from 'moment'
 import vSelect from 'vue-select'
 import CustomPagination from '@/views/components/custom/CustomPagination'
 import ButtonIcon from '@/views/components/custom/ButtonIcon'
 import StatusField from '@/views/components/custom/StatusField'
 import membershipModuleRoutes from '@/views/modules/membership/routes'
-import { getAllChurches, removeChurch } from '@core/utils/requests/churches'
-import { confirmAction, successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
-import { actions, subjects } from '@/libs/acl/rules'
-import { getCitiesInChurches } from '@core/utils/requests/cities'
+import { getAllMembers } from '@core/utils/requests/members'
+import { getLinkWhatsApp } from '@core/utils/whatsApp'
+import { getProfilesInListMembers, updateStatusUser } from '@core/utils/requests/users'
+import { confirmAction, warningMessage } from '@/libs/alerts/sweetalerts'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { subjects, actions } from '@/libs/acl/rules'
+import {
+  faWhatsapp,
+} from '@fortawesome/free-brands-svg-icons'
+import {
+  faUserTie,
+} from '@fortawesome/free-solid-svg-icons'
+import Vue from 'vue'
+import { getCitiesInPersons } from '@core/utils/requests/cities'
+import { getChurchesUserLogged } from '@core/utils/requests/churches'
+import { strClear } from '@core/helpers/helpers'
+
+library.add(
+  faWhatsapp,
+  faUserTie,
+)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 export default {
   components: {
@@ -299,17 +473,20 @@ export default {
     BSpinner,
     BAlert,
     BLink,
-    StatusField,
     CustomPagination,
+    StatusField,
     ButtonIcon,
+    BFormCheckbox,
   },
 
   data() {
     return {
       moment,
-      required,
+      email,
 
       messages,
+
+      loading: true,
 
       titlePage: '',
 
@@ -317,21 +494,29 @@ export default {
 
       membershipModuleRoutes,
 
+      disabledSwitch: false,
+
       linkItems: [
         {
-          name: 'Gerenciar Igrejas',
+          name: 'Gerenciar Membros',
           routeName: '',
         },
         {
-          name: 'Ver Igrejas',
+          name: 'Ver Membros',
           active: true,
         },
       ],
 
+      profiles: [],
+      churches: [],
       cities: [],
 
       search: {
         name: '',
+        email: '',
+        phone: '',
+        profile: null,
+        church: null,
         city: null,
       },
 
@@ -355,9 +540,10 @@ export default {
         tableOrderField: '',
         fields: [
           { key: 'name', label: 'NOME', sortable: true },
-          { key: 'city', label: 'CIDADE' },
+          { key: 'phone', label: 'TELEFONE', sortable: true },
+          { key: 'profile_description', label: 'Perfil', sortable: true },
           { key: 'active', label: 'STATUS' },
-          { key: 'created_at', label: 'CRIADO EM', sortable: true },
+          { key: 'user_created_at', label: 'CRIADO EM', sortable: true },
           {
             key: 'actions',
             label: 'AÇÕES',
@@ -373,18 +559,10 @@ export default {
     getDispatchList() {
       return this.$route.params.dispatchList
     },
-
-    getAbilityInsert() {
-      return this.$can(actions.INSERT, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER)
-    },
-
-    getAbilityDelete() {
-      return this.$can(actions.DELETE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER)
-    },
   },
 
   mounted() {
-    this.findAllCities()
+    this.findAllFilterFields()
 
     if (this.getDispatchList) {
       this.findAll()
@@ -392,16 +570,20 @@ export default {
   },
 
   methods: {
-    async findAllCities() {
+    async findAllFilterFields() {
       this.loading = true
 
-      await getCitiesInChurches()
-        .then(response => {
-          this.cities = response.data
-        })
-        .catch(() => {
+      await getProfilesInListMembers().then(response => {
+        this.profiles = response.data
+      })
 
-        })
+      await getChurchesUserLogged().then(response => {
+        this.churches = response.data
+      })
+
+      await getCitiesInPersons().then(response => {
+        this.cities = response.data
+      })
 
       this.loading = false
     },
@@ -411,7 +593,7 @@ export default {
       this.table.tableEmpty = false
       this.loadingTable = true
 
-      getAllChurches(this.setParams())
+      getAllMembers(this.setParams())
         .then(response => {
           if (response.status === 200) {
             if (response.data.data.length > 0) {
@@ -434,6 +616,34 @@ export default {
       this.loadingTable = false
     },
 
+    handleVerifyUserIdInUpdateStatus({ user_id }) {
+      if (this.userLogged.id === user_id) {
+        confirmAction(messages.confirmMyStatusUpdate)
+          .then(async () => {
+            await this.handleUpdateStatus(user_id)
+            await this.findAll()
+          })
+          .catch(() => {
+            this.table.items = []
+            this.findAll()
+          })
+      } else {
+        this.handleUpdateStatus(user_id)
+      }
+    },
+
+    async handleUpdateStatus(user_id) {
+      this.disabledSwitch = true
+
+      await updateStatusUser(user_id)
+        .then()
+        .catch(() => {
+          warningMessage(messages.impossible)
+        })
+
+      this.disabledSwitch = false
+    },
+
     handleSubmitFormFilters() {
       this.$refs.formFilters.validate()
         .then(success => {
@@ -444,72 +654,61 @@ export default {
     },
 
     isEnabledToView({ id }) {
-      if (this.$can(actions.VIEW, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER_DETAILS)) {
-        return true
-      }
-
-      if (this.$can(actions.VIEW, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_CHURCH_DETAILS)) {
-        return this.userLogged.responsibleChurch.find(e => e.id === id)
-      }
-
-      return false
+      return true
+      // if (this.$can(actions.VIEW, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER_DETAILS)) {
+      //   return true
+      // }
+      //
+      // if (this.$can(actions.VIEW, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_CHURCH_DETAILS)) {
+      //   return this.userLogged.responsibleChurch.find(e => e.id === id)
+      // }
+      //
+      // return false
     },
 
     isEnabledToUpdate({ id }) {
-      if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER)) {
-        return true
-      }
+      return true
+      // if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER)) {
+      //   return true
+      // }
+      //
+      // if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_CHURCH)) {
+      //   return this.userLogged.responsibleChurch.find(e => e.id === id)
+      // }
+      //
+      // return false
+    },
 
-      if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_CHURCH)) {
-        return this.userLogged.responsibleChurch.find(e => e.id === id)
-      }
+    isEnabledToUpdateStatus() {
+      const isAdminMaster = this.$can(actions.UPDATE, subjects.USERS_ADMIN_MASTER_UPDATE_STATUS)
+      const isAdminChurch = this.$can(actions.UPDATE, subjects.USERS_ADMIN_CHURCH_UPDATE_STATUS)
 
-      return false
+      return isAdminMaster || isAdminChurch
+    },
+
+    isAdminChurch(profileUniqueName) {
+      return profileUniqueName === 'ADMIN_CHURCH'
     },
 
     redirectUpdatePage(chooseItem) {
-      this.$store.commit('chooseDataMembershipModule/SET_CHOOSE_CHURCH', chooseItem)
+      this.$store.commit('chooseDataMembershipModule/SET_CHOOSE_MEMBER', chooseItem)
 
-      this.$router.replace({ name: membershipModuleRoutes.churchesUpdate.name })
+      this.$router.replace({ name: membershipModuleRoutes.membersUpdate.name })
     },
 
     redirectViewPage(chooseItem) {
-      this.$router.push({ path: `${membershipModuleRoutes.churchView.path}/${chooseItem.unique_name}` })
-    },
-
-    openModalDelete({ id }) {
-      confirmAction(messages.confirmDelete)
-        .then(() => {
-          this.handleRemoveItem(id)
-        })
-    },
-
-    async handleRemoveItem(id) {
-      this.loadingTable = true
-
-      await removeChurch(id)
-        .then(response => {
-          if (response.status === 204) {
-            successMessage(messages.successDelete)
-            this.findAll()
-          }
-        })
-        .catch(error => {
-          const errors = error.response.status === 400 || error.response.status === 404
-
-          if (errors) {
-            return warningMessage(error.response.data.error)
-          }
-
-          return warningMessage(messages.impossible)
-        })
-
-      this.loadingTable = false
+      // this.$router.push({ path: `${membershipModuleRoutes.churchView.path}/${chooseItem.unique_name}` })
     },
 
     clearFilters() {
-      this.search.name = ''
-      this.search.city = null
+      this.search = {
+        name: '',
+        email: '',
+        phone: '',
+        profile: null,
+        church: null,
+        city: null,
+      }
       this.showTable = false
     },
 
@@ -520,6 +719,12 @@ export default {
       this.findAll()
     },
 
+    handleRedirectWhatsApp(cellPhone) {
+      if (cellPhone.length >= 10) {
+        getLinkWhatsApp(cellPhone)
+      }
+    },
+
     setParams() {
       return {
         columnName: this.table.tableOrderField,
@@ -527,6 +732,10 @@ export default {
         perPage: this.paginationData.defaultSize,
         page: this.paginationData.currentPage,
         name: this.search.name,
+        email: this.search.email,
+        phone: strClear(this.search.phone),
+        profileId: this.search.profile ? this.search.profile.id : null,
+        churchId: this.search.church ? this.search.church.id : null,
         cityId: this.search.city ? this.search.city.id : null,
       }
     },

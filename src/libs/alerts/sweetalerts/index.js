@@ -60,7 +60,7 @@ export const warningMessageAction = message => new Promise(resolve => {
   })
 })
 
-export const confirmAction = message => new Promise(resolve => {
+export const confirmAction = message => new Promise((resolve, reject) => {
   Swal.fire({
     html: message,
     icon: 'warning',
@@ -73,6 +73,8 @@ export const confirmAction = message => new Promise(resolve => {
   }).then(result => {
     if (result.isConfirmed) {
       resolve()
+    } else if (result.isDenied) {
+      reject()
     }
   })
 })

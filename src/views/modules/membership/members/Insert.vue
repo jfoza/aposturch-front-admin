@@ -5,25 +5,27 @@
       :link-items="linkItems"
     />
 
-    <Form
-      :mode="formActions.insertAction"
-      :form-data="form"
-      @clear="clearForm"
-    />
+    <b-row>
+      <b-col cols="12">
+        <form-wizard />
+      </b-col>
+    </b-row>
   </div>
 </template>
 
 <script>
 
 // eslint-disable-next-line import/extensions
-import PageHeader from '@/views/components/custom/PageHeader'
-import { formActions } from '@core/utils/formActions'
-import Form from './Form.vue'
+import { BRow, BCol } from 'bootstrap-vue'
+import PageHeader from '@/views/components/custom/PageHeader.vue'
+import FormWizard from './FormWizard.vue'
 
 export default {
   components: {
+    BRow,
+    BCol,
     PageHeader,
-    Form,
+    FormWizard,
   },
 
   data() {
@@ -38,31 +40,12 @@ export default {
           active: true,
         },
       ],
-
-      formActions,
-
-      form: {
-        active: {
-          boolValue: true,
-          description: 'Ativo',
-        },
-      },
     }
-  },
-
-  methods: {
-    clearForm() {
-      this.form = {
-        active: {
-          boolValue: true,
-          description: 'Ativo',
-        },
-      }
-    },
   },
 }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+@import '@core/scss/vue/libs/vue-wizard.scss';
+@import '@core/scss/vue/libs/vue-select.scss';
 </style>

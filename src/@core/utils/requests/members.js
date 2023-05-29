@@ -1,9 +1,9 @@
 import axiosIns from '@/libs/axios'
 import apiRoutes from '@/router/apiRoutes'
 
-export const getMembersResponsible = () => new Promise((resolve, reject) => {
+export const getAllMembers = params => new Promise((resolve, reject) => {
   axiosIns
-    .get(apiRoutes.membersResponsible)
+    .get(apiRoutes.members, { params })
     .then(response => {
       resolve(response)
     })
@@ -12,9 +12,9 @@ export const getMembersResponsible = () => new Promise((resolve, reject) => {
     })
 })
 
-export const getMembersByChurchId = params => new Promise((resolve, reject) => {
+export const createUserMember = form => new Promise((resolve, reject) => {
   axiosIns
-    .get(apiRoutes.membersByChurch, { params })
+    .post(apiRoutes.members, form)
     .then(response => {
       resolve(response)
     })

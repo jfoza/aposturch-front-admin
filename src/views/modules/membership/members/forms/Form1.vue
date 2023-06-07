@@ -30,7 +30,7 @@
             lg="4"
           >
             <b-form-group
-              label="Perfil"
+              label="Perfil *"
               label-for="profile"
             >
               <validation-provider
@@ -60,7 +60,7 @@
             lg="4"
           >
             <b-form-group
-              label="Módulos"
+              label="Módulos *"
               label-for="module"
             >
               <validation-provider

@@ -61,7 +61,11 @@ export default {
     },
     image: {
       type: Object,
-      default: null,
+      default: () => ({
+        id: '',
+        type: '',
+        path: '',
+      }),
     },
   },
 
@@ -71,12 +75,6 @@ export default {
     },
     getImage() {
       return this.image
-    },
-  },
-
-  watch: {
-    imagePath(value) {
-      return value
     },
   },
 
@@ -95,14 +93,6 @@ export default {
 
     clearUploadData() {
       this.$emit('clearUploadData')
-    },
-
-    setFormData(productId) {
-      const formData = new FormData()
-
-      formData.append('image', this.files[0])
-      formData.append('productId', productId)
-      formData.append('_method', 'PUT')
     },
   },
 }

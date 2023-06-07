@@ -21,6 +21,24 @@
             <h6>Agora vamos definir os dados gerais do novo membro:</h6>
           </b-col>
         </b-row>
+
+        <b-row class="mb-3">
+          <b-col
+            cols="12"
+          >
+            <b-form-group
+              label-for="image"
+              label="Imagem de Perfil"
+            />
+            <Upload
+              ref="upload"
+              :upload-data="getUploadData"
+              :image="getFormData.image"
+              @clearUploadData="clearUploadData"
+            />
+          </b-col>
+        </b-row>
+
         <b-row
           class="mb-2"
         >
@@ -30,7 +48,7 @@
             lg="4"
           >
             <b-form-group
-              label="Nome"
+              label="Nome *"
               label-for="name"
             >
               <validation-provider
@@ -56,7 +74,7 @@
             lg="4"
           >
             <b-form-group
-              label="Telefone"
+              label="Telefone *"
               label-for="phone"
             >
               <validation-provider
@@ -83,7 +101,7 @@
             lg="4"
           >
             <b-form-group
-              label="E-mail"
+              label="E-mail *"
               label-for="email"
             >
               <validation-provider
@@ -111,7 +129,7 @@
             lg="4"
           >
             <b-form-group
-              label="Status"
+              label="Status *"
               label-for="status"
             >
               <validation-provider
@@ -141,7 +159,7 @@
             lg="4"
           >
             <b-form-group
-              label="Senha"
+              label="Senha *"
               label-for="reset-password-new"
             >
               <validation-provider
@@ -183,7 +201,7 @@
           >
             <b-form-group
               label-for="reset-password-confirm"
-              label="Confirmação de Senha"
+              label="Confirmação de Senha *"
             >
               <validation-provider
                 #default="{ errors }"
@@ -263,11 +281,13 @@ import { statusForm } from '@core/utils/statusForm'
 import { userAlreadyExistsValidation } from '@core/utils/requests/users'
 import { warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
+import Upload from '@/views/components/custom/Upload.vue'
 
 export default {
   components: {
     ValidationObserver,
     ValidationProvider,
+    Upload,
     BRow,
     BCol,
     BForm,
@@ -283,6 +303,10 @@ export default {
 
   props: {
     formData: {
+      type: Object,
+      required: true,
+    },
+    uploadData: {
       type: Object,
       required: true,
     },
@@ -307,6 +331,10 @@ export default {
   computed: {
     getFormData() {
       return this.formData
+    },
+
+    getUploadData() {
+      return this.uploadData
     },
 
     password1ToggleIcon() {
@@ -366,6 +394,10 @@ export default {
       }
 
       return warningMessage(messages.impossible)
+    },
+
+    clearUploadData() {
+      this.$emit('clearUploadData')
     },
 
     togglePassword1Visibility() {

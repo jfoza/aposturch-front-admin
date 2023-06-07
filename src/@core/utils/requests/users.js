@@ -67,6 +67,21 @@ export const createUser = form => new Promise((resolve, reject) => {
     })
 })
 
+export const saveUserImageAvatar = formData => new Promise((resolve, reject) => {
+  axiosIns
+    .post(apiRoutes.userImageAvatar, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then(response => {
+      resolve(response)
+    })
+    .catch(error => {
+      reject(error)
+    })
+})
+
 export const updateUser = (id, form) => new Promise((resolve, reject) => {
   axiosIns
     .put(apiRoutes.updateAdminUserId(id), form)

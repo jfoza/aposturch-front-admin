@@ -8,6 +8,7 @@ export default {
   updateAdminUserId: id => `/admin/admin-users/${id}`,
   updateStatusUser: id => `/admin/users/status/id/${id}`,
   userAlreadyExistsByEmail: email => `/admin/users/email/${email}`,
+  userImageAvatar: '/admin/users/upload/image',
   profiles: '/admin/profiles',
   profilesInListMembers: '/admin/profiles/members',
 

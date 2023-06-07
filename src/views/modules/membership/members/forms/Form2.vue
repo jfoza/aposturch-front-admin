@@ -30,7 +30,7 @@
             lg="4"
           >
             <b-form-group
-              label="Igreja"
+              label="Igreja *"
               label-for="church"
             >
               <validation-provider

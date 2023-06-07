@@ -42,6 +42,8 @@
       >
         <form-3
           :form-data="formData"
+          :upload-data="uploadData"
+          @clearUploadData="clearUploadData"
           @handleNextTab="handleNextTab"
           @handlePrevTab="handlePrevTab"
         />
@@ -54,10 +56,10 @@
       >
         <form-4
           :form-data="formData"
+          @handleUploadImage="handleUploadImage"
           @handleNextTab="handleNextTab"
           @handlePrevTab="handlePrevTab"
           @handleFinish="handleFinish"
-          @clearAll="clear"
         />
       </tab-content>
     </form-wizard>
@@ -71,6 +73,9 @@ import Form1 from '@/views/modules/membership/members/forms/Form1.vue'
 import Form2 from '@/views/modules/membership/members/forms/Form2.vue'
 import Form3 from '@/views/modules/membership/members/forms/Form3.vue'
 import Form4 from '@/views/modules/membership/members/forms/Form4.vue'
+import { warningMessage } from '@/libs/alerts/sweetalerts'
+import { messages } from '@core/utils/validations/messages'
+import { saveUserImageAvatar } from '@core/utils/requests/users'
 
 export default {
   components: {
@@ -104,11 +109,46 @@ export default {
         district: '',
         city: null,
         state: null,
+        image: {
+          id: '',
+          type: '',
+          path: '',
+        },
+      },
+
+      uploadData: {
+        files: [],
       },
     }
   },
 
   methods: {
+    async handleUploadImage(userId) {
+      if (this.uploadData.files.length > 0 && userId) {
+        const formDataUpload = new FormData()
+
+        formDataUpload.append('image', this.uploadData.files[0])
+        formDataUpload.append('userId', userId)
+
+        await saveUserImageAvatar(formDataUpload)
+          .then(() => {
+            this.clearUploadData()
+          })
+          .catch(() => {
+            warningMessage(messages.errorUploadImage)
+          })
+      }
+    },
+
+    clearUploadData() {
+      this.uploadData.files = []
+      this.formData.image = {
+        id: '',
+        type: '',
+        path: '',
+      }
+    },
+
     handleNextTab() {
       this.$refs.formWizardElements.nextTab()
     },

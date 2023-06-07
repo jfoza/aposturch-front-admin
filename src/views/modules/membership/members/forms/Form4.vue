@@ -30,7 +30,7 @@
             lg="4"
           >
             <b-form-group
-              label="CEP"
+              label="CEP *"
               label-for="zipCode"
             >
               <validation-provider
@@ -58,7 +58,7 @@
             lg="4"
           >
             <b-form-group
-              label="UF"
+              label="UF *"
               label-for="uf"
             >
               <validation-provider
@@ -89,7 +89,7 @@
             lg="4"
           >
             <b-form-group
-              label="Cidade"
+              label="Cidade *"
               label-for="city"
             >
               <validation-provider
@@ -120,7 +120,7 @@
             lg="4"
           >
             <b-form-group
-              label="Endereço"
+              label="Endereço *"
               label-for="address"
             >
               <validation-provider
@@ -146,7 +146,7 @@
             lg="4"
           >
             <b-form-group
-              label="Número"
+              label="Número *"
               label-for="numberAddress"
             >
               <validation-provider
@@ -189,7 +189,7 @@
             lg="4"
           >
             <b-form-group
-              label="Bairro"
+              label="Bairro *"
               label-for="district"
             >
               <validation-provider
@@ -293,6 +293,8 @@ export default {
       loading: true,
 
       cities: [],
+
+      userCreated: { id: '' },
     }
   },
 
@@ -356,6 +358,8 @@ export default {
       await createUserMember(formData)
         .then(response => {
           if (response.status === 200) {
+            this.userCreated.id = response.data.id
+
             successMessage(messages.successSave)
             this.handleFinish()
           }
@@ -365,6 +369,8 @@ export default {
 
           this.loading = false
         })
+
+      await this.$emit('handleUploadImage', this.userCreated.id)
     },
 
     handleNextTab() {
@@ -456,10 +462,6 @@ export default {
       this.getFormData.city = null
       this.getFormData.state = null
       this.cities = []
-    },
-
-    clearAll() {
-      this.$emit('clearAll')
     },
   },
 }

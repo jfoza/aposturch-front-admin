@@ -72,20 +72,9 @@ export default [
   },
 
   {
-    path: membershipModuleRouter.membersView.path,
-    name: membershipModuleRouter.membersView.name,
-    component: () => import('@/views/modules/membership/members/View.vue'),
-    meta: {
-      resource: 'ACL',
-      subject: subjects.MEMBERSHIP_MODULE_MEMBERS_DETAILS,
-      action: actions.VIEW,
-    },
-  },
-
-  {
     path: membershipModuleRouter.membersInsert.path,
     name: membershipModuleRouter.membersInsert.name,
-    component: () => import('@/views/modules/membership/members/Insert.vue'),
+    component: () => import('@/views/modules/membership/members/insert/Insert.vue'),
     meta: {
       resource: 'ACL',
       subject: subjects.MEMBERSHIP_MODULE_MEMBERS,
@@ -96,7 +85,7 @@ export default [
   {
     path: membershipModuleRouter.membersUpdate.path,
     name: membershipModuleRouter.membersUpdate.name,
-    component: () => import('@/views/modules/membership/members/Update.vue'),
+    component: () => import('@/views/modules/membership/members/update/Update.vue'),
     meta: {
       resource: 'ACL',
       subject: subjects.MEMBERSHIP_MODULE_MEMBERS,

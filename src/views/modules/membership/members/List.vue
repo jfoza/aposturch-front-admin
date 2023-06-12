@@ -340,7 +340,7 @@
 
                 <template #cell(active)="row">
                   <b-form-checkbox
-                    v-if="isEnabledToUpdateStatus"
+                    v-if="isEnabledToUpdateStatus(row.item)"
                     :disabled="disabledSwitch"
                     :checked="row.value"
                     class="custom-control-success"
@@ -367,27 +367,13 @@
                 </template>
 
                 <template #cell(actions)="row">
-                  <!--                <button-icon-->
-                  <!--                  v-if="isEnabledToView(row.item)"-->
-                  <!--                  color="#2772C0"-->
-                  <!--                  size="18"-->
-                  <!--                  feather-icon="EyeIcon"-->
-                  <!--                  @action="redirectViewPage(row.item)"-->
-                  <!--                />-->
-                  <!--                <button-icon-->
-                  <!--                  v-if="isEnabledToUpdate(row.item)"-->
-                  <!--                  color="#2772C0"-->
-                  <!--                  size="18"-->
-                  <!--                  feather-icon="EditIcon"-->
-                  <!--                  @action="redirectUpdatePage(row.item)"-->
-                  <!--                />-->
-                  <!--                <button-icon-->
-                  <!--                  v-if="getAbilityDelete"-->
-                  <!--                  color="#2772C0"-->
-                  <!--                  size="18"-->
-                  <!--                  feather-icon="Trash2Icon"-->
-                  <!--                  @action="openModalDelete(row.item)"-->
-                  <!--                />-->
+                  <button-icon
+                    v-if="isEnabledToUpdate(row.item)"
+                    color="#2772C0"
+                    size="18"
+                    feather-icon="EditIcon"
+                    @action="redirectUpdatePage(row.item)"
+                  />
                 </template>
               </b-table>
             </b-col>
@@ -440,6 +426,7 @@ import { confirmAction, warningMessage } from '@/libs/alerts/sweetalerts'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { subjects, actions } from '@/libs/acl/rules'
+import profilesUniqueName from '@core/utils/profiles'
 import {
   faWhatsapp,
 } from '@fortawesome/free-brands-svg-icons'
@@ -450,6 +437,12 @@ import Vue from 'vue'
 import { getCitiesInPersons } from '@core/utils/requests/cities'
 import { getChurchesUserLogged } from '@core/utils/requests/churches'
 import { strClear } from '@core/helpers/helpers'
+import {
+  isEnabledToUpdateByAssistant,
+  isEnabledToUpdateByAdminModule,
+  isEnabledToUpdateByAdminChurch,
+  isEnabledToUpdateStatusByAdminChurch,
+} from './utils'
 
 library.add(
   faWhatsapp,
@@ -483,6 +476,8 @@ export default {
     return {
       moment,
       email,
+
+      profilesUniqueName,
 
       messages,
 
@@ -543,7 +538,7 @@ export default {
           { key: 'phone', label: 'TELEFONE', sortable: true },
           { key: 'profile_description', label: 'Perfil', sortable: true },
           { key: 'active', label: 'STATUS' },
-          { key: 'user_created_at', label: 'CRIADO EM', sortable: true },
+          { key: 'user_created_at', label: 'CRIADO EM' },
           {
             key: 'actions',
             label: 'AÇÕES',
@@ -653,41 +648,44 @@ export default {
         })
     },
 
-    isEnabledToView({ id }) {
-      return true
-      // if (this.$can(actions.VIEW, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER_DETAILS)) {
-      //   return true
-      // }
-      //
-      // if (this.$can(actions.VIEW, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_CHURCH_DETAILS)) {
-      //   return this.userLogged.responsibleChurch.find(e => e.id === id)
-      // }
-      //
-      // return false
+    isEnabledToView(member) {
+
     },
 
-    isEnabledToUpdate({ id }) {
-      return true
-      // if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_MASTER)) {
-      //   return true
-      // }
-      //
-      // if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_CHURCH_ADMIN_CHURCH)) {
-      //   return this.userLogged.responsibleChurch.find(e => e.id === id)
-      // }
-      //
-      // return false
+    isEnabledToUpdate(member) {
+      if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_MEMBERS_ADMIN_MASTER)) {
+        return true
+      }
+
+      if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_MEMBERS_ADMIN_CHURCH)) {
+        return isEnabledToUpdateByAdminChurch(member)
+      }
+
+      if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_MEMBERS_ADMIN_MODULE)) {
+        return isEnabledToUpdateByAdminModule(member)
+      }
+
+      if (this.$can(actions.UPDATE, subjects.MEMBERSHIP_MODULE_MEMBERS_ASSISTANT)) {
+        return isEnabledToUpdateByAssistant(member)
+      }
+
+      return false
     },
 
-    isEnabledToUpdateStatus() {
-      const isAdminMaster = this.$can(actions.UPDATE, subjects.USERS_ADMIN_MASTER_UPDATE_STATUS)
-      const isAdminChurch = this.$can(actions.UPDATE, subjects.USERS_ADMIN_CHURCH_UPDATE_STATUS)
+    isEnabledToUpdateStatus(member) {
+      if (this.$can(actions.UPDATE, subjects.USERS_ADMIN_MASTER_UPDATE_STATUS)) {
+        return true
+      }
 
-      return isAdminMaster || isAdminChurch
+      if (this.$can(actions.UPDATE, subjects.USERS_ADMIN_CHURCH_UPDATE_STATUS)) {
+        return isEnabledToUpdateStatusByAdminChurch(member)
+      }
+
+      return false
     },
 
     isAdminChurch(profileUniqueName) {
-      return profileUniqueName === 'ADMIN_CHURCH'
+      return profileUniqueName === profilesUniqueName.ADMIN_CHURCH
     },
 
     redirectUpdatePage(chooseItem) {

@@ -69,13 +69,13 @@
 <script>
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
-import Form1 from '@/views/modules/membership/members/forms/Form1.vue'
-import Form2 from '@/views/modules/membership/members/forms/Form2.vue'
-import Form3 from '@/views/modules/membership/members/forms/Form3.vue'
-import Form4 from '@/views/modules/membership/members/forms/Form4.vue'
 import { warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
 import { saveUserImageAvatar } from '@core/utils/requests/users'
+import Form1 from './forms/Form1.vue'
+import Form2 from './forms/Form2.vue'
+import Form3 from './forms/Form3.vue'
+import Form4 from './forms/Form4.vue'
 
 export default {
   components: {

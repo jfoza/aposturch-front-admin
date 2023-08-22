@@ -1,3 +1,5 @@
+const membershipModule = 'admin/modules/membership'
+
 export default {
   login: '/admin/auth/login',
   logout: '/auth/logout',
@@ -25,12 +27,20 @@ export default {
 
   modulesList: 'admin/modules/list',
 
-  churches: 'admin/modules/membership/churches',
-  churchesUserLogged: 'admin/modules/membership/churches/user',
-  churchId: id => `admin/modules/membership/churches/id/${id}`,
-  churchIdDelete: id => `admin/modules/membership/churches/${id}`,
-  churchUniqueName: uniqueName => `/admin/modules/membership/churches/unique-name/${uniqueName}`,
-  churchImage: '/admin/modules/membership/churches/upload/image',
+  churches: `${membershipModule}/churches`,
+  churchesUserLogged: `${membershipModule}/churches/user`,
+  churchId: id => `${membershipModule}/churches/id/${id}`,
+  churchIdDelete: id => `${membershipModule}/churches/${id}`,
+  churchUniqueName: uniqueName => `${membershipModule}/churches/unique-name/${uniqueName}`,
+  churchImage: `${membershipModule}/churches/upload/image`,
 
-  members: 'admin/modules/membership/members',
+  members: `${membershipModule}/members`,
+  memberUserId: id => `${membershipModule}/members/user/${id}`,
+
+  memberUpdateGeneralData: id => `${membershipModule}/members/general-data/id/${id}`,
+  memberUpdateAddressData: id => `${membershipModule}/members/address-data/id/${id}`,
+  memberUpdateChurchData: id => `${membershipModule}/members/church-data/id/${id}`,
+  memberUpdateModulesData: id => `${membershipModule}/members/modules-data/id/${id}`,
+  memberUpdateProfileData: id => `${membershipModule}/members/profile-data/id/${id}`,
+  memberUpdatePasswordData: id => `${membershipModule}/members/password-data/id/${id}`,
 }

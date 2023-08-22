@@ -688,8 +688,8 @@ export default {
       return profileUniqueName === profilesUniqueName.ADMIN_CHURCH
     },
 
-    redirectUpdatePage(chooseItem) {
-      this.$store.commit('chooseDataMembershipModule/SET_CHOOSE_MEMBER', chooseItem)
+    redirectUpdatePage({ user_id }) {
+      this.$store.commit('chooseDataMembershipModule/SET_CHOOSE_MEMBER_USER_ID', user_id)
 
       this.$router.replace({ name: membershipModuleRoutes.membersUpdate.name })
     },

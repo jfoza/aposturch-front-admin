@@ -1,7 +1,7 @@
 <template>
   <section class="card p-3">
     <validation-observer
-      ref="churches"
+      ref="modulesForm"
     >
       <div
         v-if="loading"
@@ -19,29 +19,31 @@
         <b-row
           class="mb-2"
         >
-          <!-- Church -->
+          <!-- Module -->
           <b-col
             sm="12"
             lg="6"
           >
             <b-form-group
-              label="Igreja *"
-              label-for="church"
+              label="Módulos *"
+              label-for="module"
             >
               <validation-provider
                 #default="{ errors }"
-                name="Igreja"
+                name="Módulos"
                 rules="required"
               >
                 <v-select
-                  id="church"
-                  v-model="formData.church"
-                  :options="churches"
+                  id="module"
+                  v-model="formData.modules"
+                  :options="modules"
                   variant="custom"
-                  item-text="name"
+                  item-text="module_description"
                   item-value="id"
-                  placeholder="Escolha uma igreja"
-                  label="name"
+                  placeholder="Escolha um Módulo ou mais"
+                  label="module_description"
+                  multiple
+                  multiselect
                 />
 
                 <small class="text-danger">{{ errors[0] }}</small>
@@ -83,9 +85,11 @@ import {
 } from 'bootstrap-vue'
 import { required } from '@validations'
 import vSelect from 'vue-select'
-import { updateChurchData } from '@core/utils/requests/members'
+import { getModules } from '@core/utils/requests/modules'
+import { updateModulesData, updateProfileData } from '@core/utils/requests/members'
 import { successMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
+import { getArrayAttr } from '@core/helpers/helpers'
 
 export default {
   components: {
@@ -106,10 +110,10 @@ export default {
       loading: false,
 
       formData: {
-        church: null,
+        modules: [],
       },
 
-      churches: this.$store.state.chooseDataMembershipModule.churchesInUpdateMember,
+      modules: this.$store.state.chooseDataMembershipModule.modulesInUpdateMember,
     }
   },
 
@@ -125,16 +129,16 @@ export default {
 
   methods: {
     setFormData() {
-      const { church } = this.getMemberInUpdate
+      const { modules } = this.getMemberInUpdate
 
       this.formData = {
-        church,
+        modules,
       }
     },
 
     async handleFormSubmit() {
       const result = new Promise((resolve, reject) => {
-        this.$refs.churches.validate()
+        this.$refs.modulesForm.validate()
           .then(success => {
             if (success) {
               resolve(true)
@@ -156,10 +160,10 @@ export default {
       const { userId } = this.getMemberInUpdate
 
       const formData = {
-        churchId: this.formData.church.id,
+        modulesId: getArrayAttr(this.formData.modules, 'id'),
       }
 
-      await updateChurchData(userId, formData)
+      await updateModulesData(userId, formData)
         .then(response => {
           if (response.status === 200) {
             successMessage(messages.successSave)

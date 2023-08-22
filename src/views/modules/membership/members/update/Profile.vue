@@ -1,7 +1,7 @@
 <template>
   <section class="card p-3">
     <validation-observer
-      ref="profileAndModules"
+      ref="profileForm"
     >
       <div
         v-if="loading"
@@ -48,38 +48,6 @@
               </validation-provider>
             </b-form-group>
           </b-col>
-
-          <!-- Module -->
-          <b-col
-            sm="12"
-            lg="6"
-          >
-            <b-form-group
-              label="Módulos *"
-              label-for="module"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Módulos"
-                rules="required"
-              >
-                <v-select
-                  id="module"
-                  v-model="formData.modules"
-                  :options="modules"
-                  variant="custom"
-                  item-text="module_description"
-                  item-value="id"
-                  placeholder="Escolha um Módulo ou mais"
-                  label="module_description"
-                  multiple
-                  multiselect
-                />
-
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-          </b-col>
         </b-row>
 
         <b-row>
@@ -115,8 +83,9 @@ import {
 } from 'bootstrap-vue'
 import { required } from '@validations'
 import vSelect from 'vue-select'
-import { getProfiles } from '@core/utils/requests/users'
-import { getModules } from '@core/utils/requests/modules'
+import { updateChurchData, updateProfileData } from '@core/utils/requests/members'
+import { successMessage } from '@/libs/alerts/sweetalerts'
+import { messages } from '@core/utils/validations/messages'
 
 export default {
   components: {
@@ -134,40 +103,38 @@ export default {
     return {
       required,
 
-      loading: true,
+      loading: false,
 
       formData: {
         profile: null,
-        modules: [],
       },
 
-      profiles: [],
-      modules: [],
+      profiles: this.$store.state.chooseDataMembershipModule.profilesInUpdateMember,
     }
   },
 
+  computed: {
+    getMemberInUpdate() {
+      return this.$store.state.chooseDataMembershipModule.memberInUpdate
+    },
+  },
+
   mounted() {
-    this.handlePopulateSelects()
+    this.setFormData()
   },
 
   methods: {
-    async handlePopulateSelects() {
-      this.loading = true
+    setFormData() {
+      const { profile } = this.getMemberInUpdate
 
-      await getProfiles().then(response => {
-        this.profiles = response.data
-      })
-
-      await getModules().then(response => {
-        this.modules = response.data
-      })
-
-      this.loading = false
+      this.formData = {
+        profile,
+      }
     },
 
     async handleFormSubmit() {
       const result = new Promise((resolve, reject) => {
-        this.$refs.profileAndModules.validate()
+        this.$refs.profileForm.validate()
           .then(success => {
             if (success) {
               resolve(true)
@@ -179,8 +146,30 @@ export default {
       })
 
       if (await result) {
-        //
+        await this.update()
       }
+    },
+
+    async update() {
+      this.loading = true
+
+      const { userId } = this.getMemberInUpdate
+
+      const formData = {
+        profileId: this.formData.profile.id,
+      }
+
+      await updateProfileData(userId, formData)
+        .then(response => {
+          if (response.status === 200) {
+            successMessage(messages.successSave)
+          }
+        })
+        .catch(error => {
+          this.handleError(error.response)
+        })
+
+      this.loading = false
     },
   },
 }

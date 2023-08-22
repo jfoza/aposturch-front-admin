@@ -129,87 +129,6 @@
               </validation-provider>
             </b-form-group>
           </b-col>
-
-          <!-- Password -->
-          <b-col
-            sm="12"
-            lg="6"
-          >
-            <b-form-group
-              label="Senha *"
-              label-for="reset-password-new"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Senha"
-                vid="Password"
-                rules="required|password"
-              >
-                <b-input-group
-                  class="input-group-merge"
-                  :class="errors.length > 0 ? 'is-invalid':null"
-                >
-                  <b-form-input
-                    id="reset-password-new"
-                    v-model="formData.password"
-                    :type="password1FieldType"
-                    :state="errors.length > 0 ? false:null"
-                    class="form-control-merge"
-                    name="reset-password-new"
-                    placeholder="******"
-                  />
-                  <b-input-group-append is-text>
-                    <feather-icon
-                      class="cursor-pointer"
-                      :icon="password1ToggleIcon"
-                      @click="togglePassword1Visibility"
-                    />
-                  </b-input-group-append>
-                </b-input-group>
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-          </b-col>
-
-          <!-- Password Confirmation -->
-          <b-col
-            sm="12"
-            lg="6"
-          >
-            <b-form-group
-              label-for="reset-password-confirm"
-              label="Confirmação de Senha *"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Confirmação de Senha"
-                rules="required|confirmed:Password"
-              >
-                <b-input-group
-                  class="input-group-merge"
-                  :class="errors.length > 0 ? 'is-invalid' : null"
-                >
-                  <b-form-input
-                    id="reset-password-confirm"
-                    v-model="formData.passwordConfirmation"
-                    :type="password2FieldType"
-                    class="form-control-merge"
-                    :state="errors.length > 0 ? false:null"
-                    name="reset-password-confirm"
-                    placeholder="******"
-                  />
-                  <b-input-group-append is-text>
-                    <feather-icon
-                      class="cursor-pointer"
-                      :icon="password2ToggleIcon"
-                      @click="togglePassword2Visibility"
-                    />
-                  </b-input-group-append>
-                </b-input-group>
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-          </b-col>
         </b-row>
 
         <b-row>
@@ -241,16 +160,16 @@ import {
   BCol,
   BForm,
   BFormGroup,
-  BInputGroup,
-  BInputGroupAppend,
   BFormInput,
   BSpinner,
 } from 'bootstrap-vue'
 import { required, confirmed } from '@validations'
 import vSelect from 'vue-select'
 import { statusForm } from '@core/utils/statusForm'
-import { warningMessage } from '@/libs/alerts/sweetalerts'
+import { successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
+import { updateGeneralData } from '@core/utils/requests/members'
+import { strClear } from '@core/helpers/helpers'
 
 export default {
   components: {
@@ -260,8 +179,6 @@ export default {
     BCol,
     BForm,
     BFormGroup,
-    BInputGroup,
-    BInputGroupAppend,
     BFormInput,
     BSpinner,
     vSelect,
@@ -277,31 +194,40 @@ export default {
 
       formData: {
         name: '',
+        phone: '',
         email: '',
-        password: '',
-        passwordConfirmation: '',
         active: {
           boolValue: true,
           description: 'Ativo',
         },
       },
-
-      // Toggle Password
-      password1FieldType: 'password',
-      password2FieldType: 'password',
     }
   },
 
   computed: {
-    password1ToggleIcon() {
-      return this.password1FieldType === 'password' ? 'EyeIcon' : 'EyeOffIcon'
-    },
-    password2ToggleIcon() {
-      return this.password2FieldType === 'password' ? 'EyeIcon' : 'EyeOffIcon'
+    getMemberInUpdate() {
+      return this.$store.state.chooseDataMembershipModule.memberInUpdate
     },
   },
 
+  mounted() {
+    this.setFormData()
+  },
+
   methods: {
+    setFormData() {
+      const {
+        name, phone, email, active,
+      } = this.getMemberInUpdate
+
+      this.formData = {
+        name,
+        phone,
+        email,
+        active,
+      }
+    },
+
     async handleFormSubmit() {
       const result = new Promise((resolve, reject) => {
         this.$refs.generalInfo.validate()
@@ -316,23 +242,41 @@ export default {
       })
 
       if (await result) {
-        //
+        await this.update()
       }
     },
 
-    handleError(response) {
-      if (response.status === 400) {
-        return warningMessage(response.data.error)
+    async update() {
+      this.loading = true
+
+      const { userId } = this.getMemberInUpdate
+
+      const formData = {
+        name: this.formData.name,
+        email: this.formData.email,
+        phone: strClear(this.formData.phone),
+        active: this.formData.active.boolValue,
+      }
+
+      await updateGeneralData(userId, formData)
+        .then(response => {
+          if (response.status === 200) {
+            successMessage(messages.successSave)
+          }
+        })
+        .catch(error => {
+          this.handleError(error.response)
+        })
+
+      this.loading = false
+    },
+
+    handleError(errorResponse) {
+      if (errorResponse && errorResponse.status === 400) {
+        return warningMessage(errorResponse.data.error)
       }
 
       return warningMessage(messages.impossible)
-    },
-
-    togglePassword1Visibility() {
-      this.password1FieldType = this.password1FieldType === 'password' ? 'text' : 'password'
-    },
-    togglePassword2Visibility() {
-      this.password2FieldType = this.password2FieldType === 'password' ? 'text' : 'password'
     },
   },
 }

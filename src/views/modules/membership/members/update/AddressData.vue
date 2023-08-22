@@ -243,8 +243,9 @@ import { getAddressByZipCode } from '@core/utils/requests/zipCode'
 import { states } from '@core/utils/states'
 import { getCitiesByUf } from '@core/utils/requests/cities'
 import { messages } from '@core/utils/validations/messages'
-import { warningMessage } from '@/libs/alerts/sweetalerts'
+import { successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { strClear } from '@core/helpers/helpers'
+import { updateAddressData } from '@core/utils/requests/members'
 
 export default {
   components: {
@@ -281,6 +282,12 @@ export default {
     }
   },
 
+  computed: {
+    getMemberInUpdate() {
+      return this.$store.state.chooseDataMembershipModule.memberInUpdate
+    },
+  },
+
   mounted() {
     this.handlePopulateSelects()
   },
@@ -289,9 +296,32 @@ export default {
     async handlePopulateSelects() {
       this.loading = true
 
+      await this.setFormData()
       await this.getCitiesByUFSelect()
 
       this.loading = false
+    },
+
+    setFormData() {
+      const {
+        zipCode,
+        address,
+        numberAddress,
+        complement,
+        district,
+        city,
+        state,
+      } = this.getMemberInUpdate
+
+      this.formData = {
+        zipCode,
+        address,
+        numberAddress,
+        complement,
+        district,
+        city,
+        state,
+      }
     },
 
     async getCitiesByUFSelect() {
@@ -321,8 +351,36 @@ export default {
       })
 
       if (await result) {
-        //
+        await this.update()
       }
+    },
+
+    async update() {
+      this.loading = true
+
+      const { userId } = this.getMemberInUpdate
+
+      const formData = {
+        zipCode: strClear(this.formData.zipCode),
+        address: this.formData.address,
+        numberAddress: this.formData.numberAddress,
+        complement: this.formData.complement,
+        district: this.formData.district,
+        cityId: this.formData.city.id,
+        uf: this.formData.state.uf,
+      }
+
+      await updateAddressData(userId, formData)
+        .then(response => {
+          if (response.status === 200) {
+            successMessage(messages.successSave)
+          }
+        })
+        .catch(error => {
+          this.handleError(error.response)
+        })
+
+      this.loading = false
     },
 
     async getAddressByZipCode() {
@@ -362,17 +420,17 @@ export default {
       }
     },
 
-    setFormData() {
-      return {
-        zipCode: strClear(this.formData.zipCode),
-        address: this.formData.address,
-        numberAddress: this.formData.numberAddress,
-        complement: this.formData.complement,
-        district: this.formData.district,
-        cityId: this.formData.city.id,
-        uf: this.formData.state.uf,
-      }
-    },
+    // setFormData() {
+    //   return {
+    //     zipCode: strClear(this.formData.zipCode),
+    //     address: this.formData.address,
+    //     numberAddress: this.formData.numberAddress,
+    //     complement: this.formData.complement,
+    //     district: this.formData.district,
+    //     cityId: this.formData.city.id,
+    //     uf: this.formData.state.uf,
+    //   }
+    // },
 
     handleError(response) {
       const errors = response.status === 400 || response.status === 404

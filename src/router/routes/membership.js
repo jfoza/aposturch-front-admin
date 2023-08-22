@@ -85,7 +85,7 @@ export default [
   {
     path: membershipModuleRouter.membersUpdate.path,
     name: membershipModuleRouter.membersUpdate.name,
-    component: () => import('@/views/modules/membership/members/update/Update.vue'),
+    component: () => import('@/views/modules/membership/members/update/Index.vue'),
     meta: {
       resource: 'ACL',
       subject: subjects.MEMBERSHIP_MODULE_MEMBERS,

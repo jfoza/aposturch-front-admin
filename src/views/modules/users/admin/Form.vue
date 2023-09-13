@@ -74,35 +74,6 @@
               lg="4"
             >
               <b-form-group
-                label="Status"
-                label-for="status"
-              >
-                <validation-provider
-                  #default="{ errors }"
-                  name="Status"
-                  rules="required"
-                >
-                  <v-select
-                    id="categories"
-                    v-model="getFormData.active"
-                    :options="statusForm"
-                    variant="custom"
-                    item-text="description"
-                    item-value="id"
-                    placeholder="Selecione o status"
-                    label="description"
-                  />
-
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-
-            <b-col
-              sm="6"
-              lg="4"
-            >
-              <b-form-group
                 label="Senha"
                 label-for="reset-password-new"
               >
@@ -276,6 +247,7 @@ import { formActions } from '@core/utils/formActions'
 import { setLoggedUserData } from '@/auth/utils'
 import { messages } from '@core/utils/validations/messages'
 import usersModuleRoutes from '@/views/modules/users/routes'
+import profileTypes from '@core/utils/profileTypes'
 
 export default {
   components: {
@@ -354,14 +326,9 @@ export default {
     async findAllProfiles() {
       this.loading = true
 
-      await getProfiles()
+      await getProfiles({ profileTypeUniqueName: profileTypes.ADMINISTRATIVE })
         .then(response => {
-          const profiles = response.data
-
-          this.profiles = profiles.filter(
-            profile => profile.unique_name === 'TECHNICAL_SUPPORT'
-            || profile.unique_name === 'ADMIN_MASTER',
-          )
+          this.profiles = response.data
         })
         .catch(() => {
           this.profiles = []
@@ -408,7 +375,6 @@ export default {
         email: this.getFormData.email,
         password: this.getFormData.password,
         passwordConfirmation: this.getFormData.passwordConfirmation,
-        active: this.getFormData.active.boolValue,
         profileId: this.getFormData.profile.id,
       }
 
@@ -436,7 +402,6 @@ export default {
         email: this.getFormData.email,
         password: this.getFormData.password,
         passwordConfirmation: this.getFormData.passwordConfirmation,
-        active: this.getFormData.active.boolValue,
       }
 
       await updateUser(id, formData)

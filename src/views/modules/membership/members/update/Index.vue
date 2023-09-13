@@ -111,6 +111,7 @@ import { getProfiles } from '@core/utils/requests/users'
 import { getModules } from '@core/utils/requests/modules'
 import { getMemberUserId } from '@core/utils/requests/members'
 import { getChurchesUserLogged } from '@core/utils/requests/churches'
+import profileTypes from '@core/utils/profileTypes'
 import GeneralInfo from './GeneralInfo.vue'
 import AddressData from './AddressData.vue'
 import Churches from './Churches.vue'
@@ -155,7 +156,7 @@ export default {
     },
 
     async handleGetProfiles() {
-      await getProfiles().then(response => {
+      await getProfiles({ profileTypeUniqueName: profileTypes.MEMBERSHIP }).then(response => {
         const profiles = response.data
 
         this.$store.commit('chooseDataMembershipModule/SET_PROFILES_IN_UPDATE_MEMBER', profiles)

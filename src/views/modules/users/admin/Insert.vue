@@ -47,10 +47,6 @@ export default {
         password: '',
         passwordConfirmation: '',
         profile: null,
-        active: {
-          boolValue: true,
-          description: 'Ativo',
-        },
       },
     }
   },

@@ -12,7 +12,6 @@ export default {
   userAlreadyExistsByEmail: email => `/admin/users/email/${email}`,
   userImageAvatar: '/admin/users/upload/image',
   profiles: '/admin/profiles',
-  profilesInListMembers: '/admin/profiles/members',
 
   customers: '/admin/customers',
   customerId: id => `/admin/customers/${id}`,

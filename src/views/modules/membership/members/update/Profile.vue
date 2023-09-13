@@ -83,7 +83,7 @@ import {
 } from 'bootstrap-vue'
 import { required } from '@validations'
 import vSelect from 'vue-select'
-import { updateChurchData, updateProfileData } from '@core/utils/requests/members'
+import { updateProfileData } from '@core/utils/requests/members'
 import { successMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
 

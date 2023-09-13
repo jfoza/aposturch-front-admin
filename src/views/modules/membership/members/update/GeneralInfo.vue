@@ -100,35 +100,6 @@
             </b-form-group>
           </b-col>
 
-          <!-- Active -->
-          <b-col
-            sm="12"
-            lg="6"
-          >
-            <b-form-group
-              label="Status *"
-              label-for="status"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Status"
-                rules="required"
-              >
-                <v-select
-                  id="categories"
-                  v-model="formData.active"
-                  :options="statusForm"
-                  variant="custom"
-                  item-text="description"
-                  item-value="id"
-                  placeholder="Selecione o status"
-                  label="description"
-                />
-
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-          </b-col>
         </b-row>
 
         <b-row>
@@ -196,10 +167,6 @@ export default {
         name: '',
         phone: '',
         email: '',
-        active: {
-          boolValue: true,
-          description: 'Ativo',
-        },
       },
     }
   },
@@ -217,14 +184,13 @@ export default {
   methods: {
     setFormData() {
       const {
-        name, phone, email, active,
+        name, phone, email,
       } = this.getMemberInUpdate
 
       this.formData = {
         name,
         phone,
         email,
-        active,
       }
     },
 
@@ -255,7 +221,6 @@ export default {
         name: this.formData.name,
         email: this.formData.email,
         phone: strClear(this.formData.phone),
-        active: this.formData.active.boolValue,
       }
 
       await updateGeneralData(userId, formData)

@@ -117,6 +117,7 @@ import vSelect from 'vue-select'
 import ButtonNext from '@/views/components/custom/ButtonNext.vue'
 import { getProfiles } from '@core/utils/requests/users'
 import { getModules } from '@core/utils/requests/modules'
+import profileTypes from '@core/utils/profileTypes'
 
 export default {
   components: {
@@ -163,7 +164,7 @@ export default {
     async handlePopulateSelects() {
       this.loading = true
 
-      await getProfiles().then(response => {
+      await getProfiles({ profileTypeUniqueName: profileTypes.MEMBERSHIP }).then(response => {
         this.profiles = response.data
       })
 

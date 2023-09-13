@@ -23,20 +23,9 @@ export const getUserId = id => new Promise((resolve, reject) => {
     })
 })
 
-export const getProfiles = () => new Promise((resolve, reject) => {
+export const getProfiles = params => new Promise((resolve, reject) => {
   axiosIns
-    .get(apiRoutes.profiles)
-    .then(response => {
-      resolve(response)
-    })
-    .catch(error => {
-      reject(error)
-    })
-})
-
-export const getProfilesInListMembers = () => new Promise((resolve, reject) => {
-  axiosIns
-    .get(apiRoutes.profilesInListMembers)
+    .get(apiRoutes.profiles, { params })
     .then(response => {
       resolve(response)
     })

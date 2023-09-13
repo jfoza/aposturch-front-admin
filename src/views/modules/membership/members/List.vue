@@ -421,7 +421,7 @@ import membershipModuleRoutes from '@/views/modules/membership/routes'
 import { messages } from '@core/utils/validations/messages'
 import { getAllMembers } from '@core/utils/requests/members'
 import { getLinkWhatsApp } from '@core/utils/whatsApp'
-import { getProfilesInListMembers, updateStatusUser } from '@core/utils/requests/users'
+import { getProfiles, updateStatusUser } from '@core/utils/requests/users'
 import { confirmAction, warningMessage } from '@/libs/alerts/sweetalerts'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -437,6 +437,7 @@ import Vue from 'vue'
 import { getCitiesInPersons } from '@core/utils/requests/cities'
 import { getChurchesUserLogged } from '@core/utils/requests/churches'
 import { strClear } from '@core/helpers/helpers'
+import profileTypes from '@core/utils/profileTypes'
 import {
   isEnabledToUpdateByAssistant,
   isEnabledToUpdateByAdminModule,
@@ -568,7 +569,7 @@ export default {
     async findAllFilterFields() {
       this.loading = true
 
-      await getProfilesInListMembers().then(response => {
+      await getProfiles({ profileTypeUniqueName: profileTypes.MEMBERSHIP }).then(response => {
         this.profiles = response.data
       })
 

@@ -94,10 +94,6 @@ export default {
         email: 'membro-teste1@gmail.com',
         password: 'Teste123',
         passwordConfirmation: 'Teste123',
-        active: {
-          boolValue: true,
-          description: 'Ativo',
-        },
         profile: null,
         modules: [],
         church: null,
@@ -171,10 +167,6 @@ export default {
         email: '',
         password: '',
         passwordConfirmation: '',
-        active: {
-          boolValue: true,
-          description: 'Ativo',
-        },
         profile: null,
         modules: [],
         church: null,

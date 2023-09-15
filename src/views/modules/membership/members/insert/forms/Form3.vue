@@ -123,36 +123,6 @@
             </b-form-group>
           </b-col>
 
-          <!-- Active -->
-          <b-col
-            sm="6"
-            lg="4"
-          >
-            <b-form-group
-              label="Status *"
-              label-for="status"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Status"
-                rules="required"
-              >
-                <v-select
-                  id="categories"
-                  v-model="getFormData.active"
-                  :options="statusForm"
-                  variant="custom"
-                  item-text="description"
-                  item-value="id"
-                  placeholder="Selecione o status"
-                  label="description"
-                />
-
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-          </b-col>
-
           <!-- Password -->
           <b-col
             sm="6"
@@ -274,7 +244,6 @@ import {
   BSpinner,
 } from 'bootstrap-vue'
 import { required, confirmed } from '@validations'
-import vSelect from 'vue-select'
 import ButtonNext from '@/views/components/custom/ButtonNext.vue'
 import ButtonPrev from '@/views/components/custom/ButtonPrev.vue'
 import { statusForm } from '@core/utils/statusForm'
@@ -296,7 +265,6 @@ export default {
     BInputGroupAppend,
     BFormInput,
     BSpinner,
-    vSelect,
     ButtonNext,
     ButtonPrev,
   },
@@ -366,22 +334,6 @@ export default {
       }
 
       this.loading = false
-    },
-
-    async userEmailAlreadyExists() {
-      return new Promise(resolve => {
-        userAlreadyExistsValidation(this.getFormData.email)
-          .then(response => {
-            if (response.status === 204) {
-              resolve(true)
-            }
-          })
-          .catch(error => {
-            this.handleError(error.response)
-
-            this.loading = false
-          })
-      })
     },
 
     handlePrevTab() {

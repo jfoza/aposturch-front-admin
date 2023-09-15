@@ -428,7 +428,6 @@ export default {
         email: this.getFormData.email,
         password: this.getFormData.password,
         passwordConfirmation: this.getFormData.passwordConfirmation,
-        active: this.getFormData.active.boolValue,
         profileId: this.getFormData.profile.id,
         modulesId: getArrayAttr(this.getFormData.modules, 'id'),
         churchId: this.getFormData.church.id,

@@ -134,6 +134,9 @@ import {
   BSpinner, BInputGroup, BInputGroupAppend,
 } from 'bootstrap-vue'
 import { required } from '@validations'
+import { updatePasswordData } from '@core/utils/requests/members'
+import { successMessage } from '@/libs/alerts/sweetalerts'
+import { messages } from '@core/utils/validations/messages'
 
 export default {
   components: {
@@ -170,8 +173,13 @@ export default {
     password1ToggleIcon() {
       return this.password1FieldType === 'password' ? 'EyeIcon' : 'EyeOffIcon'
     },
+
     password2ToggleIcon() {
       return this.password2FieldType === 'password' ? 'EyeIcon' : 'EyeOffIcon'
+    },
+
+    getMemberInUpdate() {
+      return this.$store.state.chooseDataMembershipModule.memberInUpdate
     },
   },
 
@@ -190,8 +198,38 @@ export default {
       })
 
       if (await result) {
-        //
+        await this.update()
       }
+    },
+
+    async update() {
+      this.loading = true
+
+      const { userId } = this.getMemberInUpdate
+
+      const formData = {
+        password: this.formData.password,
+        passwordConfirmation: this.formData.passwordConfirmation,
+      }
+
+      await updatePasswordData(userId, formData)
+        .then(response => {
+          if (response.status === 200) {
+            this.clear()
+
+            successMessage(messages.successSave)
+          }
+        })
+        .catch(error => {
+          this.handleError(error.response)
+        })
+
+      this.loading = false
+    },
+
+    clear() {
+      this.formData.password = ''
+      this.formData.passwordConfirmation = ''
     },
 
     togglePassword1Visibility() {

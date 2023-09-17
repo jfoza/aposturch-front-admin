@@ -678,7 +678,10 @@ export default {
         return true
       }
 
-      if (this.$can(actions.UPDATE, subjects.USERS_ADMIN_CHURCH_UPDATE_STATUS)) {
+      const isMembers = this.$can(actions.UPDATE, subjects.USERS_ADMIN_CHURCH_UPDATE_STATUS)
+          || this.$can(actions.UPDATE, subjects.USERS_ADMIN_MODULE_UPDATE_STATUS)
+
+      if (isMembers) {
         return isEnabledToUpdateStatusByAdminChurch(member)
       }
 

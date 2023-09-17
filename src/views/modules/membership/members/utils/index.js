@@ -43,10 +43,6 @@ export const isEnabledToUpdateByAssistant = member => {
 }
 
 export const isEnabledToUpdateStatusByAdminChurch = member => {
-  if (userId === member.user_id) {
-    return true
-  }
-
   const profilesAllowed = [
     profilesUniqueName.ADMIN_MODULE,
     profilesUniqueName.ASSISTANT,

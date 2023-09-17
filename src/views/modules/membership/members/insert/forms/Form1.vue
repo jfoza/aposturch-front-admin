@@ -47,6 +47,7 @@
                   item-value="id"
                   placeholder="Escolha um perfil"
                   label="description"
+                  @input="selectAllModulesAndDisableSelect"
                 />
 
                 <small class="text-danger">{{ errors[0] }}</small>
@@ -118,6 +119,7 @@ import ButtonNext from '@/views/components/custom/ButtonNext.vue'
 import { getProfiles } from '@core/utils/requests/users'
 import { getModules } from '@core/utils/requests/modules'
 import profileTypes from '@core/utils/profileTypes'
+import profiles from '@core/utils/profiles'
 
 export default {
   components: {
@@ -195,6 +197,19 @@ export default {
 
     handleResetForm() {
       this.$refs.profileAndModules.reset()
+    },
+
+    selectAllModulesAndDisableSelect() {
+      this.formData.modules = []
+
+      if (this.getFormData.profile) {
+        const uniqueName = this.getFormData.profile.unique_name
+
+        // eslint-disable-next-line no-unused-expressions
+        uniqueName === profiles.ADMIN_CHURCH
+          ? this.formData.modules = this.modules
+          : this.formData.modules = []
+      }
     },
   },
 }

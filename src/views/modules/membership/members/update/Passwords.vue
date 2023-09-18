@@ -3,19 +3,7 @@
     <validation-observer
       ref="formPasswords"
     >
-      <div
-        v-if="loading"
-        class="spinner-area"
-      >
-        <b-spinner
-          variant="custom"
-          label="Loading..."
-        />
-      </div>
-
-      <b-form
-        v-if="!loading"
-      >
+      <b-form>
         <b-row
           class="mb-2"
         >
@@ -131,7 +119,8 @@ import {
   BForm,
   BFormInput,
   BFormGroup,
-  BSpinner, BInputGroup, BInputGroupAppend,
+  BInputGroup,
+  BInputGroupAppend,
 } from 'bootstrap-vue'
 import { required } from '@validations'
 import { updatePasswordData } from '@core/utils/requests/members'
@@ -149,7 +138,6 @@ export default {
     BFormGroup,
     BInputGroup,
     BInputGroupAppend,
-    BSpinner,
   },
 
   data() {
@@ -203,7 +191,7 @@ export default {
     },
 
     async update() {
-      this.loading = true
+      this.$emit('setLoading', true)
 
       const { userId } = this.getMemberInUpdate
 
@@ -217,6 +205,8 @@ export default {
           if (response.status === 200) {
             this.clear()
 
+            this.$refs.formPasswords.reset()
+
             successMessage(messages.successSave)
           }
         })
@@ -224,7 +214,7 @@ export default {
           this.handleError(error.response)
         })
 
-      this.loading = false
+      this.$emit('setLoading', false)
     },
 
     clear() {
@@ -241,7 +231,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-
-</style>

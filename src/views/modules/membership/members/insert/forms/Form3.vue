@@ -3,19 +3,7 @@
     <validation-observer
       ref="profileAndModules"
     >
-      <div
-        v-if="loading"
-        class="spinner-area"
-      >
-        <b-spinner
-          variant="custom"
-          label="Loading..."
-        />
-      </div>
-
-      <b-form
-        v-if="!loading"
-      >
+      <b-form>
         <b-row class="mb-2">
           <b-col cols="12">
             <h6>Agora vamos definir os dados gerais do novo membro:</h6>
@@ -241,13 +229,11 @@ import {
   BInputGroup,
   BInputGroupAppend,
   BFormInput,
-  BSpinner,
 } from 'bootstrap-vue'
 import { required, confirmed } from '@validations'
 import ButtonNext from '@/views/components/custom/ButtonNext.vue'
 import ButtonPrev from '@/views/components/custom/ButtonPrev.vue'
 import { statusForm } from '@core/utils/statusForm'
-import { userAlreadyExistsValidation } from '@core/utils/requests/users'
 import { warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
 import Upload from '@/views/components/custom/Upload.vue'
@@ -264,7 +250,6 @@ export default {
     BInputGroup,
     BInputGroupAppend,
     BFormInput,
-    BSpinner,
     ButtonNext,
     ButtonPrev,
   },
@@ -285,8 +270,6 @@ export default {
       required,
       confirmed,
       statusForm,
-
-      loading: false,
 
       churches: [],
 
@@ -315,7 +298,7 @@ export default {
 
   methods: {
     async handleFormSubmit() {
-      this.loading = true
+      this.$emit('setLoading', true)
 
       const result = new Promise((resolve, reject) => {
         this.$refs.profileAndModules.validate()
@@ -333,7 +316,7 @@ export default {
         this.$emit('handleNextTab')
       }
 
-      this.loading = false
+      this.$emit('setLoading', false)
     },
 
     handlePrevTab() {

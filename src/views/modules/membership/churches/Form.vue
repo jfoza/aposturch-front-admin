@@ -1,22 +1,16 @@
 <template>
-  <div class="card">
-    <section class="p-card-form">
-      <div
-        v-if="loading"
-        class="spinner-area"
-      >
-        <b-spinner
-          variant="custom"
-          label="Loading..."
-        />
-      </div>
-
+  <overlay
+    class-name="card"
+    :show="loading"
+  >
+    <div class="p-card-form">
       <validation-observer
-        v-if="!loading"
         ref="formUser"
       >
+        <h2>{{ getFormData.name }}</h2>
+
         <b-form>
-          <b-row class="mb-3">
+          <b-row class="mb-3 mt-2">
             <b-col
               cols="12"
             >
@@ -422,8 +416,8 @@
           </b-row>
         </b-form>
       </validation-observer>
-    </section>
-  </div>
+    </div>
+  </overlay>
 </template>
 
 <script>
@@ -434,7 +428,6 @@ import {
   BForm,
   BFormGroup,
   BFormInput,
-  BSpinner,
 } from 'bootstrap-vue'
 import Upload from '@/views/components/custom/Upload'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
@@ -453,9 +446,11 @@ import { messages } from '@core/utils/validations/messages'
 import membershipModuleRoutes from '@/views/modules/membership/routes'
 import { createChurch, saveChurchImage, updateChurch } from '@core/utils/requests/churches'
 import { actions, subjects } from '@/libs/acl/rules'
+import Overlay from '@/views/components/custom/Overlay.vue'
 
 export default {
   components: {
+    Overlay,
     Upload,
     ValidationProvider,
     ValidationObserver,
@@ -465,7 +460,6 @@ export default {
     BForm,
     BFormGroup,
     BFormInput,
-    BSpinner,
   },
 
   props: {
@@ -499,7 +493,7 @@ export default {
 
       redirect: false,
 
-      loading: false,
+      loading: true,
 
       profiles: [],
 
@@ -522,20 +516,12 @@ export default {
   },
 
   mounted() {
-    this.handleGetData()
+    if (this.getMode === this.formActions.updateAction) {
+      this.getCitiesByUFSelect()
+    }
   },
 
   methods: {
-    async handleGetData() {
-      this.loading = true
-
-      if (this.getMode === this.formActions.updateAction) {
-        await this.getCitiesByUFSelect()
-      }
-
-      this.loading = false
-    },
-
     async getAddressByZipCode() {
       if (this.getFormData.zip_code.length === 9) {
         this.loading = true
@@ -577,6 +563,8 @@ export default {
     },
 
     async getCitiesByUFSelect() {
+      this.loading = true
+
       if (this.getFormData.state) {
         await getCitiesByUf(this.getFormData.state.uf)
           .then(response => {
@@ -587,6 +575,8 @@ export default {
       } else {
         this.clearZipCodeAddress()
       }
+
+      this.loading = false
     },
 
     async formSubmit(redirect) {

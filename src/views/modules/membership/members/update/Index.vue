@@ -1,17 +1,8 @@
 <template>
-  <div>
-    <div
-      v-if="loading"
-      class="spinner-area"
-    >
-      <b-spinner
-        variant="custom"
-        label="Loading..."
-      />
-    </div>
-
+  <overlay
+    :show="loading"
+  >
     <b-tabs
-      v-if="!loading"
       vertical
       content-class="col-12 col-md-9 mt-1 mt-md-0"
       pills
@@ -29,7 +20,7 @@
           <span class="font-weight-bold">Informações Gerais</span>
         </template>
 
-        <general-info />
+        <general-info @setLoading="setLoading" />
       </b-tab>
 
       <b-tab>
@@ -43,7 +34,7 @@
           <span class="font-weight-bold">Endereço</span>
         </template>
 
-        <address-data />
+        <address-data @setLoading="setLoading" />
       </b-tab>
 
       <b-tab>
@@ -57,7 +48,7 @@
           <span class="font-weight-bold">Igrejas</span>
         </template>
 
-        <churches />
+        <churches @setLoading="setLoading" />
       </b-tab>
 
       <b-tab>
@@ -71,7 +62,7 @@
           <span class="font-weight-bold">Perfil</span>
         </template>
 
-        <profile />
+        <profile @setLoading="setLoading" />
       </b-tab>
 
       <b-tab>
@@ -85,7 +76,7 @@
           <span class="font-weight-bold">Módulos</span>
         </template>
 
-        <modules />
+        <modules @setLoading="setLoading" />
       </b-tab>
 
       <b-tab>
@@ -99,19 +90,20 @@
           <span class="font-weight-bold">Senha</span>
         </template>
 
-        <passwords />
+        <passwords @setLoading="setLoading" />
       </b-tab>
     </b-tabs>
-  </div>
+  </overlay>
 </template>
 
 <script>
-import { BTabs, BTab, BSpinner } from 'bootstrap-vue'
+import { BTabs, BTab } from 'bootstrap-vue'
 import { getProfiles } from '@core/utils/requests/users'
 import { getModules } from '@core/utils/requests/modules'
 import { getMemberUserId } from '@core/utils/requests/members'
 import { getChurchesUserLogged } from '@core/utils/requests/churches'
 import profileTypes from '@core/utils/profileTypes'
+import Overlay from '@/views/components/custom/Overlay.vue'
 import GeneralInfo from './GeneralInfo.vue'
 import AddressData from './AddressData.vue'
 import Churches from './Churches.vue'
@@ -121,9 +113,9 @@ import Passwords from './Passwords.vue'
 
 export default {
   components: {
+    Overlay,
     BTabs,
     BTab,
-    BSpinner,
     GeneralInfo,
     AddressData,
     Churches,
@@ -145,14 +137,14 @@ export default {
 
   methods: {
     async handlePopulateSelects() {
-      this.loading = true
+      this.setLoading(true)
 
       await this.handleGetProfiles()
       await this.handleGetModules()
       await this.handleGetChurches()
       await this.handleGetMemberUserId()
 
-      this.loading = false
+      this.setLoading(false)
     },
 
     async handleGetProfiles() {
@@ -220,6 +212,10 @@ export default {
           },
         )
       })
+    },
+
+    setLoading(loading) {
+      this.loading = loading
     },
   },
 }

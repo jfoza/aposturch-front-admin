@@ -3,19 +3,7 @@
     <validation-observer
       ref="addressData"
     >
-      <div
-        v-if="loading"
-        class="spinner-area"
-      >
-        <b-spinner
-          variant="custom"
-          label="Loading..."
-        />
-      </div>
-
-      <b-form
-        v-if="!loading"
-      >
+      <b-form>
         <b-row
           class="mb-2"
         >
@@ -235,7 +223,6 @@ import {
   BForm,
   BFormGroup,
   BFormInput,
-  BSpinner,
 } from 'bootstrap-vue'
 import { min, required } from '@validations'
 import vSelect from 'vue-select'
@@ -256,7 +243,6 @@ export default {
     BForm,
     BFormGroup,
     BFormInput,
-    BSpinner,
     vSelect,
   },
 
@@ -265,8 +251,6 @@ export default {
       required,
       min,
       states,
-
-      loading: true,
 
       formData: {
         zipCode: '',
@@ -294,12 +278,12 @@ export default {
 
   methods: {
     async handlePopulateSelects() {
-      this.loading = true
+      this.$emit('setLoading', true)
 
       await this.setFormData()
       await this.getCitiesByUFSelect()
 
-      this.loading = false
+      this.$emit('setLoading', false)
     },
 
     setFormData() {
@@ -356,7 +340,7 @@ export default {
     },
 
     async update() {
-      this.loading = true
+      this.$emit('setLoading', true)
 
       const { userId } = this.getMemberInUpdate
 
@@ -380,12 +364,12 @@ export default {
           this.handleError(error.response)
         })
 
-      this.loading = false
+      this.$emit('setLoading', false)
     },
 
     async getAddressByZipCode() {
       if (this.formData.zipCode.length === 9) {
-        this.loading = true
+        this.$emit('setLoading', true)
 
         await getAddressByZipCode(strClear(this.formData.zipCode))
           .then(response => {
@@ -416,21 +400,9 @@ export default {
             }
           })
 
-        this.loading = false
+        this.$emit('setLoading', false)
       }
     },
-
-    // setFormData() {
-    //   return {
-    //     zipCode: strClear(this.formData.zipCode),
-    //     address: this.formData.address,
-    //     numberAddress: this.formData.numberAddress,
-    //     complement: this.formData.complement,
-    //     district: this.formData.district,
-    //     cityId: this.formData.city.id,
-    //     uf: this.formData.state.uf,
-    //   }
-    // },
 
     handleError(response) {
       const errors = response.status === 400 || response.status === 404
@@ -455,7 +427,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-
-</style>

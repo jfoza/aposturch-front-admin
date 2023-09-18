@@ -1,18 +1,10 @@
 <template>
-  <div class="card">
-    <section class="p-card-form">
-      <div
-        v-if="loading"
-        class="spinner-area"
-      >
-        <b-spinner
-          variant="custom"
-          label="Loading..."
-        />
-      </div>
-
+  <overlay
+    class-name="card"
+    :show="loading"
+  >
+    <div class="p-card-form">
       <validation-observer
-        v-if="!loading"
         ref="formUser"
       >
         <b-form>
@@ -219,8 +211,8 @@
           </b-row>
         </b-form>
       </validation-observer>
-    </section>
-  </div>
+    </div>
+  </overlay>
 </template>
 
 <script>
@@ -233,7 +225,6 @@ import {
   BInputGroup,
   BInputGroupAppend,
   BFormInput,
-  BSpinner,
 } from 'bootstrap-vue'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import {
@@ -244,13 +235,14 @@ import { statusForm } from '@core/utils/statusForm'
 import vSelect from 'vue-select'
 import { successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { formActions } from '@core/utils/formActions'
-import { setLoggedUserData } from '@/auth/utils'
 import { messages } from '@core/utils/validations/messages'
 import usersModuleRoutes from '@/views/modules/users/routes'
 import profileTypes from '@core/utils/profileTypes'
+import Overlay from '@/views/components/custom/Overlay.vue'
 
 export default {
   components: {
+    Overlay,
     ValidationProvider,
     ValidationObserver,
     vSelect,
@@ -261,7 +253,6 @@ export default {
     BInputGroup,
     BInputGroupAppend,
     BFormInput,
-    BSpinner,
   },
 
   props: {

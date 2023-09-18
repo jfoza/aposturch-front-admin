@@ -3,19 +3,7 @@
     <validation-observer
       ref="profileForm"
     >
-      <div
-        v-if="loading"
-        class="spinner-area"
-      >
-        <b-spinner
-          variant="custom"
-          label="Loading..."
-        />
-      </div>
-
-      <b-form
-        v-if="!loading"
-      >
+      <b-form>
         <b-row
           class="mb-2"
         >
@@ -103,8 +91,6 @@ export default {
     return {
       required,
 
-      loading: false,
-
       formData: {
         profile: null,
       },
@@ -151,7 +137,7 @@ export default {
     },
 
     async update() {
-      this.loading = true
+      this.$emit('setLoading', true)
 
       const { userId } = this.getMemberInUpdate
 
@@ -169,12 +155,8 @@ export default {
           this.handleError(error.response)
         })
 
-      this.loading = false
+      this.$emit('setLoading', false)
     },
   },
 }
 </script>
-
-<style scoped>
-
-</style>

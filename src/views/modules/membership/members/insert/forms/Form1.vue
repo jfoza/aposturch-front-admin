@@ -3,19 +3,7 @@
     <validation-observer
       ref="profileAndModules"
     >
-      <div
-        v-if="loading"
-        class="spinner-area"
-      >
-        <b-spinner
-          variant="custom"
-          label="Loading..."
-        />
-      </div>
-
-      <b-form
-        v-if="!loading"
-      >
+      <b-form>
         <b-row class="mb-2">
           <b-col cols="12">
             <h6>Escolha o perfil do novo membro e os módulos no qual terá acesso:</h6>
@@ -111,7 +99,6 @@ import {
   BCol,
   BForm,
   BFormGroup,
-  BSpinner,
 } from 'bootstrap-vue'
 import { required } from '@validations'
 import vSelect from 'vue-select'
@@ -129,7 +116,6 @@ export default {
     BCol,
     BForm,
     BFormGroup,
-    BSpinner,
     ButtonNext,
     vSelect,
   },
@@ -144,8 +130,6 @@ export default {
   data() {
     return {
       required,
-
-      loading: true,
 
       profiles: [],
       modules: [],
@@ -164,7 +148,7 @@ export default {
 
   methods: {
     async handlePopulateSelects() {
-      this.loading = true
+      this.$emit('setLoading', true)
 
       await getProfiles({ profileTypeUniqueName: profileTypes.MEMBERSHIP }).then(response => {
         this.profiles = response.data
@@ -174,7 +158,7 @@ export default {
         this.modules = response.data
       })
 
-      this.loading = false
+      this.$emit('setLoading', false)
     },
 
     async handleFormSubmit() {

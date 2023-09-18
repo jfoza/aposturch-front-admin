@@ -7,19 +7,8 @@
       screen-name="Editar Igreja"
       :link-items="linkItems"
     />
-
-    <div
-      v-if="loading"
-      class="spinner-area"
-    >
-      <b-spinner
-        variant="custom"
-        label="Loading..."
-      />
-    </div>
-
     <Form
-      v-if="!loading"
+      ref="form"
       :mode="formActions.updateAction"
       :form-data="form"
       @clear="clearForm"
@@ -29,7 +18,6 @@
 
 <script>
 
-import { BSpinner } from 'bootstrap-vue'
 // eslint-disable-next-line import/extensions
 import PageHeader from '@/views/components/custom/PageHeader'
 import { warningMessage } from '@/libs/alerts/sweetalerts'
@@ -38,11 +26,10 @@ import { messages } from '@core/utils/validations/messages'
 import { getChurchId } from '@core/utils/requests/churches'
 import { actions, subjects } from '@/libs/acl/rules'
 import generalRoutes from '@/router/general/index'
-import Form from './Form.vue'
+import Form from '@/views/modules/membership/churches/Form.vue'
 
 export default {
   components: {
-    BSpinner,
     PageHeader,
     Form,
   },
@@ -61,8 +48,6 @@ export default {
       ],
 
       generalRoutes,
-
-      loading: false,
 
       validation: false,
 
@@ -126,7 +111,7 @@ export default {
 
   methods: {
     async getChooseChurch() {
-      this.loading = true
+      this.$refs.form.loading = true
 
       await getChurchId(this.getDataInStore.id)
         .then(response => {
@@ -177,7 +162,7 @@ export default {
           warningMessage(messages.impossible)
         })
 
-      this.loading = false
+      this.$refs.form.loading = false
     },
 
     isEnabledToUpdate() {
@@ -231,7 +216,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

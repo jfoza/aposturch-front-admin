@@ -3,19 +3,7 @@
     <validation-observer
       ref="generalInfo"
     >
-      <div
-        v-if="loading"
-        class="spinner-area"
-      >
-        <b-spinner
-          variant="custom"
-          label="Loading..."
-        />
-      </div>
-
-      <b-form
-        v-if="!loading"
-      >
+      <b-form>
         <b-row
           class="mb-2"
         >
@@ -132,10 +120,8 @@ import {
   BForm,
   BFormGroup,
   BFormInput,
-  BSpinner,
 } from 'bootstrap-vue'
 import { required, confirmed } from '@validations'
-import vSelect from 'vue-select'
 import { statusForm } from '@core/utils/statusForm'
 import { successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
@@ -151,8 +137,6 @@ export default {
     BForm,
     BFormGroup,
     BFormInput,
-    BSpinner,
-    vSelect,
   },
 
   data() {
@@ -160,8 +144,6 @@ export default {
       required,
       confirmed,
       statusForm,
-
-      loading: false,
 
       formData: {
         name: '',
@@ -213,7 +195,7 @@ export default {
     },
 
     async update() {
-      this.loading = true
+      this.$emit('setLoading', true)
 
       const { userId } = this.getMemberInUpdate
 
@@ -233,7 +215,7 @@ export default {
           this.handleError(error.response)
         })
 
-      this.loading = false
+      this.$emit('setLoading', false)
     },
 
     handleError(errorResponse) {
@@ -246,7 +228,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-
-</style>

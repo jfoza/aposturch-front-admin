@@ -3,19 +3,7 @@
     <validation-observer
       ref="modulesForm"
     >
-      <div
-        v-if="loading"
-        class="spinner-area"
-      >
-        <b-spinner
-          variant="custom"
-          label="Loading..."
-        />
-      </div>
-
-      <b-form
-        v-if="!loading"
-      >
+      <b-form>
         <b-row
           class="mb-2"
         >
@@ -85,8 +73,7 @@ import {
 } from 'bootstrap-vue'
 import { required } from '@validations'
 import vSelect from 'vue-select'
-import { getModules } from '@core/utils/requests/modules'
-import { updateModulesData, updateProfileData } from '@core/utils/requests/members'
+import { updateModulesData } from '@core/utils/requests/members'
 import { successMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
 import { getArrayAttr } from '@core/helpers/helpers'
@@ -106,8 +93,6 @@ export default {
   data() {
     return {
       required,
-
-      loading: false,
 
       formData: {
         modules: [],
@@ -155,7 +140,7 @@ export default {
     },
 
     async update() {
-      this.loading = true
+      this.$emit('setLoading', true)
 
       const { userId } = this.getMemberInUpdate
 
@@ -173,12 +158,8 @@ export default {
           this.handleError(error.response)
         })
 
-      this.loading = false
+      this.$emit('setLoading', false)
     },
   },
 }
 </script>
-
-<style scoped>
-
-</style>

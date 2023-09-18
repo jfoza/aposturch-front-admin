@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <overlay
+    :show="loading"
+  >
     <form-wizard
       ref="formWizardElements"
       color="#1C2541"
@@ -18,6 +20,7 @@
         <form-1
           ref="profileAndModules"
           :form-data="formData"
+          @setLoading="setLoading"
           @handleNextTab="handleNextTab"
         />
       </tab-content>
@@ -30,6 +33,7 @@
       >
         <form-2
           :form-data="formData"
+          @setLoading="setLoading"
           @handleNextTab="handleNextTab"
           @handlePrevTab="handlePrevTab"
         />
@@ -43,6 +47,7 @@
         <form-3
           :form-data="formData"
           :upload-data="uploadData"
+          @setLoading="setLoading"
           @clearUploadData="clearUploadData"
           @handleNextTab="handleNextTab"
           @handlePrevTab="handlePrevTab"
@@ -56,6 +61,7 @@
       >
         <form-4
           :form-data="formData"
+          @setLoading="setLoading"
           @handleUploadImage="handleUploadImage"
           @handleNextTab="handleNextTab"
           @handlePrevTab="handlePrevTab"
@@ -63,7 +69,7 @@
         />
       </tab-content>
     </form-wizard>
-  </div>
+  </overlay>
 </template>
 
 <script>
@@ -72,6 +78,7 @@ import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import { warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
 import { saveUserImageAvatar } from '@core/utils/requests/users'
+import Overlay from '@/views/components/custom/Overlay.vue'
 import Form1 from './forms/Form1.vue'
 import Form2 from './forms/Form2.vue'
 import Form3 from './forms/Form3.vue'
@@ -79,6 +86,7 @@ import Form4 from './forms/Form4.vue'
 
 export default {
   components: {
+    Overlay,
     FormWizard,
     TabContent,
     Form1,
@@ -90,14 +98,14 @@ export default {
   data() {
     return {
       formData: {
-        name: 'Membro Teste',
-        email: 'membro-teste1@gmail.com',
-        password: 'Teste123',
-        passwordConfirmation: 'Teste123',
+        name: '',
+        email: '',
+        password: '',
+        passwordConfirmation: '',
         profile: null,
         modules: [],
         church: null,
-        phone: '51999887766',
+        phone: '',
         zipCode: '',
         address: '',
         numberAddress: '',
@@ -111,6 +119,8 @@ export default {
           path: '',
         },
       },
+
+      loading: true,
 
       uploadData: {
         files: [],
@@ -134,6 +144,10 @@ export default {
             warningMessage(messages.errorUploadImage)
           })
       }
+    },
+
+    setLoading(loading) {
+      this.loading = loading
     },
 
     clearUploadData() {

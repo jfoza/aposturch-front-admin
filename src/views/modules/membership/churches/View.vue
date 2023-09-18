@@ -2,17 +2,10 @@
   <div
     id="user-profile"
   >
-    <div
-      v-if="loading"
-      class="spinner-area"
+    <overlay
+      :show="loading"
+      opacity="0.95"
     >
-      <b-spinner />
-    </div>
-
-    <div
-      v-if="!loading"
-    >
-
       <b-link
         style="color: #5e5873"
         :to="{ name: membershipModuleRouter.churches.name }"
@@ -42,12 +35,13 @@
         :address-data="churchData.address"
         class-name="card p-card-form"
       />
-    </div>
+    </overlay>
+
   </div>
 </template>
 
 <script>
-import { BSpinner, BLink } from 'bootstrap-vue'
+import { BLink } from 'bootstrap-vue'
 import ViewHeader from '@/views/modules/membership/churches/components/ViewHeader.vue'
 import ViewGeneral from '@/views/modules/membership/churches/components/ViewGeneral.vue'
 import ViewAddress from '@/views/modules/membership/churches/components/ViewAddress.vue'
@@ -57,11 +51,12 @@ import { messages } from '@core/utils/validations/messages'
 import membershipModuleRouter from '@/views/modules/membership/routes'
 import { actions, subjects } from '@/libs/acl/rules'
 import generalRoutes from '@/router/general/index'
+import Overlay from '@/views/components/custom/Overlay.vue'
 
 /* eslint-disable global-require */
 export default {
   components: {
-    BSpinner,
+    Overlay,
     BLink,
     ViewHeader,
     ViewGeneral,

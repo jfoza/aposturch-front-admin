@@ -5,7 +5,10 @@
       :link-items="linkItems"
     />
 
-    <div class="card">
+    <overlay
+      class-name="card"
+      :show="loading"
+    >
       <section class="p-2">
         <validation-observer ref="formFilters">
           <b-form>
@@ -260,7 +263,8 @@
           </b-col>
         </b-row>
       </section>
-    </div>
+    </overlay>
+
   </div>
 </template>
 
@@ -283,9 +287,11 @@ import { confirmAction, successMessage, warningMessage } from '@/libs/alerts/swe
 import { messages } from '@core/utils/validations/messages'
 import { actions, subjects } from '@/libs/acl/rules'
 import { getCitiesInChurches } from '@core/utils/requests/cities'
+import Overlay from '@/views/components/custom/Overlay.vue'
 
 export default {
   components: {
+    Overlay,
     ValidationProvider,
     ValidationObserver,
     PageHeader,
@@ -308,6 +314,8 @@ export default {
     return {
       moment,
       required,
+
+      loading: true,
 
       messages,
 

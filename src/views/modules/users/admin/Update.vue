@@ -8,18 +8,8 @@
       :link-items="linkItems"
     />
 
-    <div
-      v-if="loading"
-      class="spinner-area"
-    >
-      <b-spinner
-        variant="custom"
-        label="Loading..."
-      />
-    </div>
-
     <Form
-      v-if="!loading"
+      ref="form"
       :mode="formActions.updateAction"
       :form-data="form"
       @clear="clearForm"
@@ -29,7 +19,6 @@
 
 <script>
 
-import { BSpinner } from 'bootstrap-vue'
 // eslint-disable-next-line import/extensions
 import PageHeader from '@/views/components/custom/PageHeader'
 import { getUserId } from '@core/utils/requests/users'
@@ -40,7 +29,6 @@ import Form from './Form.vue'
 
 export default {
   components: {
-    BSpinner,
     PageHeader,
     Form,
   },
@@ -57,8 +45,6 @@ export default {
           active: true,
         },
       ],
-
-      loading: false,
 
       validation: false,
 
@@ -86,7 +72,7 @@ export default {
   // eslint-disable-next-line consistent-return
   created() {
     if (!this.userStore) {
-      // this.redirectToMainPage()
+      this.redirectToMainPage()
 
       return false
     }
@@ -100,7 +86,7 @@ export default {
 
   methods: {
     async getChooseUser() {
-      this.loading = true
+      this.$refs.form.loading = true
 
       await getUserId(this.userStore.id)
         .then(response => {
@@ -127,7 +113,7 @@ export default {
           warningMessage(messages.impossible)
         })
 
-      this.loading = false
+      this.$refs.form.loading = false
     },
 
     redirectToMainPage() {
@@ -152,7 +138,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

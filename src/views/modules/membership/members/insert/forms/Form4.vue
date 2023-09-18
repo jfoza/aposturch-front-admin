@@ -3,19 +3,7 @@
     <validation-observer
       ref="profileAndModules"
     >
-      <div
-        v-if="loading"
-        class="spinner-area"
-      >
-        <b-spinner
-          variant="custom"
-          label="Loading..."
-        />
-      </div>
-
-      <b-form
-        v-if="!loading"
-      >
+      <b-form>
         <b-row class="mb-2">
           <b-col cols="12">
             <h6>Agora vamos definir os dados de endereço do novo membro:</h6>
@@ -250,7 +238,6 @@ import {
   BForm,
   BFormGroup,
   BFormInput,
-  BSpinner,
 } from 'bootstrap-vue'
 import { min, required } from '@validations'
 import vSelect from 'vue-select'
@@ -272,7 +259,6 @@ export default {
     BForm,
     BFormGroup,
     BFormInput,
-    BSpinner,
     ButtonPrev,
     vSelect,
   },
@@ -290,8 +276,6 @@ export default {
       min,
       states,
 
-      loading: true,
-
       cities: [],
 
       userCreated: { id: '' },
@@ -305,33 +289,29 @@ export default {
   },
 
   mounted() {
-    this.handlePopulateSelects()
+    this.getCitiesByUFSelect()
   },
 
   methods: {
-    async handlePopulateSelects() {
-      this.loading = true
-
-      await this.getCitiesByUFSelect()
-
-      this.loading = false
-    },
-
     async getCitiesByUFSelect() {
       if (this.getFormData.state) {
+        this.$emit('setLoading', true)
+
         await getCitiesByUf(this.getFormData.state.uf)
           .then(response => {
             if (response.status === 200) {
               this.cities = response.data
             }
           })
+
+        this.$emit('setLoading', false)
       } else {
         this.clearZipCodeAddress()
       }
     },
 
     async handleFormSubmit() {
-      this.loading = true
+      this.$emit('setLoading', true)
 
       const result = new Promise((resolve, reject) => {
         this.$refs.profileAndModules.validate()
@@ -349,7 +329,7 @@ export default {
         await this.handleInsertNewMember()
       }
 
-      this.loading = false
+      this.$emit('setLoading', false)
     },
 
     async handleInsertNewMember() {
@@ -367,7 +347,7 @@ export default {
         .catch(error => {
           this.handleError(error.response)
 
-          this.loading = false
+          this.$emit('setLoading', false)
         })
 
       await this.$emit('handleUploadImage', this.userCreated.id)
@@ -387,7 +367,7 @@ export default {
 
     async getAddressByZipCode() {
       if (this.getFormData.zipCode.length === 9) {
-        this.loading = true
+        this.$emit('setLoading', true)
 
         await getAddressByZipCode(strClear(this.getFormData.zipCode))
           .then(response => {
@@ -418,7 +398,7 @@ export default {
             }
           })
 
-        this.loading = false
+        this.$emit('setLoading', false)
       }
     },
 

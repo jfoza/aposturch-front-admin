@@ -3,19 +3,7 @@
     <validation-observer
       ref="churches"
     >
-      <div
-        v-if="loading"
-        class="spinner-area"
-      >
-        <b-spinner
-          variant="custom"
-          label="Loading..."
-        />
-      </div>
-
-      <b-form
-        v-if="!loading"
-      >
+      <b-form>
         <b-row
           class="mb-2"
         >
@@ -79,7 +67,6 @@ import {
   BCol,
   BForm,
   BFormGroup,
-  BSpinner,
 } from 'bootstrap-vue'
 import { required } from '@validations'
 import vSelect from 'vue-select'
@@ -95,15 +82,12 @@ export default {
     BCol,
     BForm,
     BFormGroup,
-    BSpinner,
     vSelect,
   },
 
   data() {
     return {
       required,
-
-      loading: false,
 
       formData: {
         church: null,
@@ -151,7 +135,7 @@ export default {
     },
 
     async update() {
-      this.loading = true
+      this.$emit('setLoading', true)
 
       const { userId } = this.getMemberInUpdate
 
@@ -169,12 +153,8 @@ export default {
           this.handleError(error.response)
         })
 
-      this.loading = false
+      this.$emit('setLoading', false)
     },
   },
 }
 </script>
-
-<style scoped>
-
-</style>

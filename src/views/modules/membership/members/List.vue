@@ -686,7 +686,7 @@ export default {
     },
 
     redirectUpdatePage({ user_id }) {
-      this.$store.commit('chooseDataMembershipModule/SET_CHOOSE_MEMBER_USER_ID', user_id)
+      this.$store.commit('membershipModuleStore/SET_CHOOSE_MEMBER_USER_ID', user_id)
 
       this.$router.replace({ name: membershipModuleRoutes.membersUpdate.name })
     },

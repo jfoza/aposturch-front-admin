@@ -127,7 +127,7 @@ export default {
   data() {
     return {
       loading: true,
-      chooseMemberUserId: this.$store.state.chooseDataMembershipModule.chooseMemberUserId,
+      chooseMemberUserId: this.$store.state.membershipModuleStore.chooseMemberUserId,
     }
   },
 
@@ -151,7 +151,7 @@ export default {
       await getProfiles({ profileTypeUniqueName: profileTypes.MEMBERSHIP }).then(response => {
         const profiles = response.data
 
-        this.$store.commit('chooseDataMembershipModule/SET_PROFILES_IN_UPDATE_MEMBER', profiles)
+        this.$store.commit('membershipModuleStore/SET_PROFILES_IN_UPDATE_MEMBER', profiles)
       })
     },
 
@@ -159,7 +159,7 @@ export default {
       await getModules().then(response => {
         const modules = response.data
 
-        this.$store.commit('chooseDataMembershipModule/SET_MODULES_IN_UPDATE_MEMBER', modules)
+        this.$store.commit('membershipModuleStore/SET_MODULES_IN_UPDATE_MEMBER', modules)
       })
     },
 
@@ -167,7 +167,7 @@ export default {
       await getChurchesUserLogged().then(response => {
         const churches = response.data
 
-        this.$store.commit('chooseDataMembershipModule/SET_CHURCHES_IN_UPDATE_MEMBER', churches)
+        this.$store.commit('membershipModuleStore/SET_CHURCHES_IN_UPDATE_MEMBER', churches)
       })
     },
 
@@ -193,7 +193,7 @@ export default {
         } = response.data
 
         this.$store.commit(
-          'chooseDataMembershipModule/SET_MEMBER_IN_UPDATE',
+          'membershipModuleStore/SET_MEMBER_IN_UPDATE',
           {
             userId,
             name,

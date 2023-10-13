@@ -95,13 +95,13 @@ export default {
         profile: null,
       },
 
-      profiles: this.$store.state.chooseDataMembershipModule.profilesInUpdateMember,
+      profiles: this.$store.state.membershipModuleStore.profilesInUpdateMember,
     }
   },
 
   computed: {
     getMemberInUpdate() {
-      return this.$store.state.chooseDataMembershipModule.memberInUpdate
+      return this.$store.state.membershipModuleStore.memberInUpdate
     },
   },
 

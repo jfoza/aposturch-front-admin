@@ -20,10 +20,20 @@
                 :key="key"
                 class="text-truncate"
                 style="max-width: 35%"
-                :to="{ name: linkItem.routeName }"
                 :active="linkItem.active"
               >
-                <span class="text-custom-blue">{{ linkItem.name }}</span>
+                <b-link
+                  v-if="linkItem.routeName"
+                  :to="{name: linkItem.routeName}"
+                >
+                  <span class="text-custom-blue">{{ linkItem.name }}</span>
+                </b-link>
+
+                <span
+                  v-else
+                  class="text-custom-blue"
+                >{{ linkItem.name }}
+                </span>
               </b-breadcrumb-item>
             </b-breadcrumb>
           </div>
@@ -34,11 +44,11 @@
 </template>
 
 <script>
-import { BBreadcrumb, BBreadcrumbItem } from 'bootstrap-vue'
+import { BBreadcrumb, BBreadcrumbItem, BLink } from 'bootstrap-vue'
 
 export default {
 
-  components: { BBreadcrumb, BBreadcrumbItem },
+  components: { BBreadcrumb, BBreadcrumbItem, BLink },
   props: {
     screenName: {
       required: true,

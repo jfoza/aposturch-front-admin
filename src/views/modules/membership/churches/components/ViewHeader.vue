@@ -189,7 +189,7 @@ export default {
 
   methods: {
     redirectUpdatePage() {
-      this.$store.commit('chooseDataMembershipModule/SET_CHOOSE_CHURCH', this.headerData)
+      this.$store.commit('membershipModuleStore/SET_CHOOSE_CHURCH', this.headerData)
 
       this.$router.replace({ name: membershipModuleRoutes.churchesUpdate.name })
     },

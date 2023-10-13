@@ -719,7 +719,7 @@ export default {
 
     clear() {
       this.$emit('clear')
-      this.$store.commit('chooseDataMembershipModule/SET_CHOOSE_CHURCH', null)
+      this.$store.commit('membershipModuleStore/SET_CHOOSE_CHURCH', null)
 
       if (this.redirect) {
         this.$router.replace({

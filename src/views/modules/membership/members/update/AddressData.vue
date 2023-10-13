@@ -268,7 +268,7 @@ export default {
 
   computed: {
     getMemberInUpdate() {
-      return this.$store.state.chooseDataMembershipModule.memberInUpdate
+      return this.$store.state.membershipModuleStore.memberInUpdate
     },
   },
 

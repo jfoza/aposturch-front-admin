@@ -2,9 +2,16 @@
 import '@/assets/scss/sweetalerts.scss'
 import Swal from 'sweetalert2'
 
+const successIcon = require('@/assets/images/icons/custom/check-success.png')
+const exclamationWarningIcon = require('@/assets/images/icons/custom/exclamation-warning.png')
+const exclamationInfoIcon = require('@/assets/images/icons/custom/exclamation-info-icon.png')
+const errorIcon = require('@/assets/images/icons/custom/error-x.png')
+
+const iconHtml = (icon, width) => `<img width="${width || 80}" src="${icon}" alt="" />`
+
 export const errorMessage = message => Swal.fire({
-  icon: 'error',
-  html: `${message}`,
+  iconHtml: iconHtml(errorIcon),
+  html: `${message || ''}`,
   confirmButtonText: 'Ok',
   customClass: {
     confirmButton: 'confirm-button-sweet',
@@ -12,19 +19,29 @@ export const errorMessage = message => Swal.fire({
 })
 
 export const successMessage = (message, title) => Swal.fire({
-  icon: 'success',
+  iconHtml: iconHtml(successIcon, 60),
   title: title || '',
-  html: `${message}`,
+  html: `${message || ''}`,
+  confirmButtonText: 'Ok',
+  customClass: {
+    confirmButton: 'success-outline-button-sweet',
+  },
+})
+
+export const warningMessage = message => Swal.fire({
+  iconHtml: iconHtml(exclamationWarningIcon),
+  html: `${message || ''}`,
   confirmButtonText: 'Ok',
   customClass: {
     confirmButton: 'confirm-button-sweet',
   },
 })
 
-export const warningMessage = message => Swal.fire({
-  icon: 'warning',
-  html: `${message}`,
-  confirmButtonText: 'Ok',
+export const warningInfoMessage = (title, message, messageButton) => Swal.fire({
+  iconHtml: iconHtml(exclamationInfoIcon),
+  title: title || '',
+  html: `${message || ''}`,
+  confirmButtonText: messageButton || '',
   customClass: {
     confirmButton: 'confirm-button-sweet',
   },
@@ -32,7 +49,8 @@ export const warningMessage = message => Swal.fire({
 
 export const successMessageAction = message => new Promise(resolve => {
   Swal.fire({
-    html: message,
+    iconHtml: iconHtml(successIcon),
+    html: `${message || ''}`,
     icon: 'success',
     confirmButtonText: 'Ok',
     customClass: {
@@ -45,13 +63,17 @@ export const successMessageAction = message => new Promise(resolve => {
   })
 })
 
-export const warningMessageAction = message => new Promise(resolve => {
+export const warningMessageAction = (title, message, confirmButtonMessage) => new Promise(resolve => {
   Swal.fire({
-    icon: 'warning',
-    html: `${message}`,
-    confirmButtonText: 'Ok',
+    iconHtml: iconHtml(exclamationWarningIcon),
+    title: title || '',
+    html: `${message || ''}`,
+    showDenyButton: true,
+    confirmButtonText: confirmButtonMessage || '',
+    denyButtonText: 'Cancelar',
     customClass: {
       confirmButton: 'confirm-button-sweet',
+      denyButton: 'cancel-button-sweet',
     },
   }).then(result => {
     if (result.isConfirmed) {
@@ -60,10 +82,10 @@ export const warningMessageAction = message => new Promise(resolve => {
   })
 })
 
-export const confirmAction = message => new Promise((resolve, reject) => {
+export const confirmAction = message => new Promise(resolve => {
   Swal.fire({
-    html: message,
-    icon: 'warning',
+    html: message || '',
+    iconHtml: iconHtml(exclamationWarningIcon),
     showDenyButton: true,
     confirmButtonText: 'Sim',
     denyButtonText: 'Não',
@@ -73,8 +95,6 @@ export const confirmAction = message => new Promise((resolve, reject) => {
   }).then(result => {
     if (result.isConfirmed) {
       resolve()
-    } else if (result.isDenied) {
-      reject()
     }
   })
 })

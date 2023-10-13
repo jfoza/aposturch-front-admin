@@ -84,7 +84,7 @@ export default {
 
   computed: {
     getDataInStore() {
-      return this.$store.state.chooseDataMembershipModule.chooseChurch
+      return this.$store.state.membershipModuleStore.chooseChurch
     },
   },
 
@@ -181,7 +181,7 @@ export default {
 
     redirectToMainPage() {
       this.clearForm()
-      this.$store.commit('chooseDataMembershipModule/SET_CHOOSE_CHURCH', null)
+      this.$store.commit('membershipModuleStore/SET_CHOOSE_CHURCH', null)
       this.$router.replace({ name: this.generalRoutes.homeRouter.name })
     },
 

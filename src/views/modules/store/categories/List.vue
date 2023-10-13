@@ -1,17 +1,20 @@
 <template>
   <div class="content-wrapper">
     <page-header
-      screen-name="Ver Usuários"
+      screen-name="Ver Categorias"
       :link-items="linkItems"
     />
 
-    <div class="card">
-      <section class="p-2">
+    <overlay
+      :show="loading"
+      class-name="card p-2"
+    >
+      <section>
         <validation-observer ref="formFilters">
           <b-form>
             <b-row class="mb-2">
               <b-col cols="12">
-                <h3>Lista de Usuários</h3>
+                <h3>Lista de Categorias</h3>
                 <p>
                   Para realizar uma busca, selecione o(s) filtros necessário(s) e clique no botão buscar:
                 </p>
@@ -34,7 +37,7 @@
                     <b-form-input
                       id="name"
                       v-model="search.name"
-                      placeholder="Nome do Usuário"
+                      placeholder="Nome"
                       autocomplete="off"
                     />
 
@@ -46,26 +49,21 @@
               <b-col
                 sm="6"
                 lg="4"
+                xl="3"
               >
                 <b-form-group
-                  label="E-mail"
-                  label-for="email"
+                  label="Possuem subcategorias vinculadas"
+                  label-for="name"
                 >
-                  <validation-provider
-                    #default="{ errors }"
-                    name="E-mail"
-                    rules="email"
-                  >
-                    <b-form-input
-                      id="email"
-                      v-model="search.email"
-                      placeholder="E-mail do usuário"
-                      autocomplete="off"
-                      type="email"
-                    />
-
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </validation-provider>
+                  <b-form-radio-group
+                    v-model="search.hasSubcategories"
+                    :options="radioOptions"
+                    class="demo-inline-spacing mb-1"
+                    value-field="value"
+                    text-field="text"
+                    disabled-field="disabled"
+                    @change="findAll"
+                  />
                 </b-form-group>
               </b-col>
 
@@ -105,12 +103,12 @@
                 <b-link
                   type="button"
                   class="btn button-form button-plus"
-                  :to="{ name: usersModuleRoutes.usersInsert.name }"
+                  :to="{ name: getStoreModuleRoutes.categoriesInsert.name }"
                 >
                   <feather-icon
                     icon="PlusIcon"
                   />
-                  Adicionar novo usuário
+                  Adicionar nova categoria
                 </b-link>
               </b-col>
             </b-row>
@@ -118,16 +116,7 @@
         </validation-observer>
       </section>
 
-      <section v-if="loadingTable">
-        <div class="spinner-area">
-          <b-spinner
-            variant="custom"
-            label="Loading..."
-          />
-        </div>
-      </section>
-
-      <section v-if="!loadingTable">
+      <section>
         <b-row>
           <b-col
             md="12"
@@ -192,6 +181,17 @@
           </b-col>
 
           <b-col
+            cols="12"
+          >
+            <div
+              v-if="table.tableBusy"
+              class="spinner-area"
+            >
+              <b-spinner class="spinner-border text-custom-blue" />
+            </div>
+          </b-col>
+
+          <b-col
             v-if="showTable"
             cols="12"
             class="my-2"
@@ -209,12 +209,8 @@
                 <span>{{ row.value }}</span>
               </template>
 
-              <template #cell(email)="row">
+              <template #cell(description)="row">
                 <span>{{ row.value }}</span>
-              </template>
-
-              <template #cell(profile)="row">
-                <span>{{ row.item.profile[0].description }}</span>
               </template>
 
               <template #cell(active)="row">
@@ -228,6 +224,13 @@
               </template>
 
               <template #cell(actions)="row">
+                <button-icon
+                  color="#2772C0"
+                  size="18"
+                  feather-icon="Trash2Icon"
+                  @action="handleConfirmToRemove(row.item)"
+                />
+
                 <button-icon
                   color="#2772C0"
                   size="18"
@@ -250,7 +253,7 @@
           </b-col>
         </b-row>
       </section>
-    </div>
+    </overlay>
   </div>
 </template>
 
@@ -266,20 +269,24 @@ import {
   BSpinner,
   BAlert,
   BLink,
+  BFormRadioGroup,
 } from 'bootstrap-vue'
 import PageHeader from '@/views/components/custom/PageHeader'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { required, email } from '@validations'
-import { getAdminUsers } from '@core/utils/requests/users'
 import moment from 'moment'
 import vSelect from 'vue-select'
 import CustomPagination from '@/views/components/custom/CustomPagination'
 import ButtonIcon from '@/views/components/custom/ButtonIcon'
 import StatusField from '@/views/components/custom/StatusField'
-import usersModuleRoutes from '@/views/modules/users/routes'
+import { getAllCategories, removeCategory } from '@core/utils/requests/categories'
+import { confirmAction, successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
+import { messages } from '@core/utils/validations/messages'
+import Overlay from '@/views/components/custom/Overlay.vue'
 
 export default {
   components: {
+    Overlay,
     ValidationProvider,
     ValidationObserver,
     PageHeader,
@@ -293,6 +300,7 @@ export default {
     BSpinner,
     BAlert,
     BLink,
+    BFormRadioGroup,
     StatusField,
     CustomPagination,
     ButtonIcon,
@@ -305,25 +313,30 @@ export default {
       email,
       titlePage: '',
 
-      usersModuleRoutes,
+      loading: false,
 
       linkItems: [
         {
-          name: 'Gerenciar Usuários',
+          name: 'Gerenciar Categorias',
           routeName: '',
         },
         {
-          name: 'Ver Usuários',
+          name: 'Ver Categorias',
           active: true,
         },
       ],
 
       search: {
         name: '',
-        email: '',
+        hasSubcategories: null,
       },
 
-      loadingTable: false,
+      radioOptions: [
+        { text: 'Todos', value: null, disabled: this.getTableBusy },
+        { text: 'Sim', value: 1, disabled: this.getTableBusy },
+        { text: 'Não', value: 0, disabled: this.getTableBusy },
+      ],
+
       showTable: false,
 
       paginationData: {
@@ -337,14 +350,13 @@ export default {
       table: {
         empty: false,
         tableError: false,
-        tableBusy: false,
+        tableBusy: true,
         tableRows: [10, 25, 50, 100],
         tableOrder: '',
         tableColumnNameOrder: '',
         fields: [
           { key: 'name', label: 'NOME', sortable: true },
-          { key: 'email', label: 'E-MAIL', sortable: true },
-          { key: 'profile', label: 'PERFIL' },
+          { key: 'description', label: 'DESCRIÇÃO' },
           { key: 'active', label: 'STATUS' },
           { key: 'created_at', label: 'CRIADO EM', sortable: true },
           {
@@ -359,24 +371,27 @@ export default {
   },
 
   computed: {
-    getDispatchList() {
-      return this.$route.params.dispatchList
+    getTableBusy() {
+      return this.table.tableBusy
+    },
+
+    getStoreModuleRoutes() {
+      return this.$store.getters['storeModuleCategories/getStoreModuleRoutes']
     },
   },
 
   mounted() {
-    if (this.getDispatchList) {
-      this.findAll()
-    }
+    this.findAll()
   },
 
   methods: {
     findAll() {
+      this.table.tableBusy = true
+
       this.table.tableError = false
       this.table.empty = false
-      this.loadingTable = true
 
-      getAdminUsers(this.setParams())
+      getAllCategories(this.getParams())
         .then(response => {
           if (response.status === 200) {
             if (response.data.data.length > 0) {
@@ -389,14 +404,45 @@ export default {
 
             this.table.empty = true
             this.showTable = false
+            this.table.tableBusy = false
           }
         })
         .catch(() => {
           this.table.tableError = true
+          this.table.tableBusy = false
           this.showTable = false
         })
+    },
 
-      this.loadingTable = false
+    handleConfirmToRemove({ id }) {
+      confirmAction(messages.confirmDelete)
+        .then(() => {
+          this.handleRemoveCategory(id)
+        })
+    },
+
+    async handleRemoveCategory(id) {
+      this.loading = true
+
+      await removeCategory(id)
+        .then(response => {
+          if (response.status === 204) {
+            successMessage(messages.successDelete)
+
+            this.findAll()
+          }
+        })
+        .catch(error => {
+          const errors = error.response.status === 400 || error.response.status === 404
+
+          if (errors) {
+            return warningMessage(error.response.data.error)
+          }
+
+          return warningMessage(messages.impossible)
+        })
+
+      this.loading = false
     },
 
     handleSubmitFormFilters() {
@@ -408,35 +454,33 @@ export default {
         })
     },
 
-    redirectUpdatePage(user) {
-      this.$store.commit('usersModuleStore/SET_CHOOSE_USER', user)
+    redirectUpdatePage(item) {
+      this.$store.commit('storeModuleCategories/setChooseCategory', item)
 
-      this.$router.replace({ name: usersModuleRoutes.usersUpdate.name })
+      this.$router.replace({ name: this.getStoreModuleRoutes.categoriesUpdate.name })
     },
 
     clearFilters() {
       this.search.name = ''
-      this.search.email = ''
+      this.search.hasSubcategories = null
       this.showTable = false
     },
 
     handleOrderTable(context) {
-      console.log(context)
-
       this.table.tableColumnNameOrder = context.sortBy
       this.table.tableOrder = context.sortDesc ? 'desc' : 'asc'
 
       this.findAll()
     },
 
-    setParams() {
+    getParams() {
       return {
         columnName: this.table.tableColumnNameOrder,
         columnOrder: this.table.tableOrder,
         perPage: this.paginationData.defaultSize,
         page: this.paginationData.currentPage,
         name: this.search.name,
-        email: this.search.email,
+        hasSubcategories: this.search.hasSubcategories,
       }
     },
 
@@ -465,22 +509,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.action-search {
+  display: flex;
+}
+
+@media (max-width: 400px) {
   .action-search {
     display: flex;
-  }
+    flex-direction: column;
 
-  @media (max-width: 400px) {
-    .action-search {
-      display: flex;
-      flex-direction: column;
-
-      button {
-        width: 100%;
-      }
-    }
-
-    .button-plus {
+    button {
       width: 100%;
     }
   }
+
+  .button-plus {
+    width: 100%;
+  }
+}
 </style>

@@ -437,7 +437,7 @@ export default {
 
     clear() {
       this.$emit('clear')
-      this.$store.commit('chooseDataUsersModule/SET_CHOOSE_USER', null)
+      this.$store.commit('usersModuleStore/SET_CHOOSE_USER', null)
 
       if (this.redirect) {
         this.$router.replace({

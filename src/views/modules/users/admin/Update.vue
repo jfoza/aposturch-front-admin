@@ -50,7 +50,7 @@ export default {
 
       formActions,
 
-      userStore: this.$store.state.chooseDataUsersModule.chooseUser,
+      userStore: this.$store.state.usersModuleStore.chooseUser,
 
       form: {
         id: '',
@@ -118,7 +118,7 @@ export default {
 
     redirectToMainPage() {
       this.clearForm()
-      this.$store.commit('chooseDataUsersModule/SET_CHOOSE_USER', null)
+      this.$store.commit('usersModuleStore/SET_CHOOSE_USER', null)
       this.$router.replace({ name: 'home' })
     },
 

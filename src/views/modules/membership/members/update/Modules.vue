@@ -98,13 +98,13 @@ export default {
         modules: [],
       },
 
-      modules: this.$store.state.chooseDataMembershipModule.modulesInUpdateMember,
+      modules: this.$store.state.membershipModuleStore.modulesInUpdateMember,
     }
   },
 
   computed: {
     getMemberInUpdate() {
-      return this.$store.state.chooseDataMembershipModule.memberInUpdate
+      return this.$store.state.membershipModuleStore.memberInUpdate
     },
   },
 

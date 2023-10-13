@@ -93,13 +93,13 @@ export default {
         church: null,
       },
 
-      churches: this.$store.state.chooseDataMembershipModule.churchesInUpdateMember,
+      churches: this.$store.state.membershipModuleStore.churchesInUpdateMember,
     }
   },
 
   computed: {
     getMemberInUpdate() {
-      return this.$store.state.chooseDataMembershipModule.memberInUpdate
+      return this.$store.state.membershipModuleStore.memberInUpdate
     },
   },
 

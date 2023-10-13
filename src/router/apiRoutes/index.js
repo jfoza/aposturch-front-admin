@@ -1,4 +1,5 @@
 const membershipModule = 'admin/modules/membership'
+const storeModule = 'admin/modules/store'
 
 export default {
   login: '/admin/auth/login',
@@ -42,4 +43,13 @@ export default {
   memberUpdateModulesData: id => `${membershipModule}/members/modules-data/id/${id}`,
   memberUpdateProfileData: id => `${membershipModule}/members/profile-data/id/${id}`,
   memberUpdatePasswordData: id => `${membershipModule}/members/password-data/id/${id}`,
+
+  categories: `${storeModule}/categories`,
+  categoryId: id => `${storeModule}/categories/id/${id}`,
+
+  subcategories: `${storeModule}/subcategories`,
+  subcategoryId: id => `${storeModule}/subcategories/id/${id}`,
+
+  products: `${storeModule}/products`,
+  productId: id => `${storeModule}/products/id/${id}`,
 }

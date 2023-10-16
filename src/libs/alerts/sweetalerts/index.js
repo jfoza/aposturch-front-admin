@@ -82,7 +82,7 @@ export const warningMessageAction = (title, message, confirmButtonMessage) => ne
   })
 })
 
-export const confirmAction = message => new Promise(resolve => {
+export const confirmAction = message => new Promise((resolve, reject) => {
   Swal.fire({
     html: message || '',
     iconHtml: iconHtml(exclamationWarningIcon),
@@ -95,6 +95,29 @@ export const confirmAction = message => new Promise(resolve => {
   }).then(result => {
     if (result.isConfirmed) {
       resolve()
+    } else if (result.isDenied) {
+      reject()
+    }
+  })
+})
+
+export const warningMessageUpdateStatus = (title, html) => new Promise((resolve, reject) => {
+  Swal.fire({
+    iconHtml: iconHtml(exclamationWarningIcon),
+    title,
+    html,
+    showDenyButton: true,
+    confirmButtonText: 'Sim, alterar',
+    denyButtonText: 'Cancelar',
+    customClass: {
+      confirmButton: 'confirm-button-sweet',
+      denyButton: 'cancel-button-sweet',
+    },
+  }).then(result => {
+    if (result.isConfirmed) {
+      resolve()
+    } else if (result.isDenied) {
+      reject()
     }
   })
 })

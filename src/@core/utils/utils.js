@@ -43,31 +43,27 @@ export const useRouter = () => {
   return { ...toRefs(state), router: vm.$router }
 }
 
-/**
- * This is just enhancement over Object.extend [Gives deep extend]
- * @param {target} a Object which contains values to be overridden
- * @param {source} b Object which contains values to override
- */
-// export const objectExtend = (a, b) => {
-//   // Don't touch 'null' or 'undefined' objects.
-//   if (a == null || b == null) {
-//     return a
-//   }
+export const strClear = str => str.replace(/\D/g, '')
 
-//   Object.keys(b).forEach(key => {
-//     if (Object.prototype.toString.call(b[key]) === '[object Object]') {
-//       if (Object.prototype.toString.call(a[key]) !== '[object Object]') {
-//         // eslint-disable-next-line no-param-reassign
-//         a[key] = b[key]
-//       } else {
-//         // eslint-disable-next-line no-param-reassign
-//         a[key] = objectExtend(a[key], b[key])
-//       }
-//     } else {
-//       // eslint-disable-next-line no-param-reassign
-//       a[key] = b[key]
-//     }
-//   })
+export const getArrayAttr = (array, field) => array.map(item => item[field])
 
-//   return a
-// }
+export const randomNumberInterval = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a
+
+export const moneyFormatBRL = value => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value)
+
+export const moneyFormatEN = value => {
+  let aux = value
+
+  aux = aux.replace('.', '')
+
+  return aux.replace(',', '.')
+}
+
+export const money = {
+  decimal: ',',
+  thousands: '.',
+  prefix: '',
+  suffix: '',
+  precision: 2,
+  masked: false,
+}

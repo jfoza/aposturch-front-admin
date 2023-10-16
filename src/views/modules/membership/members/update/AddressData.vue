@@ -231,7 +231,7 @@ import { states } from '@core/utils/states'
 import { getCitiesByUf } from '@core/utils/requests/cities'
 import { messages } from '@core/utils/validations/messages'
 import { successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
-import { strClear } from '@core/helpers/helpers'
+import { strClear } from '@core/utils/utils'
 import { updateAddressData } from '@core/utils/requests/members'
 
 export default {

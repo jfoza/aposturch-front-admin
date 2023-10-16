@@ -128,10 +128,9 @@
           </b-col>
         </b-row>
 
-        <b-row class="my-2">
+        <b-row class="mt-3 mb-1">
           <b-col
-            class="px-3"
-            sm="6"
+            md="6"
           >
             <div
               v-if="showTable"
@@ -150,6 +149,23 @@
             </div>
           </b-col>
 
+          <b-col
+            v-if="hasUpdateStatus"
+            class="btn-update-status-container"
+            md="6"
+          >
+            <button
+              :disabled="!checkAll && categoriesToUpdateStatus.length === 0"
+              type="button"
+              class="btn btn-outline-form"
+              @click="handleConfirmUpdateManyCategoriesStatus"
+            >
+              Alterar status dos selecionados
+            </button>
+          </b-col>
+        </b-row>
+
+        <b-row>
           <b-col cols="12">
             <b-alert
               variant="primary"
@@ -201,10 +217,28 @@
               sticky-header="380px"
               :busy.sync="table.tableBusy"
               :no-local-sorting="true"
-              :fields="table.fields"
+              :fields="getFields"
               :items="table.items"
               @context-changed="handleOrderTable"
             >
+              <template
+                #head(id)="data"
+              >
+                <b-form-checkbox
+                  v-model="checkAll"
+                  :disabled="table.items.length === 0"
+                  class="p-0"
+                  @change="checkOrUncheckAll()"
+                />
+              </template>
+
+              <template #cell(id)="row">
+                <b-form-checkbox
+                  v-model="categoriesToUpdateStatus"
+                  :value="row.item.id"
+                />
+              </template>
+
               <template #cell(name)="row">
                 <span>{{ row.value }}</span>
               </template>
@@ -213,18 +247,45 @@
                 <span>{{ row.value }}</span>
               </template>
 
-              <template #cell(active)="row">
-                <status-field
-                  :status="row.value"
-                />
-              </template>
-
               <template #cell(created_at)="row">
                 <span>{{ moment(row.value).format("DD/MM/YYYY HH:mm") }}</span>
               </template>
 
+              <template #cell(active)="row">
+                <b-form-checkbox
+                  v-if="hasUpdateStatus"
+                  :checked="row.value"
+                  class="custom-control-success"
+                  name="check-button"
+                  switch
+                  @change="handleConfirmUpdateCategoryStatus(row.item)"
+                >
+                  <span class="switch-icon-left">
+                    <feather-icon icon="CheckIcon" />
+                  </span>
+                  <span class="switch-icon-right" />
+                </b-form-checkbox>
+
+                <b-form-checkbox
+                  v-if="!hasUpdateStatus"
+                  v-b-tooltip.hover
+                  title="Não é possível alterar o status deste registro"
+                  :disabled="true"
+                  :checked="row.value"
+                  class="custom-control-success"
+                  name="check-button"
+                  switch
+                >
+                  <span class="switch-icon-left">
+                    <feather-icon icon="CheckIcon" />
+                  </span>
+                  <span class="switch-icon-right" />
+                </b-form-checkbox>
+              </template>
+
               <template #cell(actions)="row">
                 <button-icon
+                  v-if="hasRemove"
                   color="#2772C0"
                   size="18"
                   feather-icon="Trash2Icon"
@@ -270,6 +331,8 @@ import {
   BAlert,
   BLink,
   BFormRadioGroup,
+  BFormCheckbox,
+  VBTooltip,
 } from 'bootstrap-vue'
 import PageHeader from '@/views/components/custom/PageHeader'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
@@ -278,11 +341,14 @@ import moment from 'moment'
 import vSelect from 'vue-select'
 import CustomPagination from '@/views/components/custom/CustomPagination'
 import ButtonIcon from '@/views/components/custom/ButtonIcon'
-import StatusField from '@/views/components/custom/StatusField'
-import { getAllCategories, removeCategory } from '@core/utils/requests/categories'
-import { confirmAction, successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
+import { actions, subjects } from '@/libs/acl/rules'
+import { getAllCategories, removeCategory, updateStatusCategories } from '@core/utils/requests/categories'
+import {
+  confirmAction, successMessage, warningMessage, warningMessageUpdateStatus,
+} from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
 import Overlay from '@/views/components/custom/Overlay.vue'
+import { getArrayAttr } from '@core/utils/utils'
 
 export default {
   components: {
@@ -301,9 +367,13 @@ export default {
     BAlert,
     BLink,
     BFormRadioGroup,
-    StatusField,
+    BFormCheckbox,
     CustomPagination,
     ButtonIcon,
+  },
+
+  directives: {
+    'b-tooltip': VBTooltip,
   },
 
   data() {
@@ -326,6 +396,8 @@ export default {
         },
       ],
 
+      checkAll: false,
+
       search: {
         name: '',
         hasSubcategories: null,
@@ -338,6 +410,8 @@ export default {
       ],
 
       showTable: false,
+
+      categoriesToUpdateStatus: [],
 
       paginationData: {
         currentPage: 0,
@@ -354,17 +428,6 @@ export default {
         tableRows: [10, 25, 50, 100],
         tableOrder: '',
         tableColumnNameOrder: '',
-        fields: [
-          { key: 'name', label: 'NOME', sortable: true },
-          { key: 'description', label: 'DESCRIÇÃO' },
-          { key: 'active', label: 'STATUS' },
-          { key: 'created_at', label: 'CRIADO EM', sortable: true },
-          {
-            key: 'actions',
-            label: 'AÇÕES',
-            class: 'width-custom-column text-center',
-          },
-        ],
         items: [],
       },
     }
@@ -378,6 +441,32 @@ export default {
     getStoreModuleRoutes() {
       return this.$store.getters['storeModuleCategories/getStoreModuleRoutes']
     },
+
+    hasUpdateStatus() {
+      return this.$can(actions.UPDATE, subjects.STORE_MODULE_CATEGORIES_STATUS)
+    },
+
+    hasRemove() {
+      return this.$can(actions.DELETE, subjects.STORE_MODULE_CATEGORIES)
+    },
+
+    getFields() {
+      return [
+        this.hasUpdateStatus
+          ? { key: 'id', label: '#', class: 'text-center' }
+          : null,
+        { key: 'name', label: 'NOME', sortable: true },
+        { key: 'description', label: 'DESCRIÇÃO' },
+        { key: 'created_at', label: 'CRIADO EM', sortable: true },
+        { key: 'active', label: 'STATUS', sortable: true },
+
+        {
+          key: 'actions',
+          label: 'AÇÕES',
+          class: 'width-custom-column text-center',
+        },
+      ]
+    },
   },
 
   mounted() {
@@ -390,6 +479,9 @@ export default {
 
       this.table.tableError = false
       this.table.empty = false
+
+      this.categoriesToUpdateStatus = []
+      this.checkAll = false
 
       getAllCategories(this.getParams())
         .then(response => {
@@ -454,6 +546,61 @@ export default {
         })
     },
 
+    handleConfirmUpdateManyCategoriesStatus() {
+      const { title, value } = messages.confirmUpdateManyCategoriesStatus
+
+      warningMessageUpdateStatus(title, value)
+        .then(() => {
+          this.handleUpdateStatus(this.categoriesToUpdateStatus)
+        })
+        .catch(() => {
+          this.table.items = []
+          this.findAll()
+        })
+    },
+
+    handleConfirmUpdateCategoryStatus({ id, active }) {
+      const { title1, title2, value } = messages.confirmUpdateUniqueCategoryStatus
+
+      warningMessageUpdateStatus(active ? title1 : title2, value)
+        .then(() => {
+          this.handleUpdateStatus([id])
+        })
+        .catch(() => {
+          this.table.items = []
+          this.findAll()
+        })
+    },
+
+    async handleUpdateStatus(categoriesId) {
+      this.loading = true
+
+      await updateStatusCategories({ categoriesId })
+        .then(response => {
+          if (response.status === 200) {
+            this.categoriesToUpdateStatus = []
+            this.checkAll = false
+
+            this.findAll()
+          }
+        })
+
+      this.loading = false
+    },
+
+    checkOrUncheckAll() {
+      let categories = this.table.items
+
+      if (this.checkAll) {
+        categories = categories.filter(item => item.id)
+
+        this.categoriesToUpdateStatus = getArrayAttr(categories, 'id')
+      } else {
+        this.categoriesToUpdateStatus = []
+        this.checkAll = false
+      }
+    },
+
     redirectUpdatePage(item) {
       this.$store.commit('storeModuleCategories/setChooseCategory', item)
 
@@ -511,6 +658,17 @@ export default {
 <style lang="scss" scoped>
 .action-search {
   display: flex;
+}
+
+.btn-update-status-container {
+  text-align: right;
+}
+
+@media (max-width: 767px) {
+  .btn-update-status-container {
+    text-align: left;
+    margin-top: 2rem;
+  }
 }
 
 @media (max-width: 400px) {

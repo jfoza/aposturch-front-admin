@@ -427,7 +427,7 @@ import {
 import Vue from 'vue'
 import { getCitiesInPersons } from '@core/utils/requests/cities'
 import { getChurchesUserLogged } from '@core/utils/requests/churches'
-import { strClear } from '@core/helpers/helpers'
+import { strClear } from '@core/utils/utils'
 import profileTypes from '@core/utils/profileTypes'
 import Overlay from '@/views/components/custom/Overlay.vue'
 import {

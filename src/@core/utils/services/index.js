@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { strClear } from '@core/helpers/helpers'
 
 export const zipCodeService = zipCode => new Promise((resolve, reject) => {
   axios

@@ -69,14 +69,13 @@ import {
   BCol,
   BForm,
   BFormGroup,
-  BSpinner,
 } from 'bootstrap-vue'
 import { required } from '@validations'
 import vSelect from 'vue-select'
 import { updateModulesData } from '@core/utils/requests/members'
 import { successMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
-import { getArrayAttr } from '@core/helpers/helpers'
+import { getArrayAttr } from '@core/utils/utils'
 
 export default {
   components: {
@@ -86,7 +85,6 @@ export default {
     BCol,
     BForm,
     BFormGroup,
-    BSpinner,
     vSelect,
   },
 

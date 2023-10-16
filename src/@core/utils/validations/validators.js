@@ -1,4 +1,4 @@
-import { strClear } from '@/@core/helpers/helpers'
+import { strClear } from '@/@core/utils/utils'
 
 export const validatorEqualDigits = str => new Set(str).size > 1
 

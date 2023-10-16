@@ -22,5 +22,16 @@ export const messages = {
   confirmDeleteUserChurch: 'Deseja remover o vínculo deste usuário com esta igreja ?',
   confirmGenerateNewPassword: 'Tem certeza que deseja gerar uma nova senha para este usuário ?',
 
+  confirmUpdateManyCategoriesStatus: {
+    title: 'Tem certeza que deseja alterar estes registros ?',
+    value: 'Essa ação irá afetar a visualização das subcategorias e produtos vinculados. <br>Categorias ativas serão inativadas.<br>Categorias inativas serão ativadas novamente.',
+  },
+
+  confirmUpdateUniqueCategoryStatus: {
+    title1: 'Tem certeza que deseja inativar ?',
+    title2: 'Tem certeza que deseja ativar ?',
+    value: 'Essa ação irá afetar a visualização de produtos e subcategorias vinculadas a esta categoria.',
+  },
+
   countField: value => `Este campo deve conter no mínimo ${value} caracteres.`,
 }

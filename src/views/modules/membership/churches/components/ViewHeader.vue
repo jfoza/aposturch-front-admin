@@ -112,7 +112,7 @@ import bg5 from '@/assets/images/custom/background/bg-view-5.png'
 import bg6 from '@/assets/images/custom/background/bg-view-6.png'
 import bg7 from '@/assets/images/custom/background/bg-view-7.png'
 import defaultProfileImage from '@/assets/images/custom/logo/default-church.png'
-import { randomNumberInterval } from '@core/helpers/helpers'
+import { randomNumberInterval } from '@core/utils/utils'
 import membershipModuleRoutes from '@/views/modules/membership/routes'
 
 export default {

@@ -126,7 +126,7 @@ import { statusForm } from '@core/utils/statusForm'
 import { successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
 import { updateGeneralData } from '@core/utils/requests/members'
-import { strClear } from '@core/helpers/helpers'
+import { strClear } from '@core/utils/utils'
 
 export default {
   components: {

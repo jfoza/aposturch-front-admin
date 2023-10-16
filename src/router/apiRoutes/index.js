@@ -46,6 +46,7 @@ export default {
 
   categories: `${storeModule}/categories`,
   categoryId: id => `${storeModule}/categories/id/${id}`,
+  categoriesStatus: `${storeModule}/categories/status`,
 
   subcategories: `${storeModule}/subcategories`,
   subcategoryId: id => `${storeModule}/subcategories/id/${id}`,

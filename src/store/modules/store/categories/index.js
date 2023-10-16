@@ -10,7 +10,7 @@ const state = {
     id: '',
     name: '',
     description: '',
-    subcategory: [],
+    subcategories: [],
   },
 }
 
@@ -24,14 +24,14 @@ const mutations = {
       id,
       name,
       description,
-      subcategory,
+      subcategories,
     } = itemData
 
     state.categoriesForm = {
       id,
       name,
       description,
-      subcategory,
+      subcategories,
     }
   },
 
@@ -40,7 +40,7 @@ const mutations = {
       id: '',
       name: '',
       description: '',
-      subcategory: [],
+      subcategories: [],
     }
 
     state.chooseCategory = null

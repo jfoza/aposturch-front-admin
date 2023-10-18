@@ -1,11 +1,14 @@
 /* eslint-disable no-shadow */
+
 const state = {
   chooseSubcategory: null,
 
-  subcategoryForm: {
-    categoryId: '',
+  subcategoriesForm: {
+    id: '',
+    category: null,
     name: '',
     description: '',
+    products: [],
   },
 }
 
@@ -14,24 +17,40 @@ const mutations = {
     state.chooseSubcategory = itemData
   },
 
-  setSubcategoryForm(state, itemData) {
+  setSubcategoriesForm(state, itemData) {
     const {
-      categoryId,
+      id,
+      category,
       name,
       description,
+      products,
     } = itemData
 
-    state.subcategoryForm = {
-      categoryId,
+    state.subcategoriesForm = {
+      id,
+      category,
       name,
       description,
+      products,
     }
+  },
+
+  clearSubcategoriesForm(state) {
+    state.subcategoriesForm = {
+      id: '',
+      category: null,
+      name: '',
+      description: '',
+      products: [],
+    }
+
+    state.chooseSubcategory = null
   },
 }
 
 const getters = {
   getChooseSubcategory: state => state.chooseSubcategory,
-  getSubcategoriesForm: state => state.subcategoryForm,
+  getSubcategoriesForm: state => state.subcategoriesForm,
 }
 
 export default {

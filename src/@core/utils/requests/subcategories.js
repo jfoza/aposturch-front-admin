@@ -45,6 +45,17 @@ export const updateSubcategory = (id, form) => new Promise((resolve, reject) => 
     })
 })
 
+export const updateStatusSubcategories = form => new Promise((resolve, reject) => {
+  axiosIns
+    .put(apiRoutes.subcategoriesStatus, form)
+    .then(response => {
+      resolve(response)
+    })
+    .catch(error => {
+      reject(error)
+    })
+})
+
 export const removeSubcategory = id => new Promise((resolve, reject) => {
   axiosIns
     .delete(apiRoutes.subcategoryId(id))

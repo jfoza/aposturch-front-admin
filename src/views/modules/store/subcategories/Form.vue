@@ -24,7 +24,6 @@
                 <b-form-input
                   id="name"
                   v-model="getFormData.name"
-                  :state="errors.length > 0 ? false : null"
                   autocomplete="off"
                 />
 
@@ -46,6 +45,35 @@
                 v-model="getFormData.description"
                 autocomplete="off"
               />
+            </b-form-group>
+          </b-col>
+
+          <b-col
+            sm="6"
+            lg="4"
+          >
+            <b-form-group
+              label="Categoria"
+              label-for="category"
+            >
+              <validation-provider
+                #default="{ errors }"
+                name="Categoria"
+                rules="required"
+              >
+                <v-select
+                  id="category"
+                  v-model="getFormData.category"
+                  :options="categories"
+                  variant="custom"
+                  item-text="name"
+                  item-value="id"
+                  placeholder="Selecione uma categoria"
+                  label="name"
+                />
+
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
             </b-form-group>
           </b-col>
 
@@ -110,11 +138,14 @@ import { statusForm } from '@core/utils/statusForm'
 import { successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { formActions } from '@core/utils/formActions'
 import { messages } from '@core/utils/validations/messages'
-import { createCategory, updateCategory } from '@core/utils/requests/categories'
+import { getAllCategories } from '@core/utils/requests/categories'
 import Overlay from '@/views/components/custom/Overlay.vue'
+import vSelect from 'vue-select'
+import { createSubcategory, updateSubcategory } from '@core/utils/requests/subcategories'
 
 export default {
   components: {
+    vSelect,
     Overlay,
     ValidationProvider,
     ValidationObserver,
@@ -142,6 +173,8 @@ export default {
 
       loading: false,
 
+      categories: [],
+
       formActions,
     }
   },
@@ -152,15 +185,40 @@ export default {
     },
 
     getFormData() {
-      return this.$store.getters['storeModuleCategories/getCategoriesForm']
+      return this.$store.getters['storeModuleSubcategories/getSubcategoriesForm']
     },
 
     getStoreModuleRoutes() {
       return this.$store.getters['routes/getStoreModuleRoutes']
     },
+
+    getFormItems() {
+      return {
+        name: this.getFormData.name,
+        description: this.getFormData.description,
+        categoryId: this.getFormData.category ? this.getFormData.category.id : null,
+      }
+    },
+  },
+
+  mounted() {
+    this.handleGetCategories()
   },
 
   methods: {
+    async handleGetCategories() {
+      this.loading = true
+
+      await getAllCategories()
+        .then(response => {
+          if (response.status === 200) {
+            this.categories = response.data
+          }
+        })
+
+      this.loading = false
+    },
+
     async formSubmit(redirect) {
       this.redirect = redirect
 
@@ -194,12 +252,9 @@ export default {
     async handleInsert() {
       this.setLoading(true)
 
-      const formData = {
-        name: this.getFormData.name,
-        description: this.getFormData.description,
-      }
+      const formData = this.getFormItems
 
-      await createCategory(formData)
+      await createSubcategory(formData)
         .then(response => {
           if (response.status === 201) {
             this.clear()
@@ -218,12 +273,9 @@ export default {
 
       const { id } = this.getFormData
 
-      const formData = {
-        name: this.getFormData.name,
-        description: this.getFormData.description,
-      }
+      const formData = this.getFormItems
 
-      await updateCategory(id, formData)
+      await updateSubcategory(id, formData)
         .then(response => {
           if (response.status === 200) {
             this.clear()
@@ -257,7 +309,7 @@ export default {
         this.clear()
       } else {
         this.$router.replace({
-          name: this.getStoreModuleRoutes.categories.name,
+          name: this.getStoreModuleRoutes.subcategories.name,
           params: {
             dispatchList: true,
           },
@@ -266,11 +318,11 @@ export default {
     },
 
     clear() {
-      this.$store.commit('storeModuleCategories/clearCategoriesForm')
+      this.$store.commit('storeModuleSubcategories/clearSubcategoriesForm')
 
       if (this.redirect) {
         this.$router.replace({
-          name: this.getStoreModuleRoutes.categories.name,
+          name: this.getStoreModuleRoutes.subcategories.name,
           params: {
             dispatchList: true,
           },

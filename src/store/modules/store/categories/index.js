@@ -1,9 +1,6 @@
 /* eslint-disable no-shadow */
-import storeModuleRoutes from '@/views/modules/store/routes'
 
 const state = {
-  storeModuleRoutes,
-
   chooseCategory: null,
 
   categoriesForm: {
@@ -50,8 +47,6 @@ const mutations = {
 const getters = {
   getChooseCategory: state => state.chooseCategory,
   getCategoriesForm: state => state.categoriesForm,
-
-  getStoreModuleRoutes: state => state.storeModuleRoutes,
 }
 
 export default {

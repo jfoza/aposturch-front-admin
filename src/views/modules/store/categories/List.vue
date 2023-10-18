@@ -439,7 +439,7 @@ export default {
     },
 
     getStoreModuleRoutes() {
-      return this.$store.getters['storeModuleCategories/getStoreModuleRoutes']
+      return this.$store.getters['routes/getStoreModuleRoutes']
     },
 
     hasUpdateStatus() {

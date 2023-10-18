@@ -11,6 +11,7 @@ import appConfig from './app-config'
 import verticalMenu from './vertical-menu'
 import defineMenus from './define-menus'
 import usersModuleStore from './modules/users'
+import routes from './routes'
 import membershipModuleStore from './modules/membership'
 import storeModuleCategories from './modules/store/categories'
 import storeModuleSubcategories from './modules/store/subcategories'
@@ -24,6 +25,7 @@ export default new Vuex.Store({
     appConfig,
     verticalMenu,
     defineMenus,
+    routes,
     usersModuleStore,
     membershipModuleStore,
     storeModuleCategories,
@@ -35,6 +37,7 @@ export default new Vuex.Store({
       paths: [
         'sessions',
         'defineMenus',
+        'routes',
         'usersModuleStore',
         'membershipModuleStore',
         'storeModuleCategories',

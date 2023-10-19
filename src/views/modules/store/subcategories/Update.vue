@@ -84,6 +84,7 @@ export default {
             name,
             description,
             category,
+            product,
           } = response.data
 
           this.$store.commit('storeModuleSubcategories/setSubcategoriesForm', {
@@ -91,6 +92,7 @@ export default {
             name,
             description,
             category,
+            products: product,
           })
 
           this.linkItems[1].name = name

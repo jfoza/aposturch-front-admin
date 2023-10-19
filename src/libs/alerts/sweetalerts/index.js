@@ -121,3 +121,22 @@ export const warningMessageUpdateStatus = (title, html) => new Promise((resolve,
     }
   })
 })
+
+export const warningMessageRemoveProduct = subcategory => new Promise(resolve => {
+  Swal.fire({
+    iconHtml: iconHtml(exclamationWarningIcon),
+    title: 'Deseja desvincular o produto ?',
+    html: `Ao desvincular a subcategoria <strong>${subcategory}</strong> do(s) produto(s) selecionado(s), os mesmos não farão mais parte do cadastro. Para retornar será necessário vincular novamente.`,
+    showDenyButton: true,
+    confirmButtonText: 'Desvincular',
+    denyButtonText: 'Cancelar',
+    customClass: {
+      confirmButton: 'confirm-button-sweet',
+      denyButton: 'cancel-button-sweet',
+    },
+  }).then(result => {
+    if (result.isConfirmed) {
+      resolve()
+    }
+  })
+})

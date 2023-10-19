@@ -76,48 +76,57 @@
               </validation-provider>
             </b-form-group>
           </b-col>
-
-          <b-col
-            cols="12"
-            class="mt-3"
-          >
-            <button
-              type="button"
-              class="btn button-form button-custom-size mr-2"
-              @click="formSubmit(true)"
-            >
-              <feather-icon
-                icon="CheckIcon"
-              />
-              Salvar categoria
-            </button>
-
-            <button
-              v-if="getMode === formActions.insertAction"
-              type="button"
-              class="btn button-form button-custom-size mr-2"
-              @click="formSubmit(false)"
-            >
-              <feather-icon
-                icon="CheckIcon"
-              />
-              Salvar e cadastrar nova
-            </button>
-
-            <button
-              type="button"
-              class="btn btn-outline-danger button-custom-size"
-              @click="cancel"
-            >
-              <feather-icon
-                icon="XIcon"
-              />
-              Cancelar
-            </button>
-          </b-col>
         </b-row>
       </b-form>
     </validation-observer>
+
+    <products-table
+      ref="productsTableRef"
+      class-name="mt-4"
+      :mode="getMode"
+      @setProducts="setProducts"
+    />
+
+    <b-row>
+      <b-col
+        cols="12"
+        class="mt-3"
+      >
+        <button
+          type="button"
+          class="btn button-form button-custom-size mr-2"
+          @click="formSubmit(true)"
+        >
+          <feather-icon
+            icon="CheckIcon"
+          />
+          Salvar categoria
+        </button>
+
+        <button
+          v-if="getMode === formActions.insertAction"
+          type="button"
+          class="btn button-form button-custom-size mr-2"
+          @click="formSubmit(false)"
+        >
+          <feather-icon
+            icon="CheckIcon"
+          />
+          Salvar e cadastrar nova
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-outline-danger button-custom-size"
+          @click="cancel"
+        >
+          <feather-icon
+            icon="XIcon"
+          />
+          Cancelar
+        </button>
+      </b-col>
+    </b-row>
   </overlay>
 </template>
 
@@ -140,13 +149,16 @@ import { formActions } from '@core/utils/formActions'
 import { messages } from '@core/utils/validations/messages'
 import { getAllCategories } from '@core/utils/requests/categories'
 import Overlay from '@/views/components/custom/Overlay.vue'
+import ProductsTable from '@/views/modules/store/subcategories/components/ProductsTable.vue'
 import vSelect from 'vue-select'
 import { createSubcategory, updateSubcategory } from '@core/utils/requests/subcategories'
+import { getArrayAttr } from '@core/utils/utils'
 
 export default {
   components: {
     vSelect,
     Overlay,
+    ProductsTable,
     ValidationProvider,
     ValidationObserver,
     BRow,
@@ -197,6 +209,7 @@ export default {
         name: this.getFormData.name,
         description: this.getFormData.description,
         categoryId: this.getFormData.category ? this.getFormData.category.id : null,
+        productsId: this.getFormData.products.length > 0 ? getArrayAttr(this.getFormData.products, 'id') : null,
       }
     },
   },
@@ -289,6 +302,10 @@ export default {
       this.setLoading(false)
     },
 
+    setProducts(products) {
+      this.getFormData.products = products
+    },
+
     handleError(response) {
       const errors = response.status === 400 || response.status === 404
 
@@ -328,6 +345,10 @@ export default {
           },
         })
       }
+
+      this.$refs.productsTableRef.clear()
+
+      this.$refs.formItems.reset()
     },
   },
 }

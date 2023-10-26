@@ -1,9 +1,9 @@
 import axiosIns from '@/libs/axios'
 import apiRoutes from '@/router/apiRoutes'
 
-export const getAllProducts = params => new Promise((resolve, reject) => {
+export const generateUniqueCode = params => new Promise((resolve, reject) => {
   axiosIns
-    .get(apiRoutes.products, { params })
+    .get(apiRoutes.uniqueCodeGenerator, { params })
     .then(response => {
       resolve(response)
     })
@@ -12,9 +12,9 @@ export const getAllProducts = params => new Promise((resolve, reject) => {
     })
 })
 
-export const getProductId = id => new Promise((resolve, reject) => {
+export const getAllPrefixes = params => new Promise((resolve, reject) => {
   axiosIns
-    .get(apiRoutes.productId(id))
+    .get(apiRoutes.prefixes, { params })
     .then(response => {
       resolve(response)
     })
@@ -23,9 +23,9 @@ export const getProductId = id => new Promise((resolve, reject) => {
     })
 })
 
-export const createProduct = form => new Promise((resolve, reject) => {
+export const getPrefixId = id => new Promise((resolve, reject) => {
   axiosIns
-    .post(apiRoutes.products, form)
+    .get(apiRoutes.prefixId(id))
     .then(response => {
       resolve(response)
     })
@@ -34,9 +34,9 @@ export const createProduct = form => new Promise((resolve, reject) => {
     })
 })
 
-export const updateProduct = (id, form) => new Promise((resolve, reject) => {
+export const createPrefix = form => new Promise((resolve, reject) => {
   axiosIns
-    .put(apiRoutes.productId(id), form)
+    .post(apiRoutes.prefixes, form)
     .then(response => {
       resolve(response)
     })
@@ -45,9 +45,9 @@ export const updateProduct = (id, form) => new Promise((resolve, reject) => {
     })
 })
 
-export const updateStatusProducts = form => new Promise((resolve, reject) => {
+export const updatePrefix = (id, form) => new Promise((resolve, reject) => {
   axiosIns
-    .put(apiRoutes.productsStatus, form)
+    .put(apiRoutes.prefixId(id), form)
     .then(response => {
       resolve(response)
     })
@@ -56,9 +56,9 @@ export const updateStatusProducts = form => new Promise((resolve, reject) => {
     })
 })
 
-export const removeProduct = id => new Promise((resolve, reject) => {
+export const removePrefix = id => new Promise((resolve, reject) => {
   axiosIns
-    .delete(apiRoutes.productId(id))
+    .delete(apiRoutes.prefixId(id))
     .then(response => {
       resolve(response)
     })

@@ -1,7 +1,7 @@
 <template>
   <div class="content-wrapper">
     <page-header
-      screen-name="Cadastrar Nova"
+      screen-name="Cadastrar Novo"
       :link-items="linkItems"
     />
 
@@ -13,7 +13,7 @@
 
 // eslint-disable-next-line import/extensions
 import PageHeader from '@/views/components/custom/PageHeader'
-import Form from '@/views/modules/store/subcategories/Form.vue'
+import Form from '@/views/modules/store/prefixes/Form.vue'
 
 export default {
   components: {
@@ -25,7 +25,7 @@ export default {
     return {
       linkItems: [
         {
-          name: 'Gerenciar subcategorias',
+          name: 'Gerenciar prefixos',
           active: true,
           routeName: '',
         },
@@ -44,9 +44,9 @@ export default {
   },
 
   mounted() {
-    this.linkItems[0].routeName = this.getStoreModuleRoutes.subcategories.name
+    this.linkItems[0].routeName = this.getStoreModuleRoutes.prefixes.name
 
-    this.$store.commit('storeModuleSubcategories/clearSubcategoriesForm')
+    this.$store.commit('storeModulePrefixes/clearPrefixForm')
   },
 }
 </script>

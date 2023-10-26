@@ -37,7 +37,15 @@ export default {
     }
   },
 
+  computed: {
+    getStoreModuleRoutes() {
+      return this.$store.getters['routes/getStoreModuleRoutes']
+    },
+  },
+
   mounted() {
+    this.linkItems[0].routeName = this.getStoreModuleRoutes.categories.name
+
     this.$store.commit('storeModuleCategories/clearCategoriesForm')
   },
 }

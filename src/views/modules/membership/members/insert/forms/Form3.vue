@@ -47,7 +47,6 @@
                 <b-form-input
                   id="name"
                   v-model="getFormData.name"
-                  :state="errors.length > 0 ? false : null"
                   autocomplete="off"
                 />
 
@@ -74,7 +73,6 @@
                   id="phone"
                   v-model="getFormData.phone"
                   v-mask="'(##) #####-####'"
-                  :state="errors.length > 0 ? false : null"
                   autocomplete="off"
                 />
 
@@ -100,7 +98,6 @@
                 <b-form-input
                   id="email"
                   v-model="getFormData.email"
-                  :state="errors.length > 0 ? false : null"
                   placeholder="email@email.com"
                   autocomplete="off"
                   type="email"
@@ -134,7 +131,6 @@
                     id="reset-password-new"
                     v-model="getFormData.password"
                     :type="password1FieldType"
-                    :state="errors.length > 0 ? false:null"
                     class="form-control-merge"
                     name="reset-password-new"
                     placeholder="******"
@@ -175,7 +171,6 @@
                     v-model="getFormData.passwordConfirmation"
                     :type="password2FieldType"
                     class="form-control-merge"
-                    :state="errors.length > 0 ? false:null"
                     name="reset-password-confirm"
                     placeholder="******"
                   />

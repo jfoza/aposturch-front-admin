@@ -9,337 +9,324 @@
       :show="loading"
       class-name="card p-2"
     >
-      <section>
-        <validation-observer ref="formFilters">
-          <b-form>
-            <b-row class="mb-2">
-              <b-col cols="12">
-                <h3>Lista de Subcategorias</h3>
-                <p>
-                  Para realizar uma busca, selecione o(s) filtros necessário(s) e clique no botão buscar:
-                </p>
-              </b-col>
-            </b-row>
+      <b-form>
+        <b-row class="mb-2">
+          <b-col cols="12">
+            <h3>Lista de Subcategorias</h3>
+            <p>
+              Para realizar uma busca, selecione o(s) filtros necessário(s) e clique no botão buscar:
+            </p>
+          </b-col>
+        </b-row>
 
-            <b-row class="align-items-center">
-              <b-col
-                sm="6"
-                lg="4"
-              >
-                <b-form-group
-                  label="Nome"
-                  label-for="name"
-                >
-                  <validation-provider
-                    #default="{ errors }"
-                    name="Nome"
-                  >
-                    <b-form-input
-                      id="name"
-                      v-model="search.name"
-                      placeholder="Nome"
-                      autocomplete="off"
-                    />
-
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </validation-provider>
-                </b-form-group>
-              </b-col>
-
-              <b-col
-                sm="6"
-                lg="4"
-              >
-                <b-form-group
-                  label="Categorias"
-                  label-for="categories"
-                >
-                  <v-select
-                    id="categories"
-                    v-model="search.category"
-                    :options="categories"
-                    variant="custom"
-                    item-text="name"
-                    item-value="id"
-                    placeholder="Selecione uma categoria"
-                    label="name"
-                    :disabled="loadingSelects"
-                  />
-                </b-form-group>
-              </b-col>
-
-              <b-col
-                sm="6"
-                lg="4"
-                xl="3"
-              >
-                <b-form-group
-                  label="Possuem produtos vinculados"
-                  label-for="name"
-                >
-                  <b-form-radio-group
-                    v-model="search.hasProducts"
-                    :options="radioOptions"
-                    class="demo-inline-spacing mb-1"
-                    value-field="value"
-                    text-field="text"
-                    disabled-field="disabled"
-                    @change="findAll"
-                  />
-                </b-form-group>
-              </b-col>
-
-              <b-col
-                sm="12"
-                lg="4"
-                class="actions-area"
-              >
-                <div class="action-search">
-                  <button
-                    type="button"
-                    class="btn button-form button-config mr-2"
-                    @click.prevent="handleSubmitFormFilters"
-                  >
-                    <feather-icon
-                      icon="SearchIcon"
-                    />
-                    Pesquisar
-                  </button>
-
-                  <button
-                    type="button"
-                    class="btn btn-outline-form button-config"
-                    @click="clearFilters"
-                  >
-                    <feather-icon
-                      icon="XIcon"
-                    />
-                    Limpar
-                  </button>
-                </div>
-              </b-col>
-            </b-row>
-
-            <b-row class="mt-3 mb-1">
-              <b-col>
-                <b-link
-                  type="button"
-                  class="btn button-form button-plus"
-                  :to="{ name: getStoreModuleRoutes.subcategoriesInsert.name }"
-                >
-                  <feather-icon
-                    icon="PlusIcon"
-                  />
-                  Adicionar nova subcategoria
-                </b-link>
-              </b-col>
-            </b-row>
-          </b-form>
-        </validation-observer>
-      </section>
-
-      <section>
-        <b-row>
+        <b-row class="align-items-center">
           <b-col
-            md="12"
-            lg="6"
+            sm="6"
+            lg="4"
           >
-            <h1 class="px-2">
-              {{ titlePage }}
-            </h1>
+            <b-form-group
+              label="Nome"
+              label-for="name"
+            >
+              <b-form-input
+                id="name"
+                v-model="search.name"
+                placeholder="Nome"
+                autocomplete="off"
+              />
+            </b-form-group>
+          </b-col>
+
+          <b-col
+            sm="6"
+            lg="4"
+          >
+            <b-form-group
+              label="Categorias"
+              label-for="categories"
+            >
+              <v-select
+                id="categories"
+                v-model="search.category"
+                :options="categories"
+                variant="custom"
+                item-text="name"
+                item-value="id"
+                placeholder="Selecione uma categoria"
+                label="name"
+                :disabled="loadingSelects"
+              />
+            </b-form-group>
+          </b-col>
+
+          <b-col
+            sm="6"
+            lg="4"
+            xl="3"
+          >
+            <b-form-group
+              label="Possuem produtos vinculados"
+              label-for="name"
+            >
+              <b-form-radio-group
+                v-model="search.hasProducts"
+                :options="radioOptions"
+                class="demo-inline-spacing mb-1"
+                value-field="value"
+                text-field="text"
+                disabled-field="disabled"
+                @change="findAll"
+              />
+            </b-form-group>
+          </b-col>
+
+          <b-col
+            sm="12"
+            lg="4"
+            class="actions-area"
+          >
+            <div class="action-search">
+              <button
+                type="button"
+                class="btn button-form button-config mr-2"
+                @click.prevent="findAll"
+              >
+                <feather-icon
+                  icon="SearchIcon"
+                />
+                Pesquisar
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-outline-form button-config"
+                @click="clearFilters"
+              >
+                <feather-icon
+                  icon="XIcon"
+                />
+                Limpar
+              </button>
+            </div>
           </b-col>
         </b-row>
 
         <b-row class="mt-3 mb-1">
-          <b-col
-            md="6"
-          >
-            <div
-              v-if="showTable"
-              class="d-flex justify-center-center align-items-center"
-            >
-              <span class="mr-50">Mostrar</span>
-              <v-select
-                id="orders"
-                v-model="paginationData.defaultSize"
-                :options="table.tableRows"
-                :clearable="false"
-                @input="updateQtdView($event)"
-              >
-                <span slot="no-options">Nenhuma opção selecionável.</span>
-              </v-select>
-            </div>
-          </b-col>
-
-          <b-col
-            v-if="hasUpdateStatus"
-            class="btn-update-status-container"
-            md="6"
-          >
-            <button
-              :disabled="!checkAll && subcategoriesToUpdateStatus.length === 0"
+          <b-col>
+            <b-link
               type="button"
-              class="btn btn-outline-form"
-              @click="handleConfirmUpdateManySubcategoriesStatus"
+              class="btn button-form button-plus"
+              :to="{ name: getStoreModuleRoutes.subcategoriesInsert.name }"
             >
-              Alterar status dos selecionados
-            </button>
+              <feather-icon
+                icon="PlusIcon"
+              />
+              Adicionar nova subcategoria
+            </b-link>
           </b-col>
         </b-row>
+      </b-form>
 
-        <b-row>
-          <b-col cols="12">
-            <b-alert
-              variant="primary"
-              :show="table.empty"
-              class="mx-2 mt-5"
-            >
-              <div class="alert-body d-flex justify-content-center">
-                <span class="text-primary">
-                  <strong
-                    class="text-primary"
-                  >Nenhum registro encontrado.</strong>
-                </span>
-              </div>
-            </b-alert>
+      <b-row>
+        <b-col
+          md="12"
+          lg="6"
+        >
+          <h1 class="px-2">
+            {{ titlePage }}
+          </h1>
+        </b-col>
+      </b-row>
 
-            <b-alert
-              variant="primary"
-              :show="table.tableError"
-              class="mx-2 mt-5"
-            >
-              <div class="alert-body d-flex justify-content-center">
-                <span class="text-primary">
-                  <strong
-                    class="text-primary"
-                  >Sistema de busca indisponível no momento.</strong>
-                </span>
-              </div>
-            </b-alert>
-          </b-col>
-
-          <b-col
-            cols="12"
+      <b-row class="mt-3 mb-1">
+        <b-col
+          md="6"
+        >
+          <div
+            v-if="showTable"
+            class="d-flex justify-center-center align-items-center"
           >
-            <div
-              v-if="table.tableBusy"
-              class="spinner-area"
+            <span class="mr-50">Mostrar</span>
+            <v-select
+              id="orders"
+              v-model="paginationData.defaultSize"
+              :options="table.tableRows"
+              :clearable="false"
+              @input="updateQtdView($event)"
             >
-              <b-spinner class="spinner-border text-custom-blue" />
+              <span slot="no-options">Nenhuma opção selecionável.</span>
+            </v-select>
+          </div>
+        </b-col>
+
+        <b-col
+          v-if="hasUpdateStatus"
+          class="btn-update-status-container"
+          md="6"
+        >
+          <button
+            :disabled="!checkAll && subcategoriesToUpdateStatus.length === 0"
+            type="button"
+            class="btn btn-outline-form"
+            @click="handleConfirmUpdateManySubcategoriesStatus"
+          >
+            Alterar status dos selecionados
+          </button>
+        </b-col>
+      </b-row>
+
+      <b-row>
+        <b-col cols="12">
+          <b-alert
+            variant="primary"
+            :show="table.empty"
+            class="mx-2 mt-5"
+          >
+            <div class="alert-body d-flex justify-content-center">
+              <span class="text-primary">
+                <strong
+                  class="text-primary"
+                >Nenhum registro encontrado.</strong>
+              </span>
             </div>
-          </b-col>
+          </b-alert>
 
-          <b-col
-            v-if="showTable"
-            cols="12"
-            class="my-2"
+          <b-alert
+            variant="primary"
+            :show="table.tableError"
+            class="mx-2 mt-5"
           >
-            <b-table
-              responsive
-              sticky-header="380px"
-              :busy.sync="table.tableBusy"
-              :no-local-sorting="true"
-              :fields="getFields"
-              :items="table.items"
-              @context-changed="handleOrderTable"
+            <div class="alert-body d-flex justify-content-center">
+              <span class="text-primary">
+                <strong
+                  class="text-primary"
+                >Sistema de busca indisponível no momento.</strong>
+              </span>
+            </div>
+          </b-alert>
+        </b-col>
+
+        <b-col
+          cols="12"
+        >
+          <div
+            v-if="table.tableBusy"
+            class="spinner-area"
+          >
+            <b-spinner class="spinner-border text-custom-blue" />
+          </div>
+        </b-col>
+
+        <b-col
+          v-if="showTable"
+          cols="12"
+          class="my-2"
+        >
+          <b-table
+            responsive
+            sticky-header="380px"
+            :busy.sync="table.tableBusy"
+            :no-local-sorting="true"
+            :fields="getFields"
+            :items="table.items"
+            @context-changed="handleOrderTable"
+          >
+            <template
+              #head(id)="data"
             >
-              <template
-                #head(id)="data"
+              <b-form-checkbox
+                v-model="checkAll"
+                :disabled="table.items.length === 0"
+                class="p-0"
+                @change="checkOrUncheckAll()"
+              />
+            </template>
+
+            <template #cell(id)="row">
+              <b-form-checkbox
+                v-model="subcategoriesToUpdateStatus"
+                :value="row.item.id"
+              />
+            </template>
+
+            <template #cell(name)="row">
+              <span>{{ row.value }}</span>
+            </template>
+
+            <template #cell(description)="row">
+              <span>{{ row.value }}</span>
+            </template>
+
+            <template #cell(category)="row">
+              <span>{{ row.item.category ? row.item.category.name : '' }}</span>
+            </template>
+
+            <template #cell(created_at)="row">
+              <span>{{ moment(row.value).format("DD/MM/YYYY HH:mm") }}</span>
+            </template>
+
+            <template #cell(active)="row">
+              <b-form-checkbox
+                v-if="hasUpdateStatus"
+                :checked="row.value"
+                class="custom-control-success"
+                name="check-button"
+                switch
+                @change="handleConfirmUpdateSubcategoryStatus(row.item)"
               >
-                <b-form-checkbox
-                  v-model="checkAll"
-                  :disabled="table.items.length === 0"
-                  class="p-0"
-                  @change="checkOrUncheckAll()"
-                />
-              </template>
+                <span class="switch-icon-left">
+                  <feather-icon icon="CheckIcon" />
+                </span>
+                <span class="switch-icon-right" />
+              </b-form-checkbox>
 
-              <template #cell(id)="row">
-                <b-form-checkbox
-                  v-model="subcategoriesToUpdateStatus"
-                  :value="row.item.id"
-                />
-              </template>
+              <b-form-checkbox
+                v-if="!hasUpdateStatus"
+                v-b-tooltip.hover
+                title="Não é possível alterar o status deste registro"
+                :disabled="true"
+                :checked="row.value"
+                class="custom-control-success"
+                name="check-button"
+                switch
+              >
+                <span class="switch-icon-left">
+                  <feather-icon icon="CheckIcon" />
+                </span>
+                <span class="switch-icon-right" />
+              </b-form-checkbox>
+            </template>
 
-              <template #cell(name)="row">
-                <span>{{ row.value }}</span>
-              </template>
+            <template #cell(actions)="row">
+              <button-icon
+                v-if="hasRemove"
+                color="#2772C0"
+                size="18"
+                feather-icon="Trash2Icon"
+                @action="handleConfirmToRemove(row.item)"
+              />
 
-              <template #cell(description)="row">
-                <span>{{ row.value }}</span>
-              </template>
+              <button-icon
+                color="#2772C0"
+                size="18"
+                feather-icon="EditIcon"
+                @action="redirectUpdatePage(row.item)"
+              />
+            </template>
+          </b-table>
+        </b-col>
 
-              <template #cell(category)="row">
-                <span>{{ row.item.category ? row.item.category.name : '' }}</span>
-              </template>
-
-              <template #cell(created_at)="row">
-                <span>{{ moment(row.value).format("DD/MM/YYYY HH:mm") }}</span>
-              </template>
-
-              <template #cell(active)="row">
-                <b-form-checkbox
-                  v-if="hasUpdateStatus"
-                  :checked="row.value"
-                  class="custom-control-success"
-                  name="check-button"
-                  switch
-                  @change="handleConfirmUpdateSubcategoryStatus(row.item)"
-                >
-                  <span class="switch-icon-left">
-                    <feather-icon icon="CheckIcon" />
-                  </span>
-                  <span class="switch-icon-right" />
-                </b-form-checkbox>
-
-                <b-form-checkbox
-                  v-if="!hasUpdateStatus"
-                  v-b-tooltip.hover
-                  title="Não é possível alterar o status deste registro"
-                  :disabled="true"
-                  :checked="row.value"
-                  class="custom-control-success"
-                  name="check-button"
-                  switch
-                >
-                  <span class="switch-icon-left">
-                    <feather-icon icon="CheckIcon" />
-                  </span>
-                  <span class="switch-icon-right" />
-                </b-form-checkbox>
-              </template>
-
-              <template #cell(actions)="row">
-                <button-icon
-                  v-if="hasRemove"
-                  color="#2772C0"
-                  size="18"
-                  feather-icon="Trash2Icon"
-                  @action="handleConfirmToRemove(row.item)"
-                />
-
-                <button-icon
-                  color="#2772C0"
-                  size="18"
-                  feather-icon="EditIcon"
-                  @action="redirectUpdatePage(row.item)"
-                />
-              </template>
-            </b-table>
-          </b-col>
-
-          <b-col
-            v-if="showTable"
-            class="px-3"
-            sm="12"
-          >
-            <CustomPagination
-              :paginacao="paginationData"
-              @page-cliked="updateCurrentPage"
-            />
-          </b-col>
-        </b-row>
-      </section>
+        <b-col
+          v-if="showTable"
+          class="px-3"
+          sm="12"
+        >
+          <CustomPagination
+            :paginacao="paginationData"
+            @page-cliked="updateCurrentPage"
+          />
+        </b-col>
+      </b-row>
     </overlay>
   </div>
 </template>
@@ -361,8 +348,6 @@ import {
   VBTooltip,
 } from 'bootstrap-vue'
 import PageHeader from '@/views/components/custom/PageHeader'
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { required, email } from '@validations'
 import moment from 'moment'
 import vSelect from 'vue-select'
 import CustomPagination from '@/views/components/custom/CustomPagination'
@@ -380,8 +365,6 @@ import { getAllCategories } from '@core/utils/requests/categories'
 export default {
   components: {
     Overlay,
-    ValidationProvider,
-    ValidationObserver,
     PageHeader,
     vSelect,
     BRow,
@@ -406,8 +389,6 @@ export default {
   data() {
     return {
       moment,
-      required,
-      email,
       titlePage: '',
 
       loading: false,
@@ -582,15 +563,6 @@ export default {
         })
 
       this.loading = false
-    },
-
-    handleSubmitFormFilters() {
-      this.$refs.formFilters.validate()
-        .then(success => {
-          if (success) {
-            this.findAll()
-          }
-        })
     },
 
     handleConfirmUpdateManySubcategoriesStatus() {

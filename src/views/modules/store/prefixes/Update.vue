@@ -3,7 +3,7 @@
     :show="loading"
   >
     <page-header
-      screen-name="Editar produto"
+      screen-name="Editar prefixo"
       :link-items="linkItems"
     />
 
@@ -21,9 +21,9 @@ import PageHeader from '@/views/components/custom/PageHeader'
 import { warningMessage } from '@/libs/alerts/sweetalerts'
 import { formActions } from '@core/utils/formActions'
 import { messages } from '@core/utils/validations/messages'
-import Form from '@/views/modules/store/products/Form.vue'
+import Form from '@/views/modules/store/prefixes/Form.vue'
 import Overlay from '@/views/components/custom/Overlay.vue'
-import { getProductId } from '@core/utils/requests/products'
+import { getPrefixId } from '@core/utils/requests/prefixes'
 
 export default {
   components: {
@@ -36,7 +36,7 @@ export default {
     return {
       linkItems: [
         {
-          name: 'Gerenciar produtos',
+          name: 'Gerenciar prefixos',
           active: true,
           routeName: '',
         },
@@ -54,7 +54,7 @@ export default {
 
   computed: {
     getItemInStore() {
-      return this.$store.getters['storeModuleProducts/getChooseProduct']
+      return this.$store.getters['storeModulePrefixes/getChoosePrefix']
     },
 
     getStoreModuleRoutes() {
@@ -68,44 +68,33 @@ export default {
 
       return false
     }
-    this.$store.commit('storeModuleProducts/clearProductsForm')
+    this.linkItems[0].routeName = this.getStoreModuleRoutes.prefixes.name
 
-    this.linkItems[0].routeName = this.getStoreModuleRoutes.products.name
-
-    return this.handleGetProduct()
+    return this.handleGetPrefix()
   },
 
   methods: {
-    async handleGetProduct() {
+    async handleGetPrefix() {
       this.setLoading(true)
 
-      await getProductId(this.getItemInStore.id)
+      await getPrefixId(this.getItemInStore.id)
         .then(response => {
           const {
             id,
-            product_name,
-            product_description,
-            product_code,
-            value,
-            quantity,
-            balance,
-            highlight_product,
-            subcategory,
+            prefix,
+            active,
           } = response.data
 
-          this.$store.commit('storeModuleProducts/setProductsForm', {
+          this.$store.commit('storeModulePrefixes/setPrefixForm', {
             id,
-            productName: product_name,
-            productDescription: product_description,
-            productCode: product_code,
-            productValue: value,
-            productBalance: balance,
-            productQuantity: quantity,
-            highlightProduct: highlight_product,
-            subcategories: subcategory,
+            prefix,
+            active: {
+              boolValue: active,
+              description: active ? 'Ativo' : 'Inativo',
+            },
           })
 
-          this.linkItems[1].name = product_name
+          this.linkItems[1].name = prefix
         })
         .catch(() => {
           warningMessage(messages.impossible)
@@ -119,8 +108,8 @@ export default {
     },
 
     redirectToMainPage() {
-      this.$store.commit('storeModuleProducts/clearProductsForm')
-      this.$router.replace({ name: this.getStoreModuleRoutes.products.name })
+      this.$store.commit('storeModulePrefixes/clearPrefixForm')
+      this.$router.replace({ name: this.getStoreModuleRoutes.prefixes.name })
     },
   },
 }

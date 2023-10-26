@@ -44,7 +44,6 @@
                   <b-form-input
                     id="name"
                     v-model="getFormData.name"
-                    :state="errors.length > 0 ? false : null"
                     autocomplete="off"
                   />
 
@@ -71,7 +70,6 @@
                     id="phone"
                     v-model="getFormData.phone"
                     v-mask="'(##) #####-####'"
-                    :state="errors.length > 0 ? false : null"
                     autocomplete="off"
                   />
 
@@ -97,7 +95,6 @@
                   <b-form-input
                     id="email"
                     v-model="getFormData.email"
-                    :state="errors.length > 0 ? false : null"
                     placeholder="email@email.com"
                     autocomplete="off"
                     type="email"
@@ -156,7 +153,6 @@
                     id="zipCode"
                     v-model="getFormData.zip_code"
                     v-mask="'#####-###'"
-                    :state="errors.length > 0 ? false : null"
                     autocomplete="off"
                     @keyup="getAddressByZipCode"
                   />
@@ -245,7 +241,6 @@
                   <b-form-input
                     id="address"
                     v-model="getFormData.address"
-                    :state="errors.length > 0 ? false : null"
                     autocomplete="off"
                   />
 
@@ -271,7 +266,6 @@
                   <b-form-input
                     id="numberAddress"
                     v-model="getFormData.number_address"
-                    :state="errors.length > 0 ? false : null"
                     autocomplete="off"
                   />
 
@@ -314,7 +308,6 @@
                   <b-form-input
                     id="district"
                     v-model="getFormData.district"
-                    :state="errors.length > 0 ? false : null"
                     autocomplete="off"
                   />
 

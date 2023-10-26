@@ -23,7 +23,9 @@
               >
                 <b-form-input
                   id="name"
-                  v-model="getFormData.name"
+                  v-model="getFormData.prefix"
+                  class="text-uppercase"
+                  maxlength="4"
                   autocomplete="off"
                 />
 
@@ -37,14 +39,27 @@
             lg="4"
           >
             <b-form-group
-              label="Descrição"
-              label-for="description"
+              label="Status"
+              label-for="active"
             >
-              <b-form-input
-                id="name"
-                v-model="getFormData.description"
-                autocomplete="off"
-              />
+              <validation-provider
+                #default="{ errors }"
+                name="Status"
+                rules="required"
+              >
+                <v-select
+                  id="active"
+                  v-model="getFormData.active"
+                  :options="statusForm"
+                  variant="custom"
+                  item-text="description"
+                  item-value="id"
+                  placeholder="Selecione o status"
+                  label="description"
+                />
+
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
             </b-form-group>
           </b-col>
 
@@ -60,7 +75,7 @@
               <feather-icon
                 icon="CheckIcon"
               />
-              Salvar categoria
+              Salvar prefixo
             </button>
 
             <button
@@ -72,7 +87,7 @@
               <feather-icon
                 icon="CheckIcon"
               />
-              Salvar e cadastrar nova
+              Salvar e cadastrar novo
             </button>
 
             <button
@@ -109,11 +124,13 @@ import { statusForm } from '@core/utils/statusForm'
 import { successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { formActions } from '@core/utils/formActions'
 import { messages } from '@core/utils/validations/messages'
-import { createCategory, updateCategory } from '@core/utils/requests/categories'
 import Overlay from '@/views/components/custom/Overlay.vue'
+import vSelect from 'vue-select'
+import { createPrefix, updatePrefix } from '@core/utils/requests/prefixes'
 
 export default {
   components: {
+    vSelect,
     Overlay,
     ValidationProvider,
     ValidationObserver,
@@ -151,7 +168,7 @@ export default {
     },
 
     getFormData() {
-      return this.$store.getters['storeModuleCategories/getCategoriesForm']
+      return this.$store.getters['storeModulePrefixes/getPrefixForm']
     },
 
     getStoreModuleRoutes() {
@@ -194,11 +211,11 @@ export default {
       this.setLoading(true)
 
       const formData = {
-        name: this.getFormData.name,
-        description: this.getFormData.description,
+        prefix: this.getFormData.prefix,
+        active: this.getFormData.active.boolValue,
       }
 
-      await createCategory(formData)
+      await createPrefix(formData)
         .then(response => {
           if (response.status === 201) {
             this.clear()
@@ -218,11 +235,11 @@ export default {
       const { id } = this.getFormData
 
       const formData = {
-        name: this.getFormData.name,
-        description: this.getFormData.description,
+        prefix: this.getFormData.prefix,
+        active: this.getFormData.active.boolValue,
       }
 
-      await updateCategory(id, formData)
+      await updatePrefix(id, formData)
         .then(response => {
           if (response.status === 200) {
             this.clear()
@@ -256,7 +273,7 @@ export default {
         this.clear()
       } else {
         this.$router.replace({
-          name: this.getStoreModuleRoutes.categories.name,
+          name: this.getStoreModuleRoutes.prefixes.name,
           params: {
             dispatchList: true,
           },
@@ -265,11 +282,11 @@ export default {
     },
 
     clear() {
-      this.$store.commit('storeModuleCategories/clearCategoriesForm')
+      this.$store.commit('storeModulePrefixes/clearPrefixForm')
 
       if (this.redirect) {
         this.$router.replace({
-          name: this.getStoreModuleRoutes.categories.name,
+          name: this.getStoreModuleRoutes.prefixes.name,
           params: {
             dispatchList: true,
           },

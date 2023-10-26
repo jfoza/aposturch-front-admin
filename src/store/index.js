@@ -15,6 +15,8 @@ import routes from './routes'
 import membershipModuleStore from './modules/membership'
 import storeModuleCategories from './modules/store/categories'
 import storeModuleSubcategories from './modules/store/subcategories'
+import storeModulePrefixes from './modules/store/prefixes'
+import storeModuleProducts from './modules/store/products'
 
 Vue.use(Vuex)
 
@@ -30,6 +32,8 @@ export default new Vuex.Store({
     membershipModuleStore,
     storeModuleCategories,
     storeModuleSubcategories,
+    storeModulePrefixes,
+    storeModuleProducts,
     'app-ecommerce': ecommerceStoreModule,
   },
   plugins: [
@@ -42,6 +46,7 @@ export default new Vuex.Store({
         'membershipModuleStore',
         'storeModuleCategories',
         'storeModuleSubcategories',
+        'storeModulePrefixes',
       ],
     }),
   ],

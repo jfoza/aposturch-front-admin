@@ -25,7 +25,6 @@
                   id="zipCode"
                   v-model="formData.zipCode"
                   v-mask="'#####-###'"
-                  :state="errors.length > 0 ? false : null"
                   autocomplete="off"
                   @keyup="getAddressByZipCode"
                 />
@@ -114,7 +113,6 @@
                 <b-form-input
                   id="address"
                   v-model="formData.address"
-                  :state="errors.length > 0 ? false : null"
                   autocomplete="off"
                 />
 
@@ -140,7 +138,6 @@
                 <b-form-input
                   id="numberAddress"
                   v-model="formData.numberAddress"
-                  :state="errors.length > 0 ? false : null"
                   autocomplete="off"
                 />
 
@@ -183,7 +180,6 @@
                 <b-form-input
                   id="district"
                   v-model="formData.district"
-                  :state="errors.length > 0 ? false : null"
                   autocomplete="off"
                 />
 

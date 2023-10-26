@@ -48,6 +48,25 @@ export default [
     ],
   },
 
+  // {
+  //   title: 'Prefixos',
+  //   icon: 'CodeIcon',
+  //   children: [
+  //     {
+  //       title: 'Cadastrar novo',
+  //       route: storeModuleRouter.prefixesInsert.name,
+  //       resource: subjects.UNIQUE_CODE_PREFIXES,
+  //       action: actions.INSERT,
+  //     },
+  //     {
+  //       title: 'Ver prefixos',
+  //       route: storeModuleRouter.prefixes.name,
+  //       resource: subjects.UNIQUE_CODE_PREFIXES,
+  //       action: actions.VIEW,
+  //     },
+  //   ],
+  // },
+
   {
     title: 'Produtos',
     icon: 'ShoppingBagIcon',

@@ -24,7 +24,6 @@
                 <b-form-input
                   id="name"
                   v-model="formData.name"
-                  :state="errors.length > 0 ? false : null"
                   autocomplete="off"
                 />
 
@@ -51,7 +50,6 @@
                   id="phone"
                   v-model="formData.phone"
                   v-mask="'(##) #####-####'"
-                  :state="errors.length > 0 ? false : null"
                   autocomplete="off"
                 />
 
@@ -77,7 +75,6 @@
                 <b-form-input
                   id="email"
                   v-model="formData.email"
-                  :state="errors.length > 0 ? false : null"
                   placeholder="email@email.com"
                   autocomplete="off"
                   type="email"

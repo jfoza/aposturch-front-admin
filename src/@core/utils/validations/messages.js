@@ -44,5 +44,16 @@ export const messages = {
     value: 'Essa ação irá afetar a visualização de produtos vinculados a esta subcategoria.',
   },
 
+  confirmUpdateManyProductsStatus: {
+    title: 'Tem certeza que deseja alterar estes registros ?',
+    value: 'Essa ação irá afetar a visualização deste(s) produto(s) na área pública. <br>Produtos ativos serão inativados.<br>Produtos inativos serão ativados novamente.',
+  },
+
+  confirmUpdateUniqueProductStatus: {
+    title1: 'Tem certeza que deseja inativar ?',
+    title2: 'Tem certeza que deseja ativar ?',
+    value: 'Essa ação irá afetar a visualização deste produto na área pública.',
+  },
+
   countField: value => `Este campo deve conter no mínimo ${value} caracteres.`,
 }

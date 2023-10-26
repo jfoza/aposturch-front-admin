@@ -52,6 +52,12 @@ export default {
   subcategoryId: id => `${storeModule}/subcategories/id/${id}`,
   subcategoriesStatus: `${storeModule}/subcategories/status`,
 
+  prefixes: '/unique-code/prefixes',
+  prefixId: id => `/unique-code/prefixes/id/${id}`,
+
+  uniqueCodeGenerator: '/unique-code/generator',
+
   products: `${storeModule}/products`,
+  productsStatus: `${storeModule}/products/status`,
   productId: id => `${storeModule}/products/id/${id}`,
 }

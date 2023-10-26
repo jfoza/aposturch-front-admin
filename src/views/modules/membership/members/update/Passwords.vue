@@ -30,7 +30,6 @@
                     id="reset-password-new"
                     v-model="formData.password"
                     :type="password1FieldType"
-                    :state="errors.length > 0 ? false:null"
                     class="form-control-merge"
                     name="reset-password-new"
                     placeholder="******"
@@ -71,7 +70,6 @@
                     v-model="formData.passwordConfirmation"
                     :type="password2FieldType"
                     class="form-control-merge"
-                    :state="errors.length > 0 ? false:null"
                     name="reset-password-confirm"
                     placeholder="******"
                   />

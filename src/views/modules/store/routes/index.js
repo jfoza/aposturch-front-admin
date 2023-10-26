@@ -36,6 +36,22 @@ export default {
     name: 'store-subcategories-update',
   },
 
+  // PREFIXES
+  prefixes: {
+    path: '/loja/codigos-prefixos',
+    name: 'prefixes',
+  },
+
+  prefixesInsert: {
+    path: '/loja/codigos-prefixos/novo',
+    name: 'prefixes-insert',
+  },
+
+  prefixesUpdate: {
+    path: '/loja/codigos-prefixos/atualizar-dados',
+    name: 'prefixes-update',
+  },
+
   // PRODUCTS
   products: {
     path: '/produtos',

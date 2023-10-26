@@ -81,37 +81,71 @@ export default [
     },
   },
 
-  // PRODUCTS
+  // PREFIXES
   // {
-  //   path: storeModuleRouter.products.path,
-  //   name: storeModuleRouter.products.name,
-  //   component: () => import('@/views/modules/store/products/List.vue'),
+  //   path: storeModuleRouter.prefixes.path,
+  //   name: storeModuleRouter.prefixes.name,
+  //   component: () => import('@/views/modules/store/prefixes/List.vue'),
   //   meta: {
   //     resource: 'ACL',
-  //     subject: subjects.STORE_MODULE_PRODUCTS,
+  //     subject: subjects.UNIQUE_CODE_PREFIXES,
   //     action: actions.VIEW,
   //   },
   // },
   //
   // {
-  //   path: storeModuleRouter.products.path,
-  //   name: storeModuleRouter.products.name,
-  //   component: () => import('@/views/modules/store/products/Insert.vue'),
+  //   path: storeModuleRouter.prefixesInsert.path,
+  //   name: storeModuleRouter.prefixesInsert.name,
+  //   component: () => import('@/views/modules/store/prefixes/Insert.vue'),
   //   meta: {
   //     resource: 'ACL',
-  //     subject: subjects.STORE_MODULE_PRODUCTS,
+  //     subject: subjects.UNIQUE_CODE_PREFIXES,
   //     action: actions.INSERT,
   //   },
   // },
   //
   // {
-  //   path: storeModuleRouter.products.path,
-  //   name: storeModuleRouter.products.name,
-  //   component: () => import('@/views/modules/store/products/Update.vue'),
+  //   path: storeModuleRouter.prefixesUpdate.path,
+  //   name: storeModuleRouter.prefixesUpdate.name,
+  //   component: () => import('@/views/modules/store/prefixes/Update.vue'),
   //   meta: {
   //     resource: 'ACL',
-  //     subject: subjects.STORE_MODULE_PRODUCTS,
+  //     subject: subjects.UNIQUE_CODE_PREFIXES,
   //     action: actions.UPDATE,
   //   },
   // },
+
+  // PRODUCTS
+  {
+    path: storeModuleRouter.products.path,
+    name: storeModuleRouter.products.name,
+    component: () => import('@/views/modules/store/products/List.vue'),
+    meta: {
+      resource: 'ACL',
+      subject: subjects.STORE_MODULE_PRODUCTS,
+      action: actions.VIEW,
+    },
+  },
+
+  {
+    path: storeModuleRouter.productsInsert.path,
+    name: storeModuleRouter.productsInsert.name,
+    component: () => import('@/views/modules/store/products/Insert.vue'),
+    meta: {
+      resource: 'ACL',
+      subject: subjects.STORE_MODULE_PRODUCTS,
+      action: actions.INSERT,
+    },
+  },
+
+  {
+    path: storeModuleRouter.productsUpdate.path,
+    name: storeModuleRouter.productsUpdate.name,
+    component: () => import('@/views/modules/store/products/Update.vue'),
+    meta: {
+      resource: 'ACL',
+      subject: subjects.STORE_MODULE_PRODUCTS,
+      action: actions.UPDATE,
+    },
+  },
 ]

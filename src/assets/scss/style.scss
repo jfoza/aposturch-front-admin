@@ -1,9 +1,24 @@
 @import './variables/variables';
 
+.form-control:focus:valid, [dir] .form-control:focus.is-valid {
+  box-shadow: 0 3px 10px 0 rgba(11, 19, 43, 0.1) !important;
+}
+
+.form-control:focus {
+  background-color: #fff;
+  border-color: $colors-palette2 !important;
+  box-shadow: 0 3px 10px 0 rgba(11, 19, 43, 0.1) !important;
+}
+
 .custom-alert {
   display: flex;
   padding: 0.71rem 1rem;
   justify-content: space-between;
+}
+
+.input-group:not(.bootstrap-touchspin):focus-within .form-control, [dir] .input-group:not(.bootstrap-touchspin):focus-within .input-group-text {
+  border-color: $colors-palette2 !important;
+  box-shadow: none;
 }
 
 .wizard-tab-content {
@@ -92,7 +107,6 @@
    z-index: 1000;
  }
 
-// Horizontal Menu
 .horizontal-menu .header-navbar.navbar-horizontal ul#main-menu-navigation > li.active > a {
   background: linear-gradient(118deg, $colors-palette1, rgba(28, 37, 65, 0.7)) !important;
 }
@@ -104,6 +118,11 @@
 
 .horizontal-menu .header-navbar.navbar-brand-center .navbar-header .navbar-brand .brand-logo img {
   max-width: 200px !important;
+}
+
+.template-label {
+  color: #5e5873;
+  font-size: 0.857rem;
 }
 
 @media(max-width: 576px) {

@@ -1,7 +1,7 @@
 <template>
   <div class="content-wrapper">
     <page-header
-      screen-name="Ver Categorias"
+      screen-name="Ver Prefixos"
       :link-items="linkItems"
     />
 
@@ -12,7 +12,7 @@
       <b-form>
         <b-row class="mb-2">
           <b-col cols="12">
-            <h3>Lista de Categorias</h3>
+            <h3>Lista de Prefixos</h3>
             <p>
               Para realizar uma busca, selecione o(s) filtros necessário(s) e clique no botão buscar:
             </p>
@@ -30,30 +30,9 @@
             >
               <b-form-input
                 id="name"
-                v-model="search.name"
+                v-model="search.prefix"
                 placeholder="Nome"
                 autocomplete="off"
-              />
-            </b-form-group>
-          </b-col>
-
-          <b-col
-            sm="6"
-            lg="4"
-            xl="3"
-          >
-            <b-form-group
-              label="Possuem subcategorias vinculadas"
-              label-for="name"
-            >
-              <b-form-radio-group
-                v-model="search.hasSubcategories"
-                :options="radioOptions"
-                class="demo-inline-spacing mb-1"
-                value-field="value"
-                text-field="text"
-                disabled-field="disabled"
-                @change="findAll"
               />
             </b-form-group>
           </b-col>
@@ -94,12 +73,12 @@
             <b-link
               type="button"
               class="btn button-form button-plus"
-              :to="{ name: getStoreModuleRoutes.categoriesInsert.name }"
+              :to="{ name: getStoreModuleRoutes.prefixesInsert.name }"
             >
               <feather-icon
                 icon="PlusIcon"
               />
-              Adicionar nova categoria
+              Adicionar novo prefixo
             </b-link>
           </b-col>
         </b-row>
@@ -135,21 +114,6 @@
               <span slot="no-options">Nenhuma opção selecionável.</span>
             </v-select>
           </div>
-        </b-col>
-
-        <b-col
-          v-if="hasUpdateStatus"
-          class="btn-update-status-container"
-          md="6"
-        >
-          <button
-            :disabled="!checkAll && categoriesToUpdateStatus.length === 0"
-            type="button"
-            class="btn btn-outline-form"
-            @click="handleConfirmUpdateManyCategoriesStatus"
-          >
-            Alterar status dos selecionados
-          </button>
         </b-col>
       </b-row>
 
@@ -209,29 +173,7 @@
             :items="table.items"
             @context-changed="handleOrderTable"
           >
-            <template
-              #head(id)="data"
-            >
-              <b-form-checkbox
-                v-model="checkAll"
-                :disabled="table.items.length === 0"
-                class="p-0"
-                @change="checkOrUncheckAll()"
-              />
-            </template>
-
-            <template #cell(id)="row">
-              <b-form-checkbox
-                v-model="categoriesToUpdateStatus"
-                :value="row.item.id"
-              />
-            </template>
-
-            <template #cell(name)="row">
-              <span>{{ row.value }}</span>
-            </template>
-
-            <template #cell(description)="row">
+            <template #cell(prefix)="row">
               <span>{{ row.value }}</span>
             </template>
 
@@ -240,35 +182,7 @@
             </template>
 
             <template #cell(active)="row">
-              <b-form-checkbox
-                v-if="hasUpdateStatus"
-                :checked="row.value"
-                class="custom-control-success"
-                name="check-button"
-                switch
-                @change="handleConfirmUpdateCategoryStatus(row.item)"
-              >
-                <span class="switch-icon-left">
-                  <feather-icon icon="CheckIcon" />
-                </span>
-                <span class="switch-icon-right" />
-              </b-form-checkbox>
-
-              <b-form-checkbox
-                v-if="!hasUpdateStatus"
-                v-b-tooltip.hover
-                title="Não é possível alterar o status deste registro"
-                :disabled="true"
-                :checked="row.value"
-                class="custom-control-success"
-                name="check-button"
-                switch
-              >
-                <span class="switch-icon-left">
-                  <feather-icon icon="CheckIcon" />
-                </span>
-                <span class="switch-icon-right" />
-              </b-form-checkbox>
+              <status-field :status="row.value" />
             </template>
 
             <template #cell(actions)="row">
@@ -317,8 +231,6 @@ import {
   BSpinner,
   BAlert,
   BLink,
-  BFormRadioGroup,
-  BFormCheckbox,
   VBTooltip,
 } from 'bootstrap-vue'
 import PageHeader from '@/views/components/custom/PageHeader'
@@ -327,16 +239,17 @@ import vSelect from 'vue-select'
 import CustomPagination from '@/views/components/custom/CustomPagination'
 import ButtonIcon from '@/views/components/custom/ButtonIcon'
 import { actions, subjects } from '@/libs/acl/rules'
-import { getAllCategories, removeCategory, updateStatusCategories } from '@core/utils/requests/categories'
 import {
-  confirmAction, successMessage, warningMessage, warningMessageUpdateStatus,
+  confirmAction, successMessage, warningMessage,
 } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
 import Overlay from '@/views/components/custom/Overlay.vue'
-import { getArrayAttr } from '@core/utils/utils'
+import StatusField from '@/views/components/custom/StatusField.vue'
+import { getAllPrefixes, removePrefix } from '@core/utils/requests/prefixes'
 
 export default {
   components: {
+    StatusField,
     Overlay,
     PageHeader,
     vSelect,
@@ -349,8 +262,6 @@ export default {
     BSpinner,
     BAlert,
     BLink,
-    BFormRadioGroup,
-    BFormCheckbox,
     CustomPagination,
     ButtonIcon,
   },
@@ -368,31 +279,20 @@ export default {
 
       linkItems: [
         {
-          name: 'Gerenciar Categorias',
+          name: 'Gerenciar Prefixos',
           routeName: '',
         },
         {
-          name: 'Ver Categorias',
+          name: 'Ver Prefixos',
           active: true,
         },
       ],
 
-      checkAll: false,
-
       search: {
-        name: '',
-        hasSubcategories: null,
+        prefix: '',
       },
 
-      radioOptions: [
-        { text: 'Todos', value: null, disabled: this.getTableBusy },
-        { text: 'Sim', value: 1, disabled: this.getTableBusy },
-        { text: 'Não', value: 0, disabled: this.getTableBusy },
-      ],
-
       showTable: false,
-
-      categoriesToUpdateStatus: [],
 
       paginationData: {
         currentPage: 0,
@@ -424,27 +324,28 @@ export default {
     },
 
     hasUpdateStatus() {
-      return this.$can(actions.UPDATE, subjects.STORE_MODULE_CATEGORIES_STATUS)
+      return this.$can(actions.UPDATE, subjects.UNIQUE_CODE_PREFIXES)
     },
 
     hasRemove() {
-      return this.$can(actions.DELETE, subjects.STORE_MODULE_CATEGORIES)
+      return this.$can(actions.DELETE, subjects.UNIQUE_CODE_PREFIXES)
     },
 
     getFields() {
       return [
-        this.hasUpdateStatus
-          ? { key: 'id', label: '#', class: 'text-center' }
-          : null,
-        { key: 'name', label: 'NOME', sortable: true },
-        { key: 'description', label: 'DESCRIÇÃO' },
-        { key: 'created_at', label: 'CRIADO EM', sortable: true },
-        { key: 'active', label: 'STATUS', sortable: true },
-
+        {
+          key: 'prefix', label: 'NOME', sortable: true,
+        },
+        {
+          key: 'created_at', label: 'CRIADO EM', thClass: 'text-center', tdClass: 'text-center',
+        },
+        {
+          key: 'active', label: 'STATUS', thClass: 'text-center', tdClass: 'text-center',
+        },
         {
           key: 'actions',
           label: 'AÇÕES',
-          class: 'width-custom-column text-center',
+          class: 'text-center',
         },
       ]
     },
@@ -464,7 +365,7 @@ export default {
       this.categoriesToUpdateStatus = []
       this.checkAll = false
 
-      getAllCategories(this.getParams())
+      getAllPrefixes(this.getParams())
         .then(response => {
           if (response.status === 200) {
             if (response.data.data.length > 0) {
@@ -490,14 +391,14 @@ export default {
     handleConfirmToRemove({ id }) {
       confirmAction(messages.confirmDelete)
         .then(() => {
-          this.handleRemoveCategory(id)
+          this.handleRemovePrefix(id)
         })
     },
 
-    async handleRemoveCategory(id) {
+    async handleRemovePrefix(id) {
       this.loading = true
 
-      await removeCategory(id)
+      await removePrefix(id)
         .then(response => {
           if (response.status === 204) {
             successMessage(messages.successDelete)
@@ -518,70 +419,14 @@ export default {
       this.loading = false
     },
 
-    handleConfirmUpdateManyCategoriesStatus() {
-      const { title, value } = messages.confirmUpdateManyCategoriesStatus
-
-      warningMessageUpdateStatus(title, value)
-        .then(() => {
-          this.handleUpdateStatus(this.categoriesToUpdateStatus)
-        })
-        .catch(() => {
-          this.table.items = []
-          this.findAll()
-        })
-    },
-
-    handleConfirmUpdateCategoryStatus({ id, active }) {
-      const { title1, title2, value } = messages.confirmUpdateUniqueCategoryStatus
-
-      warningMessageUpdateStatus(active ? title1 : title2, value)
-        .then(() => {
-          this.handleUpdateStatus([id])
-        })
-        .catch(() => {
-          this.table.items = []
-          this.findAll()
-        })
-    },
-
-    async handleUpdateStatus(categoriesId) {
-      this.loading = true
-
-      await updateStatusCategories({ categoriesId })
-        .then(response => {
-          if (response.status === 200) {
-            this.categoriesToUpdateStatus = []
-            this.checkAll = false
-
-            this.findAll()
-          }
-        })
-
-      this.loading = false
-    },
-
-    checkOrUncheckAll() {
-      let categories = this.table.items
-
-      if (this.checkAll) {
-        categories = categories.filter(item => item.id)
-
-        this.categoriesToUpdateStatus = getArrayAttr(categories, 'id')
-      } else {
-        this.categoriesToUpdateStatus = []
-        this.checkAll = false
-      }
-    },
-
     redirectUpdatePage(item) {
-      this.$store.commit('storeModuleCategories/setChooseCategory', item)
+      this.$store.commit('storeModulePrefixes/setChoosePrefix', item)
 
-      this.$router.replace({ name: this.getStoreModuleRoutes.categoriesUpdate.name })
+      this.$router.replace({ name: this.getStoreModuleRoutes.prefixesUpdate.name })
     },
 
     clearFilters() {
-      this.search.name = ''
-      this.search.hasSubcategories = null
+      this.search.prefix = ''
       this.showTable = false
     },
 
@@ -598,8 +443,7 @@ export default {
         columnOrder: this.table.tableOrder,
         perPage: this.paginationData.defaultSize,
         page: this.paginationData.currentPage,
-        name: this.search.name,
-        hasSubcategories: this.search.hasSubcategories,
+        prefix: this.search.prefix,
       }
     },
 

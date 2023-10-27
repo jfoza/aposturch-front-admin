@@ -161,26 +161,26 @@
             </b-form-group>
           </b-col>
 
-          <!-- Subcategories -->
+          <!-- Categories -->
           <b-col
             sm="6"
             lg="3"
             class="mb-1"
           >
             <b-form-group
-              label="Subcategorias"
+              label="Categorias"
               label-for="quantity"
             >
               <v-select
                 id="regions"
-                v-model="getFormData.subcategories"
-                :options="subcategories"
+                v-model="getFormData.categories"
+                :options="categories"
                 variant="custom"
                 item-text="name"
                 item-value="id"
                 placeholder="Selecione uma ou mais"
                 label="name"
-                :disabled="subcategoriesLoading"
+                :disabled="categoriesLoading"
                 :multiple="true"
               >
                 <template
@@ -323,7 +323,7 @@ import vSelect from 'vue-select'
 import Cleave from 'vue-cleave-component'
 import { createProduct, updateProduct } from '@core/utils/requests/products'
 import { generateUniqueCode, getAllPrefixes } from '@core/utils/requests/prefixes'
-import { getAllSubcategories } from '@core/utils/requests/subcategories'
+import { getAllCategories } from '@core/utils/requests/categories'
 import { getArrayAttr } from '@core/utils/utils'
 
 export default {
@@ -372,7 +372,7 @@ export default {
       },
 
       prefixes: [],
-      subcategories: [],
+      categories: [],
 
       productBalance: '',
 
@@ -394,7 +394,7 @@ export default {
       redirect: false,
 
       loading: false,
-      subcategoriesLoading: false,
+      categoriesLoading: false,
 
       formActions,
     }
@@ -434,10 +434,10 @@ export default {
     },
 
     generateFormData() {
-      let subcategoriesId = []
+      let categoriesId = []
 
-      if (this.getFormData.subcategories.length > 0) {
-        subcategoriesId = getArrayAttr(this.getFormData.subcategories, 'id')
+      if (this.getFormData.categories.length > 0) {
+        categoriesId = getArrayAttr(this.getFormData.categories, 'id')
       }
 
       const formData = {
@@ -447,7 +447,7 @@ export default {
         value: this.getFormData.productValue,
         quantity: parseInt(this.getFormData.productQuantity, 10),
         highlightProduct: this.getFormData.highlightProduct,
-        subcategoriesId,
+        categoriesId,
       }
 
       if (this.getMode === 'update') {
@@ -486,10 +486,10 @@ export default {
           }
         })
 
-      await getAllSubcategories()
+      await getAllCategories()
         .then(response => {
           if (response.status === 200) {
-            this.subcategories = response.data
+            this.categories = response.data
           }
         })
 

@@ -47,36 +47,36 @@ export default [
     },
   },
 
-  // SUBCATEGORIES
+  // CATEGORIES
   {
-    path: storeModuleRouter.subcategories.path,
-    name: storeModuleRouter.subcategories.name,
-    component: () => import('@/views/modules/store/subcategories/List.vue'),
+    path: storeModuleRouter.categories.path,
+    name: storeModuleRouter.categories.name,
+    component: () => import('@/views/modules/store/categories/List.vue'),
     meta: {
       resource: 'ACL',
-      subject: subjects.STORE_MODULE_SUBCATEGORIES,
+      subject: subjects.STORE_MODULE_CATEGORIES,
       action: actions.VIEW,
     },
   },
 
   {
-    path: storeModuleRouter.subcategoriesInsert.path,
-    name: storeModuleRouter.subcategoriesInsert.name,
-    component: () => import('@/views/modules/store/subcategories/Insert.vue'),
+    path: storeModuleRouter.categoriesInsert.path,
+    name: storeModuleRouter.categoriesInsert.name,
+    component: () => import('@/views/modules/store/categories/Insert.vue'),
     meta: {
       resource: 'ACL',
-      subject: subjects.STORE_MODULE_SUBCATEGORIES,
+      subject: subjects.STORE_MODULE_CATEGORIES,
       action: actions.INSERT,
     },
   },
 
   {
-    path: storeModuleRouter.subcategoriesUpdate.path,
-    name: storeModuleRouter.subcategoriesUpdate.name,
-    component: () => import('@/views/modules/store/subcategories/Update.vue'),
+    path: storeModuleRouter.categoriesUpdate.path,
+    name: storeModuleRouter.categoriesUpdate.name,
+    component: () => import('@/views/modules/store/categories/Update.vue'),
     meta: {
       resource: 'ACL',
-      subject: subjects.STORE_MODULE_SUBCATEGORIES,
+      subject: subjects.STORE_MODULE_CATEGORIES,
       action: actions.UPDATE,
     },
   },

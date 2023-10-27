@@ -48,9 +48,9 @@ export default {
   departmentId: id => `${storeModule}/departments/id/${id}`,
   departmentsStatus: `${storeModule}/departments/status`,
 
-  subcategories: `${storeModule}/subcategories`,
-  subcategoryId: id => `${storeModule}/subcategories/id/${id}`,
-  subcategoriesStatus: `${storeModule}/subcategories/status`,
+  categories: `${storeModule}/categories`,
+  categoryId: id => `${storeModule}/categories/id/${id}`,
+  categoriesStatus: `${storeModule}/categories/status`,
 
   prefixes: '/unique-code/prefixes',
   prefixId: id => `/unique-code/prefixes/id/${id}`,

@@ -90,7 +90,7 @@ export default {
             quantity,
             balance,
             highlight_product,
-            subcategory,
+            category,
           } = response.data
 
           this.$store.commit('storeModuleProducts/setProductsForm', {
@@ -102,7 +102,7 @@ export default {
             productBalance: balance,
             productQuantity: quantity,
             highlightProduct: highlight_product,
-            subcategories: subcategory,
+            categories: category,
           })
 
           this.linkItems[1].name = product_name

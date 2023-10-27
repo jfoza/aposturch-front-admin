@@ -14,7 +14,7 @@ import usersModuleStore from './modules/users'
 import routes from './routes'
 import membershipModuleStore from './modules/membership'
 import storeModuleDepartments from './modules/store/departments'
-import storeModuleSubcategories from './modules/store/subcategories'
+import storeModuleCategories from './modules/store/categories'
 import storeModuleProducts from './modules/store/products'
 
 Vue.use(Vuex)
@@ -30,7 +30,7 @@ export default new Vuex.Store({
     usersModuleStore,
     membershipModuleStore,
     storeModuleDepartments,
-    storeModuleSubcategories,
+    storeModuleCategories,
     storeModuleProducts,
     'app-ecommerce': ecommerceStoreModule,
   },

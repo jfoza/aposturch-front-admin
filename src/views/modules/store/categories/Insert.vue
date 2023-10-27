@@ -13,7 +13,7 @@
 
 // eslint-disable-next-line import/extensions
 import PageHeader from '@/views/components/custom/PageHeader'
-import Form from '@/views/modules/store/subcategories/Form.vue'
+import Form from '@/views/modules/store/categories/Form.vue'
 
 export default {
   components: {
@@ -25,12 +25,12 @@ export default {
     return {
       linkItems: [
         {
-          name: 'Gerenciar subcategorias',
+          name: 'Gerenciar categorias',
           active: true,
           routeName: '',
         },
         {
-          name: 'Cadastrar Novo',
+          name: 'Cadastrar Nova',
           active: true,
         },
       ],
@@ -44,9 +44,9 @@ export default {
   },
 
   mounted() {
-    this.linkItems[0].routeName = this.getStoreModuleRoutes.subcategories.name
+    this.linkItems[0].routeName = this.getStoreModuleRoutes.categories.name
 
-    this.$store.commit('storeModuleSubcategories/clearSubcategoriesForm')
+    this.$store.commit('storeModuleCategories/clearCategoriesForm')
   },
 }
 </script>

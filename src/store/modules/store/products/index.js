@@ -13,7 +13,7 @@ const state = {
     productQuantity: '',
     productBalance: '',
     highlightProduct: false,
-    subcategories: [],
+    categories: [],
   },
 }
 
@@ -32,7 +32,7 @@ const mutations = {
       productQuantity,
       productBalance,
       highlightProduct,
-      subcategories,
+      categories,
     } = itemData
 
     state.productsForm = {
@@ -44,7 +44,7 @@ const mutations = {
       productQuantity,
       productBalance,
       highlightProduct,
-      subcategories,
+      categories,
     }
   },
 
@@ -59,7 +59,7 @@ const mutations = {
       productQuantity: '',
       productBalance: '',
       highlightProduct: false,
-      subcategories: [],
+      categories: [],
     }
   },
 

@@ -3,7 +3,7 @@
     :show="loading"
   >
     <page-header
-      screen-name="Editar subcategoria"
+      screen-name="Editar categoria"
       :link-items="linkItems"
     />
 
@@ -21,9 +21,9 @@ import PageHeader from '@/views/components/custom/PageHeader'
 import { warningMessage } from '@/libs/alerts/sweetalerts'
 import { formActions } from '@core/utils/formActions'
 import { messages } from '@core/utils/validations/messages'
-import Form from '@/views/modules/store/subcategories/Form.vue'
+import Form from '@/views/modules/store/categories/Form.vue'
 import Overlay from '@/views/components/custom/Overlay.vue'
-import { getSubcategoryId } from '@core/utils/requests/subcategories'
+import { getCategoryId } from '@core/utils/requests/categories'
 
 export default {
   components: {
@@ -36,7 +36,7 @@ export default {
     return {
       linkItems: [
         {
-          name: 'Gerenciar subcategorias',
+          name: 'Gerenciar categorias',
           active: true,
           routeName: '',
         },
@@ -54,7 +54,7 @@ export default {
 
   computed: {
     getItemInStore() {
-      return this.$store.getters['storeModuleSubcategories/getChooseSubcategory']
+      return this.$store.getters['storeModuleCategories/getChooseCategory']
     },
 
     getStoreModuleRoutes() {
@@ -68,30 +68,30 @@ export default {
 
       return false
     }
-    this.linkItems[0].routeName = this.getStoreModuleRoutes.subcategories.name
+    this.linkItems[0].routeName = this.getStoreModuleRoutes.categories.name
 
-    return this.handleGetSubcategory()
+    return this.handleGetCategory()
   },
 
   methods: {
-    async handleGetSubcategory() {
+    async handleGetCategory() {
       this.setLoading(true)
 
-      await getSubcategoryId(this.getItemInStore.id)
+      await getCategoryId(this.getItemInStore.id)
         .then(response => {
           const {
             id,
             name,
             description,
-            category,
+            department,
             product,
           } = response.data
 
-          this.$store.commit('storeModuleSubcategories/setSubcategoriesForm', {
+          this.$store.commit('storeModuleCategories/setCategoriesForm', {
             id,
             name,
             description,
-            category,
+            department,
             products: product,
           })
 
@@ -109,8 +109,8 @@ export default {
     },
 
     redirectToMainPage() {
-      this.$store.commit('storeModuleSubcategories/clearSubcategoriesForm')
-      this.$router.replace({ name: this.getStoreModuleRoutes.subcategories.name })
+      this.$store.commit('storeModuleCategories/clearCategoriesForm')
+      this.$router.replace({ name: this.getStoreModuleRoutes.categories.name })
     },
   },
 }

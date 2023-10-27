@@ -30,19 +30,19 @@ export default [
   },
 
   {
-    title: 'Subcategorias',
+    title: 'Categorias',
     icon: 'LayersIcon',
     children: [
       {
         title: 'Cadastrar nova',
-        route: storeModuleRouter.subcategoriesInsert.name,
-        resource: subjects.STORE_MODULE_SUBCATEGORIES,
+        route: storeModuleRouter.categoriesInsert.name,
+        resource: subjects.STORE_MODULE_CATEGORIES,
         action: actions.INSERT,
       },
       {
-        title: 'Ver subcategorias',
-        route: storeModuleRouter.subcategories.name,
-        resource: subjects.STORE_MODULE_SUBCATEGORIES,
+        title: 'Ver categorias',
+        route: storeModuleRouter.categories.name,
+        resource: subjects.STORE_MODULE_CATEGORIES,
         action: actions.VIEW,
       },
     ],

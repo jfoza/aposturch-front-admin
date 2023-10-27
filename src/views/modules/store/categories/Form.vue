@@ -53,8 +53,8 @@
             lg="4"
           >
             <b-form-group
-              label="Categoria"
-              label-for="category"
+              label="Departamento"
+              label-for="department"
             >
               <validation-provider
                 #default="{ errors }"
@@ -63,12 +63,12 @@
               >
                 <v-select
                   id="category"
-                  v-model="getFormData.category"
-                  :options="categories"
+                  v-model="getFormData.department"
+                  :options="departments"
                   variant="custom"
                   item-text="name"
                   item-value="id"
-                  placeholder="Selecione uma categoria"
+                  placeholder="Selecione um departamento"
                   label="name"
                 />
 
@@ -149,9 +149,9 @@ import { formActions } from '@core/utils/formActions'
 import { messages } from '@core/utils/validations/messages'
 import { getAllDepartments } from '@core/utils/requests/departments'
 import Overlay from '@/views/components/custom/Overlay.vue'
-import ProductsTable from '@/views/modules/store/subcategories/components/ProductsTable.vue'
+import ProductsTable from '@/views/modules/store/categories/components/ProductsTable.vue'
 import vSelect from 'vue-select'
-import { createSubcategory, updateSubcategory } from '@core/utils/requests/subcategories'
+import { createCategory, updateCategory } from '@core/utils/requests/categories'
 import { getArrayAttr } from '@core/utils/utils'
 
 export default {
@@ -185,7 +185,7 @@ export default {
 
       loading: false,
 
-      categories: [],
+      departments: [],
 
       formActions,
     }
@@ -197,7 +197,7 @@ export default {
     },
 
     getFormData() {
-      return this.$store.getters['storeModuleSubcategories/getSubcategoriesForm']
+      return this.$store.getters['storeModuleCategories/getCategoriesForm']
     },
 
     getStoreModuleRoutes() {
@@ -208,24 +208,24 @@ export default {
       return {
         name: this.getFormData.name,
         description: this.getFormData.description,
-        categoryId: this.getFormData.category ? this.getFormData.category.id : null,
+        departmentId: this.getFormData.department ? this.getFormData.department.id : null,
         productsId: this.getFormData.products.length > 0 ? getArrayAttr(this.getFormData.products, 'id') : null,
       }
     },
   },
 
   mounted() {
-    this.handleGetCategories()
+    this.handleGetDepartments()
   },
 
   methods: {
-    async handleGetCategories() {
+    async handleGetDepartments() {
       this.loading = true
 
       await getAllDepartments()
         .then(response => {
           if (response.status === 200) {
-            this.categories = response.data
+            this.departments = response.data
           }
         })
 
@@ -267,7 +267,7 @@ export default {
 
       const formData = this.getFormItems
 
-      await createSubcategory(formData)
+      await createCategory(formData)
         .then(response => {
           if (response.status === 201) {
             this.clear()
@@ -288,7 +288,7 @@ export default {
 
       const formData = this.getFormItems
 
-      await updateSubcategory(id, formData)
+      await updateCategory(id, formData)
         .then(response => {
           if (response.status === 200) {
             this.clear()
@@ -326,7 +326,7 @@ export default {
         this.clear()
       } else {
         this.$router.replace({
-          name: this.getStoreModuleRoutes.subcategories.name,
+          name: this.getStoreModuleRoutes.categories.name,
           params: {
             dispatchList: true,
           },
@@ -335,11 +335,11 @@ export default {
     },
 
     clear() {
-      this.$store.commit('storeModuleSubcategories/clearSubcategoriesForm')
+      this.$store.commit('storeModuleCategories/clearCategoriesForm')
 
       if (this.redirect) {
         this.$router.replace({
-          name: this.getStoreModuleRoutes.subcategories.name,
+          name: this.getStoreModuleRoutes.categories.name,
           params: {
             dispatchList: true,
           },

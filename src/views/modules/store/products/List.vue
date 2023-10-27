@@ -62,13 +62,13 @@
             xl="3"
           >
             <b-form-group
-              label="Subcategorias"
-              label-for="subcategories"
+              label="Categorias"
+              label-for="categories"
             >
               <v-select
                 id="categories"
-                v-model="search.subcategories"
-                :options="subcategories"
+                v-model="search.categories"
+                :options="categories"
                 variant="custom"
                 item-text="name"
                 item-value="id"
@@ -374,7 +374,7 @@ import {
 import { messages } from '@core/utils/validations/messages'
 import Overlay from '@/views/components/custom/Overlay.vue'
 import { getArrayAttr, moneyFormatBRL } from '@core/utils/utils'
-import { getAllSubcategories } from '@core/utils/requests/subcategories'
+import { getAllCategories } from '@core/utils/requests/categories'
 import { getAllProducts, updateStatusProducts } from '@core/utils/requests/products'
 
 export default {
@@ -429,14 +429,12 @@ export default {
 
       search: {
         name: '',
-        subcategories: null,
+        categories: null,
         code: '',
         highlight: null,
       },
 
       showTable: false,
-
-      subcategories: [],
 
       productsToUpdateStatus: [],
 
@@ -507,19 +505,19 @@ export default {
   },
 
   mounted() {
-    this.handleGetSubcategories()
+    this.handleGetCategories()
     this.findAll()
   },
 
   methods: {
     moneyFormatBRL,
-    async handleGetSubcategories() {
+    async handleGetCategories() {
       this.loadingSelects = true
 
-      await getAllSubcategories({ hasProducts: 1 })
+      await getAllCategories({ hasProducts: 1 })
         .then(response => {
           if (response.status === 200) {
-            this.subcategories = response.data
+            this.categories = response.data
           }
         })
 
@@ -633,7 +631,7 @@ export default {
       this.search.name = ''
       this.search.code = ''
       this.search.highlight = null
-      this.search.subcategories = []
+      this.search.categories = []
       this.showTable = false
     },
 
@@ -645,11 +643,11 @@ export default {
     },
 
     getParams() {
-      let subcategoriesId = []
+      let categoriesId = []
 
-      if (this.search.subcategories) {
-        if (this.search.subcategories.length > 0) {
-          subcategoriesId = getArrayAttr(this.search.subcategories, 'id')
+      if (this.search.categories) {
+        if (this.search.categories.length > 0) {
+          categoriesId = getArrayAttr(this.search.categories, 'id')
         }
       }
 
@@ -661,7 +659,7 @@ export default {
         name: this.search.name,
         code: this.search.code,
         highlight: this.search.highlight,
-        subcategoriesId,
+        categoriesId,
       }
     },
 

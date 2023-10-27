@@ -1,7 +1,7 @@
 <template>
   <div class="content-wrapper">
     <page-header
-      screen-name="Ver Subcategorias"
+      screen-name="Ver Categorias"
       :link-items="linkItems"
     />
 
@@ -12,7 +12,7 @@
       <b-form>
         <b-row class="mb-2">
           <b-col cols="12">
-            <h3>Lista de Subcategorias</h3>
+            <h3>Lista de Categorias</h3>
             <p>
               Para realizar uma busca, selecione o(s) filtros necessário(s) e clique no botão buscar:
             </p>
@@ -42,17 +42,17 @@
             lg="4"
           >
             <b-form-group
-              label="Categorias"
-              label-for="categories"
+              label="Departamentos"
+              label-for="departments"
             >
               <v-select
                 id="categories"
-                v-model="search.category"
-                :options="categories"
+                v-model="search.department"
+                :options="departments"
                 variant="custom"
                 item-text="name"
                 item-value="id"
-                placeholder="Selecione uma categoria"
+                placeholder="Selecione um departamento"
                 label="name"
                 :disabled="loadingSelects"
               />
@@ -116,12 +116,12 @@
             <b-link
               type="button"
               class="btn button-form button-plus"
-              :to="{ name: getStoreModuleRoutes.subcategoriesInsert.name }"
+              :to="{ name: getStoreModuleRoutes.categoriesInsert.name }"
             >
               <feather-icon
                 icon="PlusIcon"
               />
-              Adicionar nova subcategoria
+              Adicionar nova categoria
             </b-link>
           </b-col>
         </b-row>
@@ -165,10 +165,10 @@
           md="6"
         >
           <button
-            :disabled="!checkAll && subcategoriesToUpdateStatus.length === 0"
+            :disabled="!checkAll && categoriesToUpdateStatus.length === 0"
             type="button"
             class="btn btn-outline-form"
-            @click="handleConfirmUpdateManySubcategoriesStatus"
+            @click="handleConfirmUpdateManyCategoriesStatus"
           >
             Alterar status dos selecionados
           </button>
@@ -244,7 +244,7 @@
 
             <template #cell(id)="row">
               <b-form-checkbox
-                v-model="subcategoriesToUpdateStatus"
+                v-model="categoriesToUpdateStatus"
                 :value="row.item.id"
               />
             </template>
@@ -257,8 +257,8 @@
               <span>{{ row.value }}</span>
             </template>
 
-            <template #cell(category)="row">
-              <span>{{ row.item.category ? row.item.category.name : '' }}</span>
+            <template #cell(department)="row">
+              <span>{{ row.item.department ? row.item.department.name : '' }}</span>
             </template>
 
             <template #cell(created_at)="row">
@@ -272,7 +272,7 @@
                 class="custom-control-success"
                 name="check-button"
                 switch
-                @change="handleConfirmUpdateSubcategoryStatus(row.item)"
+                @change="handleConfirmUpdateCategoryStatus(row.item)"
               >
                 <span class="switch-icon-left">
                   <feather-icon icon="CheckIcon" />
@@ -359,8 +359,8 @@ import {
 import { messages } from '@core/utils/validations/messages'
 import Overlay from '@/views/components/custom/Overlay.vue'
 import { getArrayAttr } from '@core/utils/utils'
-import { getAllSubcategories, removeSubcategory, updateStatusSubcategories } from '@core/utils/requests/subcategories'
 import { getAllDepartments } from '@core/utils/requests/departments'
+import { getAllCategories, removeCategory, updateStatusCategories } from '@core/utils/requests/categories'
 
 export default {
   components: {
@@ -405,13 +405,13 @@ export default {
         },
       ],
 
-      categories: [],
+      departments: [],
 
       checkAll: false,
 
       search: {
         name: '',
-        category: null,
+        department: null,
         hasProducts: null,
       },
 
@@ -423,7 +423,7 @@ export default {
 
       showTable: false,
 
-      subcategoriesToUpdateStatus: [],
+      categoriesToUpdateStatus: [],
 
       paginationData: {
         currentPage: 0,
@@ -455,11 +455,11 @@ export default {
     },
 
     hasUpdateStatus() {
-      return this.$can(actions.UPDATE, subjects.STORE_MODULE_SUBCATEGORIES_STATUS)
+      return this.$can(actions.UPDATE, subjects.STORE_MODULE_CATEGORIES_STATUS)
     },
 
     hasRemove() {
-      return this.$can(actions.DELETE, subjects.STORE_MODULE_SUBCATEGORIES)
+      return this.$can(actions.DELETE, subjects.STORE_MODULE_CATEGORIES)
     },
 
     getFields() {
@@ -469,7 +469,7 @@ export default {
           : null,
         { key: 'name', label: 'NOME', sortable: true },
         { key: 'description', label: 'DESCRIÇÃO' },
-        { key: 'category', label: 'CATEGORIA', sortable: true },
+        { key: 'department', label: 'DEPARTAMENTO', sortable: true },
         { key: 'created_at', label: 'CRIADO EM', sortable: true },
         { key: 'active', label: 'STATUS', sortable: true },
 
@@ -483,18 +483,18 @@ export default {
   },
 
   mounted() {
-    this.handleGetCategories()
+    this.handleGetDepartments()
     this.findAll()
   },
 
   methods: {
-    async handleGetCategories() {
+    async handleGetDepartments() {
       this.loadingSelects = true
 
-      await getAllDepartments({ hasSubcategories: 1 })
+      await getAllDepartments({ hasCategories: 1 })
         .then(response => {
           if (response.status === 200) {
-            this.categories = response.data
+            this.departments = response.data
           }
         })
 
@@ -508,10 +508,10 @@ export default {
       this.table.empty = false
 
       this.table.items = []
-      this.subcategoriesToUpdateStatus = []
+      this.categoriesToUpdateStatus = []
       this.checkAll = false
 
-      getAllSubcategories(this.getParams())
+      getAllCategories(this.getParams())
         .then(response => {
           if (response.status === 200) {
             if (response.data.data.length > 0) {
@@ -537,14 +537,14 @@ export default {
     handleConfirmToRemove({ id }) {
       confirmAction(messages.confirmDelete)
         .then(() => {
-          this.handleRemoveSubcategory(id)
+          this.handleRemoveCategory(id)
         })
     },
 
-    async handleRemoveSubcategory(id) {
+    async handleRemoveCategory(id) {
       this.loading = true
 
-      await removeSubcategory(id)
+      await removeCategory(id)
         .then(response => {
           if (response.status === 204) {
             successMessage(messages.successDelete)
@@ -565,12 +565,12 @@ export default {
       this.loading = false
     },
 
-    handleConfirmUpdateManySubcategoriesStatus() {
-      const { title, value } = messages.confirmUpdateManySubcategoriesStatus
+    handleConfirmUpdateManyCategoriesStatus() {
+      const { title, value } = messages.confirmUpdateManyCategoriesStatus
 
       warningMessageUpdateStatus(title, value)
         .then(() => {
-          this.handleUpdateStatus(this.subcategoriesToUpdateStatus)
+          this.handleUpdateStatus(this.categoriesToUpdateStatus)
         })
         .catch(() => {
           this.table.items = []
@@ -578,8 +578,8 @@ export default {
         })
     },
 
-    handleConfirmUpdateSubcategoryStatus({ id, active }) {
-      const { title1, title2, value } = messages.confirmUpdateUniqueSubcategoryStatus
+    handleConfirmUpdateCategoryStatus({ id, active }) {
+      const { title1, title2, value } = messages.confirmUpdateUniqueCategoryStatus
 
       warningMessageUpdateStatus(active ? title1 : title2, value)
         .then(() => {
@@ -591,13 +591,13 @@ export default {
         })
     },
 
-    async handleUpdateStatus(subcategoriesId) {
+    async handleUpdateStatus(categoriesId) {
       this.loading = true
 
-      await updateStatusSubcategories({ subcategoriesId })
+      await updateStatusCategories({ categoriesId })
         .then(response => {
           if (response.status === 200) {
-            this.subcategoriesToUpdateStatus = []
+            this.categoriesToUpdateStatus = []
             this.checkAll = false
 
             this.findAll()
@@ -608,27 +608,27 @@ export default {
     },
 
     checkOrUncheckAll() {
-      let subcategories = this.table.items
+      let categories = this.table.items
 
       if (this.checkAll) {
-        subcategories = subcategories.filter(item => item.id)
+        categories = categories.filter(item => item.id)
 
-        this.subcategoriesToUpdateStatus = getArrayAttr(subcategories, 'id')
+        this.categoriesToUpdateStatus = getArrayAttr(categories, 'id')
       } else {
-        this.subcategoriesToUpdateStatus = []
+        this.categoriesToUpdateStatus = []
         this.checkAll = false
       }
     },
 
     redirectUpdatePage(item) {
-      this.$store.commit('storeModuleSubcategories/setChooseSubcategory', item)
+      this.$store.commit('storeModuleCategories/setChooseCategory', item)
 
-      this.$router.replace({ name: this.getStoreModuleRoutes.subcategoriesUpdate.name })
+      this.$router.replace({ name: this.getStoreModuleRoutes.categoriesUpdate.name })
     },
 
     clearFilters() {
       this.search.name = ''
-      this.search.category = ''
+      this.search.department = ''
       this.search.hasProducts = null
       this.showTable = false
     },
@@ -647,7 +647,7 @@ export default {
         perPage: this.paginationData.defaultSize,
         page: this.paginationData.currentPage,
         name: this.search.name,
-        categoryId: this.search.category ? this.search.category.id : null,
+        departmentId: this.search.department ? this.search.department.id : null,
         hasProducts: this.search.hasProducts,
       }
     },

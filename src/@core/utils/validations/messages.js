@@ -33,15 +33,15 @@ export const messages = {
     value: 'Essa ação irá afetar a visualização de produtos e subcategorias vinculadas a este departamento.',
   },
 
-  confirmUpdateManySubcategoriesStatus: {
+  confirmUpdateManyCategoriesStatus: {
     title: 'Tem certeza que deseja alterar estes registros ?',
-    value: 'Essa ação irá afetar a visualização dos produtos vinculados a esta(s) categoria(s). <br>Subcategorias ativas serão inativadas.<br>Subcategorias inativas serão ativadas novamente.',
+    value: 'Essa ação irá afetar a visualização dos produtos vinculados a esta(s) categoria(s). <br>Categorias ativas serão inativadas.<br>Categorias inativas serão ativadas novamente.',
   },
 
-  confirmUpdateUniqueSubcategoryStatus: {
+  confirmUpdateUniqueCategoryStatus: {
     title1: 'Tem certeza que deseja inativar ?',
     title2: 'Tem certeza que deseja ativar ?',
-    value: 'Essa ação irá afetar a visualização de produtos vinculados a esta subcategoria.',
+    value: 'Essa ação irá afetar a visualização de produtos vinculados a esta categoria.',
   },
 
   confirmUpdateManyProductsStatus: {

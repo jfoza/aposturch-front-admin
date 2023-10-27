@@ -144,7 +144,7 @@
               v-if="products.length === 0"
               class="table-empty"
             >
-              A subcategoria possui nenhum produto vinculado.
+              A Categoria possui nenhum produto vinculado.
             </p>
           </b-col>
 
@@ -222,7 +222,7 @@ import {
 } from 'bootstrap-vue'
 import { getArrayAttr } from '@core/utils/utils'
 import Overlay from '@/views/components/custom/Overlay.vue'
-import ProductsAutoSuggest from '@/views/modules/store/subcategories/components/ProductsAutoSuggest.vue'
+import ProductsAutoSuggest from '@/views/modules/store/categories/components/ProductsAutoSuggest.vue'
 import { getAllProducts } from '@core/utils/requests/products'
 import { warningMessageRemoveProduct } from '@/libs/alerts/sweetalerts'
 
@@ -286,7 +286,7 @@ export default {
     },
 
     getFormData() {
-      return this.$store.getters['storeModuleSubcategories/getSubcategoriesForm']
+      return this.$store.getters['storeModuleCategories/getCategoriesForm']
     },
 
     getProductsInUpdate() {

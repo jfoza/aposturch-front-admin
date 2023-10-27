@@ -20,20 +20,20 @@ export default {
     name: 'store-departments-update',
   },
 
-  // SUBCATEGORIES
-  subcategories: {
-    path: '/loja/subcategorias',
-    name: 'store-subcategories',
+  // CATEGORIES
+  categories: {
+    path: '/loja/categorias',
+    name: 'store-categories',
   },
 
-  subcategoriesInsert: {
-    path: '/loja/subcategorias/novo',
-    name: 'store-subcategories-insert',
+  categoriesInsert: {
+    path: '/loja/categorias/novo',
+    name: 'store-categories-insert',
   },
 
-  subcategoriesUpdate: {
-    path: '/loja/subcategorias/atualizar-dados',
-    name: 'store-subcategories-update',
+  categoriesUpdate: {
+    path: '/loja/categorias/atualizar-dados',
+    name: 'store-categories-update',
   },
 
   // PREFIXES

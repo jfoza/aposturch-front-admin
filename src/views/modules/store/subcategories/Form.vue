@@ -147,7 +147,7 @@ import { statusForm } from '@core/utils/statusForm'
 import { successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { formActions } from '@core/utils/formActions'
 import { messages } from '@core/utils/validations/messages'
-import { getAllCategories } from '@core/utils/requests/categories'
+import { getAllDepartments } from '@core/utils/requests/departments'
 import Overlay from '@/views/components/custom/Overlay.vue'
 import ProductsTable from '@/views/modules/store/subcategories/components/ProductsTable.vue'
 import vSelect from 'vue-select'
@@ -222,7 +222,7 @@ export default {
     async handleGetCategories() {
       this.loading = true
 
-      await getAllCategories()
+      await getAllDepartments()
         .then(response => {
           if (response.status === 200) {
             this.categories = response.data

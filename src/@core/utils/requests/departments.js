@@ -1,9 +1,9 @@
 import axiosIns from '@/libs/axios'
 import apiRoutes from '@/router/apiRoutes'
 
-export const getAllCategories = params => new Promise((resolve, reject) => {
+export const getAllDepartments = params => new Promise((resolve, reject) => {
   axiosIns
-    .get(apiRoutes.categories, { params })
+    .get(apiRoutes.departments, { params })
     .then(response => {
       resolve(response)
     })
@@ -12,9 +12,9 @@ export const getAllCategories = params => new Promise((resolve, reject) => {
     })
 })
 
-export const getCategoryId = id => new Promise((resolve, reject) => {
+export const getDepartmentId = id => new Promise((resolve, reject) => {
   axiosIns
-    .get(apiRoutes.categoryId(id))
+    .get(apiRoutes.departmentId(id))
     .then(response => {
       resolve(response)
     })
@@ -23,9 +23,9 @@ export const getCategoryId = id => new Promise((resolve, reject) => {
     })
 })
 
-export const createCategory = form => new Promise((resolve, reject) => {
+export const createDepartment = form => new Promise((resolve, reject) => {
   axiosIns
-    .post(apiRoutes.categories, form)
+    .post(apiRoutes.departments, form)
     .then(response => {
       resolve(response)
     })
@@ -34,9 +34,9 @@ export const createCategory = form => new Promise((resolve, reject) => {
     })
 })
 
-export const updateCategory = (id, form) => new Promise((resolve, reject) => {
+export const updateDepartment = (id, form) => new Promise((resolve, reject) => {
   axiosIns
-    .put(apiRoutes.categoryId(id), form)
+    .put(apiRoutes.departmentId(id), form)
     .then(response => {
       resolve(response)
     })
@@ -45,9 +45,9 @@ export const updateCategory = (id, form) => new Promise((resolve, reject) => {
     })
 })
 
-export const updateStatusCategories = form => new Promise((resolve, reject) => {
+export const updateStatusDepartments = form => new Promise((resolve, reject) => {
   axiosIns
-    .put(apiRoutes.categoriesStatus, form)
+    .put(apiRoutes.departmentsStatus, form)
     .then(response => {
       resolve(response)
     })
@@ -56,9 +56,9 @@ export const updateStatusCategories = form => new Promise((resolve, reject) => {
     })
 })
 
-export const removeCategory = id => new Promise((resolve, reject) => {
+export const removeDepartment = id => new Promise((resolve, reject) => {
   axiosIns
-    .delete(apiRoutes.categoryId(id))
+    .delete(apiRoutes.departmentId(id))
     .then(response => {
       resolve(response)
     })

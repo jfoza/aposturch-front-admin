@@ -60,7 +60,7 @@
               <feather-icon
                 icon="CheckIcon"
               />
-              Salvar categoria
+              Salvar departamento
             </button>
 
             <button
@@ -109,7 +109,7 @@ import { statusForm } from '@core/utils/statusForm'
 import { successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { formActions } from '@core/utils/formActions'
 import { messages } from '@core/utils/validations/messages'
-import { createCategory, updateCategory } from '@core/utils/requests/categories'
+import { createDepartment, updateDepartment } from '@core/utils/requests/departments'
 import Overlay from '@/views/components/custom/Overlay.vue'
 
 export default {
@@ -151,7 +151,7 @@ export default {
     },
 
     getFormData() {
-      return this.$store.getters['storeModuleCategories/getCategoriesForm']
+      return this.$store.getters['storeModuleDepartments/getDepartmentsForm']
     },
 
     getStoreModuleRoutes() {
@@ -198,7 +198,7 @@ export default {
         description: this.getFormData.description,
       }
 
-      await createCategory(formData)
+      await createDepartment(formData)
         .then(response => {
           if (response.status === 201) {
             this.clear()
@@ -222,7 +222,7 @@ export default {
         description: this.getFormData.description,
       }
 
-      await updateCategory(id, formData)
+      await updateDepartment(id, formData)
         .then(response => {
           if (response.status === 200) {
             this.clear()
@@ -256,7 +256,7 @@ export default {
         this.clear()
       } else {
         this.$router.replace({
-          name: this.getStoreModuleRoutes.categories.name,
+          name: this.getStoreModuleRoutes.departments.name,
           params: {
             dispatchList: true,
           },
@@ -265,11 +265,11 @@ export default {
     },
 
     clear() {
-      this.$store.commit('storeModuleCategories/clearCategoriesForm')
+      this.$store.commit('storeModuleDepartments/clearDepartmentsForm')
 
       if (this.redirect) {
         this.$router.replace({
-          name: this.getStoreModuleRoutes.categories.name,
+          name: this.getStoreModuleRoutes.departments.name,
           params: {
             dispatchList: true,
           },

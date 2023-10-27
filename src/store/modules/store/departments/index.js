@@ -1,9 +1,9 @@
 /* eslint-disable no-shadow */
 
 const state = {
-  chooseCategory: null,
+  chooseDepartment: null,
 
-  categoriesForm: {
+  departmentsForm: {
     id: '',
     name: '',
     description: '',
@@ -12,11 +12,11 @@ const state = {
 }
 
 const mutations = {
-  setChooseCategory(state, itemData) {
-    state.chooseCategory = itemData
+  setChooseDepartment(state, itemData) {
+    state.chooseDepartment = itemData
   },
 
-  setCategoriesForm(state, itemData) {
+  setDepartmentsForm(state, itemData) {
     const {
       id,
       name,
@@ -24,7 +24,7 @@ const mutations = {
       subcategories,
     } = itemData
 
-    state.categoriesForm = {
+    state.departmentsForm = {
       id,
       name,
       description,
@@ -32,21 +32,21 @@ const mutations = {
     }
   },
 
-  clearCategoriesForm(state) {
-    state.categoriesForm = {
+  clearDepartmentsForm(state) {
+    state.departmentsForm = {
       id: '',
       name: '',
       description: '',
       subcategories: [],
     }
 
-    state.chooseCategory = null
+    state.chooseDepartment = null
   },
 }
 
 const getters = {
-  getChooseCategory: state => state.chooseCategory,
-  getCategoriesForm: state => state.categoriesForm,
+  getChooseDepartment: state => state.chooseDepartment,
+  getDepartmentsForm: state => state.departmentsForm,
 }
 
 export default {

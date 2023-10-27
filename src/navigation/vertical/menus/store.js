@@ -11,19 +11,19 @@ export default [
   },
 
   {
-    title: 'Categorias',
+    title: 'Departamentos',
     icon: 'BoxIcon',
     children: [
       {
-        title: 'Cadastrar nova',
-        route: storeModuleRouter.categoriesInsert.name,
-        resource: subjects.STORE_MODULE_CATEGORIES,
+        title: 'Cadastrar novo',
+        route: storeModuleRouter.departmentsInsert.name,
+        resource: subjects.STORE_MODULE_DEPARTMENTS,
         action: actions.INSERT,
       },
       {
-        title: 'Ver categorias',
-        route: storeModuleRouter.categories.name,
-        resource: subjects.STORE_MODULE_CATEGORIES,
+        title: 'Ver departamentos',
+        route: storeModuleRouter.departments.name,
+        resource: subjects.STORE_MODULE_DEPARTMENTS,
         action: actions.VIEW,
       },
     ],

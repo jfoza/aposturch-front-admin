@@ -360,7 +360,7 @@ import { messages } from '@core/utils/validations/messages'
 import Overlay from '@/views/components/custom/Overlay.vue'
 import { getArrayAttr } from '@core/utils/utils'
 import { getAllSubcategories, removeSubcategory, updateStatusSubcategories } from '@core/utils/requests/subcategories'
-import { getAllCategories } from '@core/utils/requests/categories'
+import { getAllDepartments } from '@core/utils/requests/departments'
 
 export default {
   components: {
@@ -491,7 +491,7 @@ export default {
     async handleGetCategories() {
       this.loadingSelects = true
 
-      await getAllCategories({ hasSubcategories: 1 })
+      await getAllDepartments({ hasSubcategories: 1 })
         .then(response => {
           if (response.status === 200) {
             this.categories = response.data

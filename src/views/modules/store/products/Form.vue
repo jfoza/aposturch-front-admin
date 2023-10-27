@@ -530,9 +530,8 @@ export default {
         this.quantityBalanceError = 'O saldo não pode ser maior que a quantidade'
 
         return
-      } else {
-        this.quantityBalanceError = ''
       }
+      this.quantityBalanceError = ''
 
       if (await result) {
         await this.core()

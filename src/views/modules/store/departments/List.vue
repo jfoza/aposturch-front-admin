@@ -1,7 +1,7 @@
 <template>
   <div class="content-wrapper">
     <page-header
-      screen-name="Ver Categorias"
+      screen-name="Ver Departamentos"
       :link-items="linkItems"
     />
 
@@ -12,7 +12,7 @@
       <b-form>
         <b-row class="mb-2">
           <b-col cols="12">
-            <h3>Lista de Categorias</h3>
+            <h3>Lista de Departamentos</h3>
             <p>
               Para realizar uma busca, selecione o(s) filtros necessário(s) e clique no botão buscar:
             </p>
@@ -94,12 +94,12 @@
             <b-link
               type="button"
               class="btn button-form button-plus"
-              :to="{ name: getStoreModuleRoutes.categoriesInsert.name }"
+              :to="{ name: getStoreModuleRoutes.departmentsInsert.name }"
             >
               <feather-icon
                 icon="PlusIcon"
               />
-              Adicionar nova categoria
+              Adicionar novo departamento
             </b-link>
           </b-col>
         </b-row>
@@ -143,10 +143,10 @@
           md="6"
         >
           <button
-            :disabled="!checkAll && categoriesToUpdateStatus.length === 0"
+            :disabled="!checkAll && departmentsToUpdateStatus.length === 0"
             type="button"
             class="btn btn-outline-form"
-            @click="handleConfirmUpdateManyCategoriesStatus"
+            @click="handleConfirmUpdateManyDepartmentsStatus"
           >
             Alterar status dos selecionados
           </button>
@@ -222,7 +222,7 @@
 
             <template #cell(id)="row">
               <b-form-checkbox
-                v-model="categoriesToUpdateStatus"
+                v-model="departmentsToUpdateStatus"
                 :value="row.item.id"
               />
             </template>
@@ -246,7 +246,7 @@
                 class="custom-control-success"
                 name="check-button"
                 switch
-                @change="handleConfirmUpdateCategoryStatus(row.item)"
+                @change="handleConfirmUpdateDepartmentStatus(row.item)"
               >
                 <span class="switch-icon-left">
                   <feather-icon icon="CheckIcon" />
@@ -327,13 +327,13 @@ import vSelect from 'vue-select'
 import CustomPagination from '@/views/components/custom/CustomPagination'
 import ButtonIcon from '@/views/components/custom/ButtonIcon'
 import { actions, subjects } from '@/libs/acl/rules'
-import { getAllCategories, removeCategory, updateStatusCategories } from '@core/utils/requests/categories'
 import {
   confirmAction, successMessage, warningMessage, warningMessageUpdateStatus,
 } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
 import Overlay from '@/views/components/custom/Overlay.vue'
 import { getArrayAttr } from '@core/utils/utils'
+import { getAllDepartments, removeDepartment, updateStatusDepartments } from '@core/utils/requests/departments'
 
 export default {
   components: {
@@ -368,11 +368,11 @@ export default {
 
       linkItems: [
         {
-          name: 'Gerenciar Categorias',
+          name: 'Gerenciar Departamentos',
           routeName: '',
         },
         {
-          name: 'Ver Categorias',
+          name: 'Ver Departamentos',
           active: true,
         },
       ],
@@ -392,7 +392,7 @@ export default {
 
       showTable: false,
 
-      categoriesToUpdateStatus: [],
+      departmentsToUpdateStatus: [],
 
       paginationData: {
         currentPage: 0,
@@ -424,11 +424,11 @@ export default {
     },
 
     hasUpdateStatus() {
-      return this.$can(actions.UPDATE, subjects.STORE_MODULE_CATEGORIES_STATUS)
+      return this.$can(actions.UPDATE, subjects.STORE_MODULE_DEPARTMENTS_STATUS)
     },
 
     hasRemove() {
-      return this.$can(actions.DELETE, subjects.STORE_MODULE_CATEGORIES)
+      return this.$can(actions.DELETE, subjects.STORE_MODULE_DEPARTMENTS)
     },
 
     getFields() {
@@ -461,10 +461,10 @@ export default {
       this.table.tableError = false
       this.table.empty = false
 
-      this.categoriesToUpdateStatus = []
+      this.departmentsToUpdateStatus = []
       this.checkAll = false
 
-      getAllCategories(this.getParams())
+      getAllDepartments(this.getParams())
         .then(response => {
           if (response.status === 200) {
             if (response.data.data.length > 0) {
@@ -490,14 +490,14 @@ export default {
     handleConfirmToRemove({ id }) {
       confirmAction(messages.confirmDelete)
         .then(() => {
-          this.handleRemoveCategory(id)
+          this.handleRemoveDepartment(id)
         })
     },
 
-    async handleRemoveCategory(id) {
+    async handleRemoveDepartment(id) {
       this.loading = true
 
-      await removeCategory(id)
+      await removeDepartment(id)
         .then(response => {
           if (response.status === 204) {
             successMessage(messages.successDelete)
@@ -518,12 +518,12 @@ export default {
       this.loading = false
     },
 
-    handleConfirmUpdateManyCategoriesStatus() {
-      const { title, value } = messages.confirmUpdateManyCategoriesStatus
+    handleConfirmUpdateManyDepartmentsStatus() {
+      const { title, value } = messages.confirmUpdateManyDepartmentsStatus
 
       warningMessageUpdateStatus(title, value)
         .then(() => {
-          this.handleUpdateStatus(this.categoriesToUpdateStatus)
+          this.handleUpdateStatus(this.departmentsToUpdateStatus)
         })
         .catch(() => {
           this.table.items = []
@@ -531,8 +531,8 @@ export default {
         })
     },
 
-    handleConfirmUpdateCategoryStatus({ id, active }) {
-      const { title1, title2, value } = messages.confirmUpdateUniqueCategoryStatus
+    handleConfirmUpdateDepartmentStatus({ id, active }) {
+      const { title1, title2, value } = messages.confirmUpdateUniqueDepartmentStatus
 
       warningMessageUpdateStatus(active ? title1 : title2, value)
         .then(() => {
@@ -544,13 +544,13 @@ export default {
         })
     },
 
-    async handleUpdateStatus(categoriesId) {
+    async handleUpdateStatus(departmentsId) {
       this.loading = true
 
-      await updateStatusCategories({ categoriesId })
+      await updateStatusDepartments({ departmentsId })
         .then(response => {
           if (response.status === 200) {
-            this.categoriesToUpdateStatus = []
+            this.departmentsToUpdateStatus = []
             this.checkAll = false
 
             this.findAll()
@@ -561,22 +561,22 @@ export default {
     },
 
     checkOrUncheckAll() {
-      let categories = this.table.items
+      let departments = this.table.items
 
       if (this.checkAll) {
-        categories = categories.filter(item => item.id)
+        departments = departments.filter(item => item.id)
 
-        this.categoriesToUpdateStatus = getArrayAttr(categories, 'id')
+        this.departmentsToUpdateStatus = getArrayAttr(departments, 'id')
       } else {
-        this.categoriesToUpdateStatus = []
+        this.departmentsToUpdateStatus = []
         this.checkAll = false
       }
     },
 
     redirectUpdatePage(item) {
-      this.$store.commit('storeModuleCategories/setChooseCategory', item)
+      this.$store.commit('storeModuleDepartments/setChooseDepartment', item)
 
-      this.$router.replace({ name: this.getStoreModuleRoutes.categoriesUpdate.name })
+      this.$router.replace({ name: this.getStoreModuleRoutes.departmentsUpdate.name })
     },
 
     clearFilters() {

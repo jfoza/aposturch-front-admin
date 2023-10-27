@@ -4,20 +4,20 @@ export default {
     name: 'store-home',
   },
 
-  // CATEGORIES
-  categories: {
-    path: '/loja/categorias',
-    name: 'store-categories',
+  // DEPARTMENTS
+  departments: {
+    path: '/loja/departamentos',
+    name: 'store-departments',
   },
 
-  categoriesInsert: {
-    path: '/loja/categorias/novo',
-    name: 'store-categories-insert',
+  departmentsInsert: {
+    path: '/loja/departamentos/novo',
+    name: 'store-departments-insert',
   },
 
-  categoriesUpdate: {
-    path: '/loja/categorias/atualizar-dados',
-    name: 'store-categories-update',
+  departmentsUpdate: {
+    path: '/loja/departamentos/atualizar-dados',
+    name: 'store-departments-update',
   },
 
   // SUBCATEGORIES

@@ -3,7 +3,7 @@
     :show="loading"
   >
     <page-header
-      screen-name="Editar categoria"
+      screen-name="Editar departamento"
       :link-items="linkItems"
     />
 
@@ -21,8 +21,8 @@ import PageHeader from '@/views/components/custom/PageHeader'
 import { warningMessage } from '@/libs/alerts/sweetalerts'
 import { formActions } from '@core/utils/formActions'
 import { messages } from '@core/utils/validations/messages'
-import { getCategoryId } from '@core/utils/requests/categories'
-import Form from '@/views/modules/store/categories/Form.vue'
+import { getDepartmentId } from '@core/utils/requests/departments'
+import Form from '@/views/modules/store/departments/Form.vue'
 import Overlay from '@/views/components/custom/Overlay.vue'
 
 export default {
@@ -36,7 +36,7 @@ export default {
     return {
       linkItems: [
         {
-          name: 'Gerenciar categorias',
+          name: 'Gerenciar departamentos',
           active: true,
           routeName: '',
         },
@@ -54,7 +54,7 @@ export default {
 
   computed: {
     getItemInStore() {
-      return this.$store.getters['storeModuleCategories/getChooseCategory']
+      return this.$store.getters['storeModuleDepartments/getChooseDepartment']
     },
 
     getStoreModuleRoutes() {
@@ -68,16 +68,16 @@ export default {
 
       return false
     }
-    this.linkItems[0].routeName = this.getStoreModuleRoutes.categories.name
+    this.linkItems[0].routeName = this.getStoreModuleRoutes.departments.name
 
-    return this.handleGetCategory()
+    return this.handleGetDepartment()
   },
 
   methods: {
-    async handleGetCategory() {
+    async handleGetDepartment() {
       this.setLoading(true)
 
-      await getCategoryId(this.getItemInStore.id)
+      await getDepartmentId(this.getItemInStore.id)
         .then(response => {
           const {
             id,
@@ -86,7 +86,7 @@ export default {
             subcategory,
           } = response.data
 
-          this.$store.commit('storeModuleCategories/setCategoriesForm', {
+          this.$store.commit('storeModuleDepartments/setDepartmentsForm', {
             id,
             name,
             description,
@@ -107,8 +107,8 @@ export default {
     },
 
     redirectToMainPage() {
-      this.$store.commit('storeModuleCategories/clearCategoriesForm')
-      this.$router.replace({ name: this.getStoreModuleRoutes.categories.name })
+      this.$store.commit('storeModuleDepartments/clearDepartmentsForm')
+      this.$router.replace({ name: this.getStoreModuleRoutes.departments.name })
     },
   },
 }

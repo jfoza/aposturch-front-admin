@@ -44,9 +44,9 @@ export default {
   memberUpdateProfileData: id => `${membershipModule}/members/profile-data/id/${id}`,
   memberUpdatePasswordData: id => `${membershipModule}/members/password-data/id/${id}`,
 
-  categories: `${storeModule}/categories`,
-  categoryId: id => `${storeModule}/categories/id/${id}`,
-  categoriesStatus: `${storeModule}/categories/status`,
+  departments: `${storeModule}/departments`,
+  departmentId: id => `${storeModule}/departments/id/${id}`,
+  departmentsStatus: `${storeModule}/departments/status`,
 
   subcategories: `${storeModule}/subcategories`,
   subcategoryId: id => `${storeModule}/subcategories/id/${id}`,

@@ -43,11 +43,11 @@
             xl="3"
           >
             <b-form-group
-              label="Possuem subcategorias vinculadas"
+              label="Possuem categorias vinculadas"
               label-for="name"
             >
               <b-form-radio-group
-                v-model="search.hasSubcategories"
+                v-model="search.hasCategories"
                 :options="radioOptions"
                 class="demo-inline-spacing mb-1"
                 value-field="value"
@@ -381,7 +381,7 @@ export default {
 
       search: {
         name: '',
-        hasSubcategories: null,
+        hasCategories: null,
       },
 
       radioOptions: [
@@ -581,7 +581,7 @@ export default {
 
     clearFilters() {
       this.search.name = ''
-      this.search.hasSubcategories = null
+      this.search.hasCategories = null
       this.showTable = false
     },
 
@@ -599,7 +599,7 @@ export default {
         perPage: this.paginationData.defaultSize,
         page: this.paginationData.currentPage,
         name: this.search.name,
-        hasSubcategories: this.search.hasSubcategories,
+        hasCategories: this.search.hasCategories,
       }
     },
 

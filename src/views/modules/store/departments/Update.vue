@@ -83,14 +83,14 @@ export default {
             id,
             name,
             description,
-            subcategory,
+            category,
           } = response.data
 
           this.$store.commit('storeModuleDepartments/setDepartmentsForm', {
             id,
             name,
             description,
-            subcategory,
+            category,
           })
 
           this.linkItems[1].name = name

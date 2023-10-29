@@ -24,13 +24,13 @@ export const messages = {
 
   confirmUpdateManyDepartmentsStatus: {
     title: 'Tem certeza que deseja alterar estes registros ?',
-    value: 'Essa ação irá afetar a visualização das subcategorias e produtos vinculados. <br>Departamentos ativos serão inativados.<br>Departamentos inativos serão ativados novamente.',
+    value: 'Essa ação irá afetar a visualização das categorias e produtos vinculados. <br>Departamentos ativos serão inativados.<br>Departamentos inativos serão ativados novamente.',
   },
 
   confirmUpdateUniqueDepartmentStatus: {
     title1: 'Tem certeza que deseja inativar ?',
     title2: 'Tem certeza que deseja ativar ?',
-    value: 'Essa ação irá afetar a visualização de produtos e subcategorias vinculadas a este departamento.',
+    value: 'Essa ação irá afetar a visualização de produtos e categorias vinculadas a este departamento.',
   },
 
   confirmUpdateManyCategoriesStatus: {

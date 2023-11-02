@@ -6,382 +6,381 @@
     />
 
     <overlay
-      class-name="card"
+      class-name="card p-2"
       :show="loading"
     >
-      <section class="p-2">
-        <validation-observer ref="formFilters">
-          <b-form>
-            <b-row class="mb-2">
-              <b-col cols="12">
-                <h3>Lista de Membros</h3>
-                <p>
-                  Para realizar uma busca, selecione o(s) filtros necessário(s) e clique no botão buscar:
-                </p>
-              </b-col>
-            </b-row>
+      <validation-observer ref="formFilters">
+        <b-form>
+          <b-row class="mb-2">
+            <b-col cols="12">
+              <h3>Lista de Membros</h3>
+              <p>
+                Para realizar uma busca, selecione o(s) filtros necessário(s) e clique no botão buscar:
+              </p>
+            </b-col>
+          </b-row>
 
-            <b-row class="align-items-center">
-              <!-- Name -->
-              <b-col
-                sm="6"
-                lg="4"
-              >
-                <b-form-group
-                  label="Nome"
-                  label-for="name"
-                >
-                  <validation-provider
-                    #default="{ errors }"
-                    name="Nome"
-                  >
-                    <b-form-input
-                      id="name"
-                      v-model="search.name"
-                      placeholder="Nome"
-                      autocomplete="off"
-                    />
-
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </validation-provider>
-                </b-form-group>
-              </b-col>
-
-              <!-- Email -->
-              <b-col
-                sm="6"
-                lg="4"
-              >
-                <b-form-group
-                  label="E-mail"
-                  label-for="email"
-                >
-                  <validation-provider
-                    #default="{ errors }"
-                    name="E-mail"
-                    rules="email"
-                  >
-                    <b-form-input
-                      id="email"
-                      v-model="search.email"
-                      placeholder="E-mail"
-                      autocomplete="off"
-                    />
-
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </validation-provider>
-                </b-form-group>
-              </b-col>
-
-              <!-- Phone -->
-              <b-col
-                sm="6"
-                lg="4"
-              >
-                <b-form-group
-                  label="Telefone"
-                  label-for="phone"
-                >
-                  <validation-provider
-                    #default="{ errors }"
-                    name="Telefone"
-                  >
-                    <b-form-input
-                      id="phone"
-                      v-model="search.phone"
-                      v-mask="'(##) #####-####'"
-                      placeholder="Telefone"
-                      autocomplete="off"
-                    />
-
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </validation-provider>
-                </b-form-group>
-              </b-col>
-
-              <!-- Profile -->
-              <b-col
-                sm="6"
-                lg="4"
-              >
-                <b-form-group
-                  label="Perfil"
-                  label-for="profiles"
-                >
-                  <v-select
-                    id="profiles"
-                    v-model="search.profile"
-                    :options="profiles"
-                    variant="custom"
-                    item-text="description"
-                    item-value="id"
-                    placeholder="Selecione um perfil"
-                    label="description"
-                  />
-                </b-form-group>
-              </b-col>
-
-              <!-- Church -->
-              <b-col
-                sm="6"
-                lg="4"
-              >
-                <b-form-group
-                  label="Igreja"
-                  label-for="churches"
-                >
-                  <v-select
-                    id="churches"
-                    v-model="search.church"
-                    :options="churches"
-                    variant="custom"
-                    item-text="name"
-                    item-value="id"
-                    placeholder="Selecione uma igreja"
-                    label="name"
-                  />
-                </b-form-group>
-              </b-col>
-
-              <!-- City -->
-              <b-col
-                sm="6"
-                lg="4"
-              >
-                <b-form-group
-                  label="Cidade"
-                  label-for="cities"
-                >
-                  <v-select
-                    id="categories"
-                    v-model="search.city"
-                    :options="cities"
-                    variant="custom"
-                    item-text="description"
-                    item-value="id"
-                    placeholder="Selecione uma cidade"
-                    label="description"
-                  />
-                </b-form-group>
-              </b-col>
-
-              <b-col
-                sm="12"
-                lg="4"
-                class="actions-area"
-              >
-                <div class="action-search">
-                  <button
-                    type="button"
-                    class="btn button-form button-config mr-2"
-                    @click.prevent="handleSubmitFormFilters"
-                  >
-                    <feather-icon
-                      icon="SearchIcon"
-                    />
-                    Pesquisar
-                  </button>
-
-                  <button
-                    type="button"
-                    class="btn btn-outline-form button-config"
-                    @click="clearFilters"
-                  >
-                    <feather-icon
-                      icon="XIcon"
-                    />
-                    Limpar
-                  </button>
-                </div>
-              </b-col>
-            </b-row>
-
-            <b-row
-              class="mt-3 mb-1"
+          <b-row class="align-items-center">
+            <!-- Name -->
+            <b-col
+              sm="6"
+              lg="4"
             >
-              <b-col>
-                <b-link
+              <b-form-group
+                label="Nome"
+                label-for="name"
+              >
+                <validation-provider
+                  #default="{ errors }"
+                  name="Nome"
+                >
+                  <b-form-input
+                    id="name"
+                    v-model="search.name"
+                    placeholder="Nome"
+                    autocomplete="off"
+                  />
+
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+
+            <!-- Email -->
+            <b-col
+              sm="6"
+              lg="4"
+            >
+              <b-form-group
+                label="E-mail"
+                label-for="email"
+              >
+                <validation-provider
+                  #default="{ errors }"
+                  name="E-mail"
+                  rules="email"
+                >
+                  <b-form-input
+                    id="email"
+                    v-model="search.email"
+                    placeholder="E-mail"
+                    autocomplete="off"
+                  />
+
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+
+            <!-- Phone -->
+            <b-col
+              sm="6"
+              lg="4"
+            >
+              <b-form-group
+                label="Telefone"
+                label-for="phone"
+              >
+                <validation-provider
+                  #default="{ errors }"
+                  name="Telefone"
+                >
+                  <b-form-input
+                    id="phone"
+                    v-model="search.phone"
+                    v-mask="'(##) #####-####'"
+                    placeholder="Telefone"
+                    autocomplete="off"
+                  />
+
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+
+            <!-- Profile -->
+            <b-col
+              sm="6"
+              lg="4"
+            >
+              <b-form-group
+                label="Perfil"
+                label-for="profiles"
+              >
+                <v-select
+                  id="profiles"
+                  v-model="search.profile"
+                  :options="profiles"
+                  variant="custom"
+                  item-text="description"
+                  item-value="id"
+                  placeholder="Selecione um perfil"
+                  label="description"
+                />
+              </b-form-group>
+            </b-col>
+
+            <!-- Church -->
+            <b-col
+              sm="6"
+              lg="4"
+            >
+              <b-form-group
+                label="Igreja"
+                label-for="churches"
+              >
+                <v-select
+                  id="churches"
+                  v-model="search.church"
+                  :options="churches"
+                  variant="custom"
+                  item-text="name"
+                  item-value="id"
+                  placeholder="Selecione uma igreja"
+                  label="name"
+                />
+              </b-form-group>
+            </b-col>
+
+            <!-- City -->
+            <b-col
+              sm="6"
+              lg="4"
+            >
+              <b-form-group
+                label="Cidade"
+                label-for="cities"
+              >
+                <v-select
+                  id="categories"
+                  v-model="search.city"
+                  :options="cities"
+                  variant="custom"
+                  item-text="description"
+                  item-value="id"
+                  placeholder="Selecione uma cidade"
+                  label="description"
+                />
+              </b-form-group>
+            </b-col>
+
+            <b-col
+              sm="12"
+              lg="4"
+              class="actions-area"
+            >
+              <div class="action-search">
+                <button
                   type="button"
-                  class="btn button-form button-plus"
-                  :to="{ name: membershipModuleRoutes.membersInsert.name }"
+                  class="btn button-form button-config mr-2"
+                  @click.prevent="handleSubmitFormFilters"
                 >
                   <feather-icon
-                    icon="PlusIcon"
+                    icon="SearchIcon"
                   />
-                  Adicionar novo membro
-                </b-link>
-              </b-col>
-            </b-row>
-          </b-form>
-        </validation-observer>
-      </section>
+                  Pesquisar
+                </button>
 
-      <section v-if="loadingTable">
-        <div class="spinner-area">
-          <b-spinner
-            variant="custom"
-            label="Loading..."
-          />
-        </div>
-      </section>
+                <button
+                  type="button"
+                  class="btn btn-outline-form button-config"
+                  @click="clearFilters"
+                >
+                  <feather-icon
+                    icon="XIcon"
+                  />
+                  Limpar
+                </button>
+              </div>
+            </b-col>
+          </b-row>
 
-      <section v-if="!loadingTable">
-        <b-row>
-          <b-col
-            md="12"
-            lg="6"
+          <b-row
+            class="mt-3 mb-1"
           >
-            <h1 class="px-2">
-              {{ titlePage }}
-            </h1>
-          </b-col>
-        </b-row>
-
-        <b-row class="my-2">
-          <b-col
-            class="px-3"
-            sm="6"
-          >
-            <div
-              v-if="showTable"
-              class="d-flex justify-center-center align-items-center"
-            >
-              <span class="mr-50">Mostrar</span>
-              <v-select
-                id="orders"
-                v-model="paginationData.defaultSize"
-                :options="table.tableQtdRows"
-                :clearable="false"
-                @input="updateQtdView($event)"
+            <b-col>
+              <b-link
+                type="button"
+                class="btn button-form button-plus"
+                :to="{ name: membershipModuleRoutes.membersInsert.name }"
               >
-                <span slot="no-options">Nenhuma opção selecionável.</span>
-              </v-select>
+                <feather-icon
+                  icon="PlusIcon"
+                />
+                Adicionar novo membro
+              </b-link>
+            </b-col>
+          </b-row>
+        </b-form>
+      </validation-observer>
+
+      <b-row>
+        <b-col
+          md="12"
+          lg="6"
+        >
+          <h1 class="px-2">
+            {{ titlePage }}
+          </h1>
+        </b-col>
+      </b-row>
+
+      <b-row class="mt-3 mb-1">
+        <b-col
+          md="6"
+        >
+          <div
+            v-if="showTable"
+            class="d-flex justify-center-center align-items-center"
+          >
+            <span class="mr-50">Mostrar</span>
+            <v-select
+              id="orders"
+              v-model="paginationData.defaultSize"
+              :options="table.tableRows"
+              :clearable="false"
+              @input="updateQtdView($event)"
+            >
+              <span slot="no-options">Nenhuma opção selecionável.</span>
+            </v-select>
+          </div>
+        </b-col>
+      </b-row>
+
+      <b-row>
+        <b-col cols="12">
+          <b-alert
+            variant="primary"
+            :show="table.empty"
+            class="mx-2 mt-5"
+          >
+            <div class="alert-body d-flex justify-content-center">
+              <span class="text-primary">
+                <strong
+                  class="text-primary"
+                >Nenhum registro encontrado.</strong>
+              </span>
             </div>
-          </b-col>
+          </b-alert>
 
-          <b-col cols="12">
-            <b-alert
-              variant="primary"
-              :show="table.tableEmpty"
-              class="mx-2 mt-5"
-            >
-              <div class="alert-body d-flex justify-content-center">
-                <span class="text-primary">
-                  <strong
-                    class="text-primary"
-                  >Nenhum registro encontrado.</strong>
-                </span>
-              </div>
-            </b-alert>
-
-            <b-alert
-              variant="primary"
-              :show="table.tableError"
-              class="mx-2 mt-5"
-            >
-              <div class="alert-body d-flex justify-content-center">
-                <span class="text-primary">
-                  <strong
-                    class="text-primary"
-                  >Sistema de busca indisponível no momento.</strong>
-                </span>
-              </div>
-            </b-alert>
-          </b-col>
-
-          <b-col
-            v-if="showTable"
-            cols="12"
-            class="my-2"
+          <b-alert
+            variant="primary"
+            :show="table.tableError"
+            class="mx-2 mt-5"
           >
-            <b-table
-              id="listCompaniesTable"
-              responsive
-              sticky-header="380px"
-              :busy.sync="table.tableBusy"
-              :no-local-sorting="true"
-              :fields="table.fields"
-              :items="table.items"
-              @context-changed="handleOrderTable"
-            >
-              <template #cell(name)="row">
-                <div class="d-flex align-items-center">
-                  <font-awesome-icon
-                    v-if="isAdminChurch(row.item.profile_unique_name)"
-                    icon="fa-solid fa-user-tie"
-                    style="margin-right: .3rem"
-                  />
-                  <span>{{ row.value }}</span>
-                </div>
-              </template>
+            <div class="alert-body d-flex justify-content-center">
+              <span class="text-primary">
+                <strong
+                  class="text-primary"
+                >Sistema de busca indisponível no momento.</strong>
+              </span>
+            </div>
+          </b-alert>
+        </b-col>
 
-              <template #cell(phone)="row">
-                <b-link
-                  @click="handleRedirectWhatsApp(row.value)"
-                >
-                  <font-awesome-icon
-                    icon="fa-brands fa-whatsapp"
-                  />
-                  {{ row.value | VMask('(##) #####-####') }}
-                </b-link>
-              </template>
+        <b-col
+          cols="12"
+        >
+          <div
+            v-if="table.tableBusy"
+            class="spinner-area"
+          >
+            <b-spinner class="spinner-border text-custom-blue" />
+          </div>
+        </b-col>
 
-              <template #cell(profile_description)="row">
+        <b-col
+          v-if="showTable && !table.tableBusy"
+          cols="12"
+          class="my-2"
+        >
+          <b-table
+            responsive
+            sticky-header="380px"
+            :busy.sync="table.tableBusy"
+            :no-local-sorting="true"
+            :fields="table.fields"
+            :items="table.items"
+            @context-changed="handleOrderTable"
+          >
+            <template #cell(name)="row">
+              <div class="d-flex align-items-center">
+                <font-awesome-icon
+                  v-if="isAdminChurch(row.item.profile_unique_name)"
+                  icon="fa-solid fa-user-tie"
+                  style="margin-right: .3rem"
+                />
                 <span>{{ row.value }}</span>
-              </template>
+              </div>
+            </template>
 
-              <template #cell(active)="row">
-                <b-form-checkbox
-                  v-if="isEnabledToUpdateStatus(row.item)"
-                  :disabled="disabledSwitch"
-                  :checked="row.value"
-                  class="custom-control-success"
-                  name="check-button"
-                  switch
-                  @change="handleVerifyUserIdInUpdateStatus(row.item)"
-                >
-                  <span class="switch-icon-left">
-                    <feather-icon icon="CheckIcon" />
-                  </span>
-                  <span class="switch-icon-right">
-                    <feather-icon icon="XIcon" />
-                  </span>
-                </b-form-checkbox>
-
-                <status-field
-                  v-else
-                  :status="row.value"
+            <template #cell(phone)="row">
+              <b-link
+                @click="handleRedirectWhatsApp(row.value)"
+              >
+                <font-awesome-icon
+                  icon="fa-brands fa-whatsapp"
                 />
-              </template>
+                {{ row.value | VMask('(##) #####-####') }}
+              </b-link>
+            </template>
 
-              <template #cell(user_created_at)="row">
-                <span>{{ moment(row.value).format("DD/MM/YYYY HH:mm") }}</span>
-              </template>
+            <template #cell(profile_description)="row">
+              <span>{{ row.value }}</span>
+            </template>
 
-              <template #cell(actions)="row">
-                <button-icon
-                  v-if="isEnabledToUpdate(row.item)"
-                  color="#2772C0"
-                  size="18"
-                  feather-icon="EditIcon"
-                  @action="redirectUpdatePage(row.item)"
-                />
-              </template>
-            </b-table>
-          </b-col>
+            <template #cell(active)="row">
+              <b-form-checkbox
+                v-if="isEnabledToUpdateStatus(row.item)"
+                :disabled="disabledSwitch"
+                :checked="row.value"
+                class="custom-control-success"
+                name="check-button"
+                switch
+                @change="handleConfirmUpdateCategoryStatus(row.item)"
+              >
+                <span class="switch-icon-left">
+                  <feather-icon icon="CheckIcon" />
+                </span>
+                <span class="switch-icon-right">
+                  <feather-icon icon="XIcon" />
+                </span>
+              </b-form-checkbox>
 
-          <b-col
-            v-if="showTable"
-            class="px-3"
-            sm="12"
-          >
-            <CustomPagination
-              :paginacao="paginationData"
-              @page-cliked="updateCurrentPage"
-            />
-          </b-col>
-        </b-row>
-      </section>
+              <status-field
+                v-else
+                :status="row.value"
+              />
+            </template>
+
+            <template #cell(user_created_at)="row">
+              <span>{{ moment(row.value).format("DD/MM/YYYY HH:mm") }}</span>
+            </template>
+
+            <template #cell(actions)="row">
+              <button-icon
+                v-if="isEnabledToUpdate(row.item)"
+                color="#2772C0"
+                size="18"
+                feather-icon="EditIcon"
+                @action="redirectUpdatePage(row.item)"
+              />
+            </template>
+          </b-table>
+        </b-col>
+
+        <b-col
+          v-if="showTable"
+          class="px-3"
+          sm="12"
+        >
+          <CustomPagination
+            :paginacao="paginationData"
+            @page-cliked="updateCurrentPage"
+          />
+        </b-col>
+      </b-row>
+
     </overlay>
   </div>
 </template>
@@ -410,10 +409,10 @@ import ButtonIcon from '@/views/components/custom/ButtonIcon'
 import StatusField from '@/views/components/custom/StatusField'
 import membershipModuleRoutes from '@/views/modules/membership/routes'
 import { messages } from '@core/utils/validations/messages'
-import { getAllMembers } from '@core/utils/requests/members'
+import { getAllMembers, updateStatusUserMember } from '@core/utils/requests/members'
 import { getLinkWhatsApp } from '@core/utils/whatsApp'
-import { getProfiles, updateStatusUser } from '@core/utils/requests/users'
-import { confirmAction, warningMessage } from '@/libs/alerts/sweetalerts'
+import { getProfiles } from '@core/utils/requests/users'
+import { warningMessage, warningMessageUpdateStatus } from '@/libs/alerts/sweetalerts'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { subjects, actions } from '@/libs/acl/rules'
@@ -509,7 +508,6 @@ export default {
         city: null,
       },
 
-      loadingTable: false,
       showTable: false,
 
       paginationData: {
@@ -551,15 +549,11 @@ export default {
   },
 
   mounted() {
-    this.findAllFilterFields()
-
-    if (this.getDispatchList) {
-      this.findAll()
-    }
+    this.index()
   },
 
   methods: {
-    async findAllFilterFields() {
+    async index() {
       this.loading = true
 
       await getProfiles({ profileTypeUniqueName: profileTypes.MEMBERSHIP }).then(response => {
@@ -575,12 +569,17 @@ export default {
       })
 
       this.loading = false
+
+      this.findAll()
     },
 
     findAll() {
+      this.table.tableBusy = true
+
       this.table.tableError = false
-      this.table.tableEmpty = false
-      this.loadingTable = true
+      this.table.empty = false
+
+      this.table.items = []
 
       getAllMembers(this.setParams())
         .then(response => {
@@ -593,39 +592,40 @@ export default {
               return
             }
 
-            this.table.tableEmpty = true
+            this.table.empty = true
             this.showTable = false
+            this.table.tableBusy = false
           }
         })
         .catch(() => {
           this.table.tableError = true
+          this.table.tableBusy = false
           this.showTable = false
         })
-
-      this.loadingTable = false
     },
 
-    handleVerifyUserIdInUpdateStatus({ user_id }) {
-      if (this.userLogged.id === user_id) {
-        confirmAction(messages.confirmMyStatusUpdate)
-          .then(async () => {
-            await this.handleUpdateStatus(user_id)
-            await this.findAll()
-          })
-          .catch(() => {
-            this.table.items = []
-            this.findAll()
-          })
-      } else {
-        this.handleUpdateStatus(user_id)
-      }
+    handleConfirmUpdateCategoryStatus({ user_id, active }) {
+      const { title1, title2, value } = messages.confirmUpdateMemberStatus
+
+      warningMessageUpdateStatus(active ? title1 : title2, value)
+        .then(() => {
+          this.handleUpdateStatus(user_id)
+        })
+        .catch(() => {
+          this.table.items = []
+          this.findAll()
+        })
     },
 
     async handleUpdateStatus(user_id) {
       this.disabledSwitch = true
 
-      await updateStatusUser(user_id)
-        .then()
+      await updateStatusUserMember(user_id)
+        .then(response => {
+          if (response.status === 200) {
+            this.findAll()
+          }
+        })
         .catch(() => {
           warningMessage(messages.impossible)
         })
@@ -685,8 +685,8 @@ export default {
       return profileUniqueName === profilesUniqueName.ADMIN_CHURCH
     },
 
-    redirectUpdatePage({ user_id }) {
-      this.$store.commit('membershipModuleStore/SET_CHOOSE_MEMBER_USER_ID', user_id)
+    redirectUpdatePage(item) {
+      this.$store.commit('membershipModuleMembers/setChooseMemberUser', item)
 
       this.$router.replace({ name: membershipModuleRoutes.membersUpdate.name })
     },

@@ -1,5 +1,8 @@
 <template>
-  <section class="card p-3">
+  <overlay
+    class-name="card p-3"
+    :show="loading"
+  >
     <validation-observer
       ref="generalInfo"
     >
@@ -23,7 +26,7 @@
               >
                 <b-form-input
                   id="name"
-                  v-model="formData.name"
+                  v-model="getFormData.name"
                   autocomplete="off"
                 />
 
@@ -48,7 +51,7 @@
               >
                 <b-form-input
                   id="phone"
-                  v-model="formData.phone"
+                  v-model="getFormData.phone"
                   v-mask="'(##) #####-####'"
                   autocomplete="off"
                 />
@@ -74,7 +77,7 @@
               >
                 <b-form-input
                   id="email"
-                  v-model="formData.email"
+                  v-model="getFormData.email"
                   placeholder="email@email.com"
                   autocomplete="off"
                   type="email"
@@ -106,7 +109,7 @@
         </b-row>
       </b-form>
     </validation-observer>
-  </section>
+  </overlay>
 </template>
 
 <script>
@@ -124,9 +127,11 @@ import { successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
 import { updateGeneralData } from '@core/utils/requests/members'
 import { strClear } from '@core/utils/utils'
+import Overlay from '@/views/components/custom/Overlay.vue'
 
 export default {
   components: {
+    Overlay,
     ValidationObserver,
     ValidationProvider,
     BRow,
@@ -142,37 +147,17 @@ export default {
       confirmed,
       statusForm,
 
-      formData: {
-        name: '',
-        phone: '',
-        email: '',
-      },
+      loading: false,
     }
   },
 
   computed: {
-    getMemberInUpdate() {
-      return this.$store.state.membershipModuleStore.memberInUpdate
+    getFormData() {
+      return this.$store.getters['membershipModuleMembers/getFormData']
     },
-  },
-
-  mounted() {
-    this.setFormData()
   },
 
   methods: {
-    setFormData() {
-      const {
-        name, phone, email,
-      } = this.getMemberInUpdate
-
-      this.formData = {
-        name,
-        phone,
-        email,
-      }
-    },
-
     async handleFormSubmit() {
       const result = new Promise((resolve, reject) => {
         this.$refs.generalInfo.validate()
@@ -192,14 +177,14 @@ export default {
     },
 
     async update() {
-      this.$emit('setLoading', true)
+      this.loading = true
 
-      const { userId } = this.getMemberInUpdate
+      const { userId } = this.getFormData
 
       const formData = {
-        name: this.formData.name,
-        email: this.formData.email,
-        phone: strClear(this.formData.phone),
+        name: this.getFormData.name,
+        email: this.getFormData.email,
+        phone: strClear(this.getFormData.phone),
       }
 
       await updateGeneralData(userId, formData)
@@ -209,10 +194,12 @@ export default {
           }
         })
         .catch(error => {
+          console.log(error)
+
           this.handleError(error.response)
         })
 
-      this.$emit('setLoading', false)
+      this.loading = false
     },
 
     handleError(errorResponse) {

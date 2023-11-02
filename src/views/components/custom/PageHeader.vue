@@ -63,7 +63,13 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+@import '@/assets/scss/variables/_variables.scss';
+
+a {
+  color: $colors-palette2;
+}
+
 .text-header {
   max-width: 35%;
 }

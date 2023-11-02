@@ -1,7 +1,7 @@
 <template>
   <section>
     <validation-observer
-      ref="profileAndModules"
+      ref="church"
     >
       <b-form>
         <b-row class="mb-2">
@@ -96,13 +96,6 @@ export default {
     vSelect,
   },
 
-  props: {
-    formData: {
-      type: Object,
-      required: true,
-    },
-  },
-
   data() {
     return {
       required,
@@ -113,28 +106,28 @@ export default {
 
   computed: {
     getFormData() {
-      return this.formData
+      return this.$store.getters['membershipModuleMembers/getFormData']
     },
   },
 
   mounted() {
-    this.handlePopulateSelects()
+    this.index()
   },
 
   methods: {
-    async handlePopulateSelects() {
-      this.$emit('setLoading', true)
+    async index() {
+      this.setLoading(true)
 
       await getChurchesUserLogged().then(response => {
         this.churches = response.data
       })
 
-      this.$emit('setLoading', false)
+      this.setLoading(false)
     },
 
     async handleFormSubmit() {
       const result = new Promise((resolve, reject) => {
-        this.$refs.profileAndModules.validate()
+        this.$refs.church.validate()
           .then(success => {
             if (success) {
               resolve(true)
@@ -148,6 +141,14 @@ export default {
       if (await result) {
         this.$emit('handleNextTab')
       }
+    },
+
+    handleResetForm() {
+      this.$refs.church.reset()
+    },
+
+    setLoading(loading) {
+      this.$store.commit('membershipModuleMembers/setLoadingFormWizard', loading)
     },
 
     handlePrevTab() {

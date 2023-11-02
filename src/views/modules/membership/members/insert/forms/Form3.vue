@@ -1,7 +1,7 @@
 <template>
   <section>
     <validation-observer
-      ref="profileAndModules"
+      ref="general"
     >
       <b-form>
         <b-row class="mb-2">
@@ -125,7 +125,6 @@
               >
                 <b-input-group
                   class="input-group-merge"
-                  :class="errors.length > 0 ? 'is-invalid':null"
                 >
                   <b-form-input
                     id="reset-password-new"
@@ -164,7 +163,6 @@
               >
                 <b-input-group
                   class="input-group-merge"
-                  :class="errors.length > 0 ? 'is-invalid' : null"
                 >
                   <b-form-input
                     id="reset-password-confirm"
@@ -249,17 +247,6 @@ export default {
     ButtonPrev,
   },
 
-  props: {
-    formData: {
-      type: Object,
-      required: true,
-    },
-    uploadData: {
-      type: Object,
-      required: true,
-    },
-  },
-
   data() {
     return {
       required,
@@ -276,11 +263,11 @@ export default {
 
   computed: {
     getFormData() {
-      return this.formData
+      return this.$store.getters['membershipModuleMembers/getFormData']
     },
 
     getUploadData() {
-      return this.uploadData
+      return this.$store.getters['membershipModuleMembers/getUploadData']
     },
 
     password1ToggleIcon() {
@@ -293,10 +280,8 @@ export default {
 
   methods: {
     async handleFormSubmit() {
-      this.$emit('setLoading', true)
-
       const result = new Promise((resolve, reject) => {
-        this.$refs.profileAndModules.validate()
+        this.$refs.general.validate()
           .then(success => {
             if (success) {
               resolve(true)
@@ -310,8 +295,10 @@ export default {
       if (await result) {
         this.$emit('handleNextTab')
       }
+    },
 
-      this.$emit('setLoading', false)
+    setLoading(loading) {
+      this.$store.commit('membershipModuleMembers/setLoadingFormWizard', loading)
     },
 
     handlePrevTab() {
@@ -327,7 +314,16 @@ export default {
     },
 
     clearUploadData() {
-      this.$emit('clearUploadData')
+      this.$store.commit('membershipModuleMembers/setUploadData', { files: [] })
+      this.getFormData.image = {
+        id: '',
+        type: '',
+        path: '',
+      }
+    },
+
+    handleResetForm() {
+      this.$refs.general.reset()
     },
 
     togglePassword1Visibility() {

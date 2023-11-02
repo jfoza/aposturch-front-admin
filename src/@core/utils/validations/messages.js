@@ -22,6 +22,12 @@ export const messages = {
   confirmDeleteUserChurch: 'Deseja remover o vínculo deste usuário com esta igreja ?',
   confirmGenerateNewPassword: 'Tem certeza que deseja gerar uma nova senha para este usuário ?',
 
+  confirmUpdateMemberStatus: {
+    title1: 'Tem certeza que deseja inativar ?',
+    title2: 'Tem certeza que deseja ativar ?',
+    value: 'Essa ação irá afetar o acesso deste usuário à plataforma.',
+  },
+
   confirmUpdateManyDepartmentsStatus: {
     title: 'Tem certeza que deseja alterar estes registros ?',
     value: 'Essa ação irá afetar a visualização das categorias e produtos vinculados. <br>Departamentos ativos serão inativados.<br>Departamentos inativos serão ativados novamente.',

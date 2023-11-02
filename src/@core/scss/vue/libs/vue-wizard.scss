@@ -3,6 +3,7 @@
 // Overrides user variable
 @import '~@core/scss/base/components/include';
 @import 'vue-select/src/scss/vue-select.scss';
+@import '@/assets/scss/variables/variables';
 
 //--------- Simple Number Wizard ----------//
 .vue-form-wizard {
@@ -32,7 +33,7 @@
         padding-bottom: 2rem;
         &.active {
           a {
-            color: $primary;
+            color: $colors-palette2;
             .wizard-icon-circle {
               .wizard-icon-container {
                 .wizard-icon {
@@ -42,7 +43,7 @@
               }
             }
             .checked {
-              box-shadow: 0 3px 6px 0 rgba(105, 108, 255, 0.4);
+              box-shadow: none;
             }
           }
         }
@@ -66,9 +67,9 @@
             }
           }
           &.checked {
-            background-color: rgba($primary, $alpha: 0.08);
+            background-color: rgba($colors-palette2, $alpha: 0.08);
             .wizard-icon {
-              color: $primary;
+              color: $colors-palette2;
             }
           }
         }
@@ -140,7 +141,7 @@
       .wizard-btn {
         font-weight: 400;
         &:hover {
-          box-shadow: 0 8px 25px -8px $primary;
+          box-shadow: 0 8px 25px -8px $colors-palette2;
         }
         &::after {
           content: '\e844';
@@ -348,9 +349,9 @@ body {
             .wizard-icon-circle {
               background-color: rgba($gray-100, 0.12);
               &.checked {
-                background-color: rgba($primary, $alpha: 0.08);
+                background-color: rgba($colors-palette2, $alpha: 0.08);
                 .wizard-icon {
-                  color: $primary;
+                  color: $colors-palette2;
                 }
               }
             }
@@ -378,7 +379,7 @@ body {
           li.active {
             a {
               &::before {
-                color: $primary;
+                color: $colors-palette2;
               }
             }
           }

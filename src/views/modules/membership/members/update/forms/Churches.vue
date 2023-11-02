@@ -1,5 +1,8 @@
 <template>
-  <section class="card p-3">
+  <overlay
+    class-name="card p-3"
+    :show="loading"
+  >
     <validation-observer
       ref="churches"
     >
@@ -23,7 +26,7 @@
               >
                 <v-select
                   id="church"
-                  v-model="formData.church"
+                  v-model="getFormData.church"
                   :options="churches"
                   variant="custom"
                   item-text="name"
@@ -57,7 +60,7 @@
         </b-row>
       </b-form>
     </validation-observer>
-  </section>
+  </overlay>
 </template>
 
 <script>
@@ -73,9 +76,11 @@ import vSelect from 'vue-select'
 import { updateChurchData } from '@core/utils/requests/members'
 import { successMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
+import Overlay from '@/views/components/custom/Overlay.vue'
 
 export default {
   components: {
+    Overlay,
     ValidationObserver,
     ValidationProvider,
     BRow,
@@ -89,33 +94,19 @@ export default {
     return {
       required,
 
-      formData: {
-        church: null,
-      },
+      loading: false,
 
-      churches: this.$store.state.membershipModuleStore.churchesInUpdateMember,
+      churches: this.$store.state.membershipModuleMembers.churchesInUpdateMember,
     }
   },
 
   computed: {
-    getMemberInUpdate() {
-      return this.$store.state.membershipModuleStore.memberInUpdate
+    getFormData() {
+      return this.$store.getters['membershipModuleMembers/getFormData']
     },
-  },
-
-  mounted() {
-    this.setFormData()
   },
 
   methods: {
-    setFormData() {
-      const { church } = this.getMemberInUpdate
-
-      this.formData = {
-        church,
-      }
-    },
-
     async handleFormSubmit() {
       const result = new Promise((resolve, reject) => {
         this.$refs.churches.validate()
@@ -135,12 +126,12 @@ export default {
     },
 
     async update() {
-      this.$emit('setLoading', true)
+      this.loading = true
 
-      const { userId } = this.getMemberInUpdate
+      const { userId } = this.getFormData
 
       const formData = {
-        churchId: this.formData.church.id,
+        churchId: this.getFormData.church.id,
       }
 
       await updateChurchData(userId, formData)
@@ -153,7 +144,7 @@ export default {
           this.handleError(error.response)
         })
 
-      this.$emit('setLoading', false)
+      this.loading = false
     },
   },
 }

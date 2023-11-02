@@ -34,6 +34,17 @@ export const createUserMember = form => new Promise((resolve, reject) => {
     })
 })
 
+export const updateStatusUserMember = id => new Promise((resolve, reject) => {
+  axiosIns
+    .put(apiRoutes.memberUpdateStatus(id))
+    .then(response => {
+      resolve(response)
+    })
+    .catch(error => {
+      reject(error)
+    })
+})
+
 export const updateGeneralData = (id, form) => new Promise((resolve, reject) => {
   axiosIns
     .put(apiRoutes.memberUpdateGeneralData(id), form)

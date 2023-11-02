@@ -1,5 +1,8 @@
 <template>
-  <section class="card p-3">
+  <overlay
+    class-name="card p-3"
+    :show="loading"
+  >
     <validation-observer
       ref="addressData"
     >
@@ -23,7 +26,7 @@
               >
                 <b-form-input
                   id="zipCode"
-                  v-model="formData.zipCode"
+                  v-model="getFormData.zipCode"
                   v-mask="'#####-###'"
                   autocomplete="off"
                   @keyup="getAddressByZipCode"
@@ -50,7 +53,7 @@
               >
                 <v-select
                   id="categories"
-                  v-model="formData.state"
+                  v-model="getFormData.state"
                   :options="states"
                   variant="custom"
                   item-text="uf"
@@ -81,14 +84,14 @@
               >
                 <v-select
                   id="categories"
-                  v-model="formData.city"
+                  v-model="getFormData.city"
                   :options="cities"
                   variant="custom"
                   item-text="description"
                   item-value="id"
                   placeholder="Cidades"
                   label="description"
-                  :disabled="!formData.state"
+                  :disabled="!getFormData.state"
                 />
 
                 <small class="text-danger">{{ errors[0] }}</small>
@@ -112,7 +115,7 @@
               >
                 <b-form-input
                   id="address"
-                  v-model="formData.address"
+                  v-model="getFormData.address"
                   autocomplete="off"
                 />
 
@@ -137,7 +140,7 @@
               >
                 <b-form-input
                   id="numberAddress"
-                  v-model="formData.numberAddress"
+                  v-model="getFormData.numberAddress"
                   autocomplete="off"
                 />
 
@@ -157,7 +160,7 @@
             >
               <b-form-input
                 id="complement"
-                v-model="formData.complement"
+                v-model="getFormData.complement"
                 autocomplete="off"
               />
             </b-form-group>
@@ -179,7 +182,7 @@
               >
                 <b-form-input
                   id="district"
-                  v-model="formData.district"
+                  v-model="getFormData.district"
                   autocomplete="off"
                 />
 
@@ -208,7 +211,7 @@
         </b-row>
       </b-form>
     </validation-observer>
-  </section>
+  </overlay>
 </template>
 
 <script>
@@ -229,9 +232,11 @@ import { messages } from '@core/utils/validations/messages'
 import { successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { strClear } from '@core/utils/utils'
 import { updateAddressData } from '@core/utils/requests/members'
+import Overlay from '@/views/components/custom/Overlay.vue'
 
 export default {
   components: {
+    Overlay,
     ValidationObserver,
     ValidationProvider,
     BRow,
@@ -248,23 +253,15 @@ export default {
       min,
       states,
 
-      formData: {
-        zipCode: '',
-        address: '',
-        numberAddress: '',
-        complement: '',
-        district: '',
-        city: null,
-        state: null,
-      },
+      loading: false,
 
       cities: [],
     }
   },
 
   computed: {
-    getMemberInUpdate() {
-      return this.$store.state.membershipModuleStore.memberInUpdate
+    getFormData() {
+      return this.$store.getters['membershipModuleMembers/getFormData']
     },
   },
 
@@ -274,39 +271,12 @@ export default {
 
   methods: {
     async handlePopulateSelects() {
-      this.$emit('setLoading', true)
-
-      await this.setFormData()
       await this.getCitiesByUFSelect()
-
-      this.$emit('setLoading', false)
-    },
-
-    setFormData() {
-      const {
-        zipCode,
-        address,
-        numberAddress,
-        complement,
-        district,
-        city,
-        state,
-      } = this.getMemberInUpdate
-
-      this.formData = {
-        zipCode,
-        address,
-        numberAddress,
-        complement,
-        district,
-        city,
-        state,
-      }
     },
 
     async getCitiesByUFSelect() {
-      if (this.formData.state) {
-        await getCitiesByUf(this.formData.state.uf)
+      if (this.getFormData.state) {
+        await getCitiesByUf(this.getFormData.state.uf)
           .then(response => {
             if (response.status === 200) {
               this.cities = response.data
@@ -336,18 +306,18 @@ export default {
     },
 
     async update() {
-      this.$emit('setLoading', true)
+      this.loading = true
 
-      const { userId } = this.getMemberInUpdate
+      const { userId } = this.getFormData
 
       const formData = {
-        zipCode: strClear(this.formData.zipCode),
-        address: this.formData.address,
-        numberAddress: this.formData.numberAddress,
-        complement: this.formData.complement,
-        district: this.formData.district,
-        cityId: this.formData.city.id,
-        uf: this.formData.state.uf,
+        zipCode: strClear(this.getFormData.zipCode),
+        address: this.getFormData.address,
+        numberAddress: this.getFormData.numberAddress,
+        complement: this.getFormData.complement,
+        district: this.getFormData.district,
+        cityId: this.getFormData.city.id,
+        uf: this.getFormData.state.uf,
       }
 
       await updateAddressData(userId, formData)
@@ -360,31 +330,31 @@ export default {
           this.handleError(error.response)
         })
 
-      this.$emit('setLoading', false)
+      this.loading = false
     },
 
     async getAddressByZipCode() {
-      if (this.formData.zipCode.length === 9) {
-        this.$emit('setLoading', true)
+      if (this.getFormData.zipCode.length === 9) {
+        this.loading = true
 
-        await getAddressByZipCode(strClear(this.formData.zipCode))
+        await getAddressByZipCode(strClear(this.getFormData.zipCode))
           .then(response => {
             const res = response.data
 
-            this.formData.numberAddress = ''
-            this.formData.complement = ''
+            this.getFormData.numberAddress = ''
+            this.getFormData.complement = ''
             this.cities = res.citiesByUF
 
-            this.formData.address = res.address
-            this.formData.district = res.district
+            this.getFormData.address = res.address
+            this.getFormData.district = res.district
 
             this.states.forEach(obj => {
               if (obj.uf === res.city.uf) {
-                this.formData.state = obj
+                this.getFormData.state = obj
               }
             })
 
-            this.formData.city = res.city
+            this.getFormData.city = res.city
           })
           .catch(error => {
             this.clearZipCodeAddress()
@@ -396,7 +366,7 @@ export default {
             }
           })
 
-        this.$emit('setLoading', false)
+        this.loading = false
       }
     },
 
@@ -411,13 +381,13 @@ export default {
     },
 
     clearZipCodeAddress() {
-      this.formData.zipCode = ''
-      this.formData.address = ''
-      this.formData.numberAddress = ''
-      this.formData.complement = ''
-      this.formData.district = ''
-      this.formData.city = null
-      this.formData.state = null
+      this.getFormData.zipCode = ''
+      this.getFormData.address = ''
+      this.getFormData.numberAddress = ''
+      this.getFormData.complement = ''
+      this.getFormData.district = ''
+      this.getFormData.city = null
+      this.getFormData.state = null
       this.cities = []
     },
   },

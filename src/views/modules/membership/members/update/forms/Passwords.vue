@@ -1,5 +1,8 @@
 <template>
-  <section class="card p-3">
+  <overlay
+    class-name="card p-3"
+    :show="loading"
+  >
     <validation-observer
       ref="formPasswords"
     >
@@ -24,11 +27,10 @@
               >
                 <b-input-group
                   class="input-group-merge"
-                  :class="errors.length > 0 ? 'is-invalid':null"
                 >
                   <b-form-input
                     id="reset-password-new"
-                    v-model="formData.password"
+                    v-model="getFormData.password"
                     :type="password1FieldType"
                     class="form-control-merge"
                     name="reset-password-new"
@@ -63,11 +65,10 @@
               >
                 <b-input-group
                   class="input-group-merge"
-                  :class="errors.length > 0 ? 'is-invalid' : null"
                 >
                   <b-form-input
                     id="reset-password-confirm"
-                    v-model="formData.passwordConfirmation"
+                    v-model="getFormData.passwordConfirmation"
                     :type="password2FieldType"
                     class="form-control-merge"
                     name="reset-password-confirm"
@@ -106,7 +107,7 @@
         </b-row>
       </b-form>
     </validation-observer>
-  </section>
+  </overlay>
 </template>
 
 <script>
@@ -124,9 +125,11 @@ import { required } from '@validations'
 import { updatePasswordData } from '@core/utils/requests/members'
 import { successMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
+import Overlay from '@/views/components/custom/Overlay.vue'
 
 export default {
   components: {
+    Overlay,
     ValidationObserver,
     ValidationProvider,
     BRow,
@@ -144,11 +147,6 @@ export default {
 
       loading: false,
 
-      formData: {
-        password: '',
-        passwordConfirmation: '',
-      },
-
       // Toggle Password
       password1FieldType: 'password',
       password2FieldType: 'password',
@@ -164,8 +162,8 @@ export default {
       return this.password2FieldType === 'password' ? 'EyeIcon' : 'EyeOffIcon'
     },
 
-    getMemberInUpdate() {
-      return this.$store.state.membershipModuleStore.memberInUpdate
+    getFormData() {
+      return this.$store.getters['membershipModuleMembers/getFormData']
     },
   },
 
@@ -189,13 +187,13 @@ export default {
     },
 
     async update() {
-      this.$emit('setLoading', true)
+      this.loading = true
 
-      const { userId } = this.getMemberInUpdate
+      const { userId } = this.getFormData
 
       const formData = {
-        password: this.formData.password,
-        passwordConfirmation: this.formData.passwordConfirmation,
+        password: this.getFormData.password,
+        passwordConfirmation: this.getFormData.passwordConfirmation,
       }
 
       await updatePasswordData(userId, formData)
@@ -212,12 +210,12 @@ export default {
           this.handleError(error.response)
         })
 
-      this.$emit('setLoading', false)
+      this.loading = false
     },
 
     clear() {
-      this.formData.password = ''
-      this.formData.passwordConfirmation = ''
+      this.getFormData.password = ''
+      this.getFormData.passwordConfirmation = ''
     },
 
     togglePassword1Visibility() {

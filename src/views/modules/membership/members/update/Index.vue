@@ -1,99 +1,107 @@
 <template>
-  <overlay
-    :show="loading"
-  >
-    <b-tabs
-      vertical
-      content-class="col-12 col-md-9 mt-1 mt-md-0"
-      pills
-      nav-wrapper-class="col-md-3 col-12"
-      nav-class="nav-left"
+  <div class="content-wrapper">
+    <overlay
+      :show="loading"
     >
-      <b-tab>
-        <!-- title -->
-        <template #title>
-          <feather-icon
-            icon="UserIcon"
-            size="18"
-            class="mr-50"
-          />
-          <span class="font-weight-bold">Informações Gerais</span>
-        </template>
+      <page-header
+        screen-name="Editar membro"
+        :link-items="linkItems"
+      />
 
-        <general-info @setLoading="setLoading" />
-      </b-tab>
+      <b-tabs
+        v-if="!loading"
+        vertical
+        content-class="col-12 col-md-9 mt-1 mt-md-0"
+        pills
+        nav-wrapper-class="col-md-3 col-12"
+        nav-class="nav-left"
+      >
+        <b-tab :disabled="disableMenus">
+          <!-- title -->
+          <template #title>
+            <feather-icon
+              icon="UserIcon"
+              size="18"
+              class="mr-50"
+            />
+            <span class="font-weight-bold">Informações Gerais</span>
+          </template>
 
-      <b-tab>
-        <!-- title -->
-        <template #title>
-          <feather-icon
-            icon="MapPinIcon"
-            size="18"
-            class="mr-50"
-          />
-          <span class="font-weight-bold">Endereço</span>
-        </template>
+          <general-info />
+        </b-tab>
 
-        <address-data @setLoading="setLoading" />
-      </b-tab>
+        <b-tab :disabled="disableMenus">
+          <!-- title -->
+          <template #title>
+            <feather-icon
+              icon="MapPinIcon"
+              size="18"
+              class="mr-50"
+            />
+            <span class="font-weight-bold">Endereço</span>
+          </template>
 
-      <b-tab>
-        <!-- title -->
-        <template #title>
-          <feather-icon
-            icon="BookOpenIcon"
-            size="18"
-            class="mr-50"
-          />
-          <span class="font-weight-bold">Igrejas</span>
-        </template>
+          <address-data />
+        </b-tab>
 
-        <churches @setLoading="setLoading" />
-      </b-tab>
+        <b-tab :disabled="disableMenus">
+          <!-- title -->
+          <template #title>
+            <feather-icon
+              icon="BookOpenIcon"
+              size="18"
+              class="mr-50"
+            />
+            <span class="font-weight-bold">Igrejas</span>
+          </template>
 
-      <b-tab>
-        <!-- title -->
-        <template #title>
-          <feather-icon
-            icon="UserCheckIcon"
-            size="18"
-            class="mr-50"
-          />
-          <span class="font-weight-bold">Perfil</span>
-        </template>
+          <churches />
+        </b-tab>
 
-        <profile @setLoading="setLoading" />
-      </b-tab>
+        <b-tab :disabled="disableMenus">
+          <!-- title -->
+          <template #title>
+            <feather-icon
+              icon="UserCheckIcon"
+              size="18"
+              class="mr-50"
+            />
+            <span class="font-weight-bold">Perfil</span>
+          </template>
 
-      <b-tab>
-        <!-- title -->
-        <template #title>
-          <feather-icon
-            icon="LayersIcon"
-            size="18"
-            class="mr-50"
-          />
-          <span class="font-weight-bold">Módulos</span>
-        </template>
+          <profile />
+        </b-tab>
 
-        <modules @setLoading="setLoading" />
-      </b-tab>
+        <b-tab :disabled="disableMenus">
+          <!-- title -->
+          <template #title>
+            <feather-icon
+              icon="LayersIcon"
+              size="18"
+              class="mr-50"
+            />
+            <span class="font-weight-bold">Módulos</span>
+          </template>
 
-      <b-tab>
-        <!-- title -->
-        <template #title>
-          <feather-icon
-            icon="LockIcon"
-            size="18"
-            class="mr-50"
-          />
-          <span class="font-weight-bold">Senha</span>
-        </template>
+          <modules />
+        </b-tab>
 
-        <passwords @setLoading="setLoading" />
-      </b-tab>
-    </b-tabs>
-  </overlay>
+        <b-tab :disabled="disableMenus">
+          <!-- title -->
+          <template #title>
+            <feather-icon
+              icon="LockIcon"
+              size="18"
+              class="mr-50"
+            />
+            <span class="font-weight-bold">Senha</span>
+          </template>
+
+          <passwords />
+        </b-tab>
+      </b-tabs>
+    </overlay>
+  </div>
 </template>
 
 <script>
@@ -104,15 +112,17 @@ import { getMemberUserId } from '@core/utils/requests/members'
 import { getChurchesUserLogged } from '@core/utils/requests/churches'
 import profileTypes from '@core/utils/profileTypes'
 import Overlay from '@/views/components/custom/Overlay.vue'
-import GeneralInfo from './GeneralInfo.vue'
-import AddressData from './AddressData.vue'
-import Churches from './Churches.vue'
-import Profile from './Profile.vue'
-import Modules from './Modules.vue'
-import Passwords from './Passwords.vue'
+import PageHeader from '@/views/components/custom/PageHeader.vue'
+import GeneralInfo from './forms/GeneralInfo.vue'
+import AddressData from './forms/AddressData.vue'
+import Churches from './forms/Churches.vue'
+import Profile from './forms/Profile.vue'
+import Modules from './forms/Modules.vue'
+import Passwords from './forms/Passwords.vue'
 
 export default {
   components: {
+    PageHeader,
     Overlay,
     BTabs,
     BTab,
@@ -127,31 +137,62 @@ export default {
   data() {
     return {
       loading: true,
-      chooseMemberUserId: this.$store.state.membershipModuleStore.chooseMemberUserId,
+      chooseMemberUser: this.$store.state.membershipModuleMembers.chooseMemberUser,
+
+      disableMenus: false,
+
+      linkItems: [
+        {
+          name: 'Gerenciar membros',
+          active: true,
+          routeName: '',
+        },
+        {
+          name: '...',
+          active: true,
+        },
+      ],
     }
   },
 
-  mounted() {
-    this.handlePopulateSelects()
+  computed: {
+    getItemInStore() {
+      return this.$store.getters['membershipModuleMembers/getChooseMemberUser']
+    },
+
+    getMembershipModuleRoutes() {
+      return this.$store.getters['routes/getMembershipModuleRoutes']
+    },
+  },
+
+  created() {
+    if (!this.getItemInStore) {
+      this.redirectToMainPage()
+
+      return false
+    }
+    this.linkItems[0].routeName = this.getMembershipModuleRoutes.members.name
+
+    return this.index()
   },
 
   methods: {
-    async handlePopulateSelects() {
-      this.setLoading(true)
+    async index() {
+      this.loading = true
 
       await this.handleGetProfiles()
       await this.handleGetModules()
       await this.handleGetChurches()
       await this.handleGetMemberUserId()
 
-      this.setLoading(false)
+      this.loading = false
     },
 
     async handleGetProfiles() {
       await getProfiles({ profileTypeUniqueName: profileTypes.MEMBERSHIP }).then(response => {
         const profiles = response.data
 
-        this.$store.commit('membershipModuleStore/SET_PROFILES_IN_UPDATE_MEMBER', profiles)
+        this.$store.commit('membershipModuleMembers/setProfilesInUpdate', profiles)
       })
     },
 
@@ -159,7 +200,7 @@ export default {
       await getModules().then(response => {
         const modules = response.data
 
-        this.$store.commit('membershipModuleStore/SET_MODULES_IN_UPDATE_MEMBER', modules)
+        this.$store.commit('membershipModuleMembers/setModulesInUpdate', modules)
       })
     },
 
@@ -167,12 +208,14 @@ export default {
       await getChurchesUserLogged().then(response => {
         const churches = response.data
 
-        this.$store.commit('membershipModuleStore/SET_CHURCHES_IN_UPDATE_MEMBER', churches)
+        this.$store.commit('membershipModuleMembers/setChurchesInUpdate', churches)
       })
     },
 
     async handleGetMemberUserId() {
-      await getMemberUserId(this.chooseMemberUserId).then(response => {
+      const { user_id } = this.getItemInStore
+
+      await getMemberUserId(user_id).then(response => {
         const {
           userId,
           name,
@@ -193,7 +236,7 @@ export default {
         } = response.data
 
         this.$store.commit(
-          'membershipModuleStore/SET_MEMBER_IN_UPDATE',
+          'membershipModuleMembers/setFormData',
           {
             userId,
             name,
@@ -207,15 +250,17 @@ export default {
             modules,
             city: { id: cityId, description: cityDescription },
             state: { uf },
-            church: { id: church.id, name: church.name },
+            church,
             profile: { id: profileId, description: profileDescription },
           },
         )
+
+        this.linkItems[1].name = name
       })
     },
 
-    setLoading(loading) {
-      this.loading = loading
+    redirectToMainPage() {
+      this.$router.replace({ name: this.getMembershipModuleRoutes.members.name })
     },
   },
 }

@@ -1,7 +1,7 @@
 <template>
   <section>
     <validation-observer
-      ref="profileAndModules"
+      ref="address"
     >
       <b-form>
         <b-row class="mb-2">
@@ -54,7 +54,7 @@
                 rules="required"
               >
                 <v-select
-                  id="categories"
+                  id="uf"
                   v-model="getFormData.state"
                   :options="states"
                   variant="custom"
@@ -259,13 +259,6 @@ export default {
     vSelect,
   },
 
-  props: {
-    formData: {
-      type: Object,
-      required: true,
-    },
-  },
-
   data() {
     return {
       required,
@@ -273,14 +266,12 @@ export default {
       states,
 
       cities: [],
-
-      userCreated: { id: '' },
     }
   },
 
   computed: {
     getFormData() {
-      return this.formData
+      return this.$store.getters['membershipModuleMembers/getFormData']
     },
   },
 
@@ -291,7 +282,7 @@ export default {
   methods: {
     async getCitiesByUFSelect() {
       if (this.getFormData.state) {
-        this.$emit('setLoading', true)
+        this.setLoading(true)
 
         await getCitiesByUf(this.getFormData.state.uf)
           .then(response => {
@@ -300,17 +291,15 @@ export default {
             }
           })
 
-        this.$emit('setLoading', false)
+        this.setLoading(false)
       } else {
         this.clearZipCodeAddress()
       }
     },
 
     async handleFormSubmit() {
-      this.$emit('setLoading', true)
-
       const result = new Promise((resolve, reject) => {
-        this.$refs.profileAndModules.validate()
+        this.$refs.address.validate()
           .then(success => {
             if (success) {
               resolve(true)
@@ -322,31 +311,12 @@ export default {
       })
 
       if (await result) {
-        await this.handleInsertNewMember()
+        await this.$emit('handleFinish')
       }
-
-      this.$emit('setLoading', false)
     },
 
-    async handleInsertNewMember() {
-      const formData = this.setFormData()
-
-      await createUserMember(formData)
-        .then(response => {
-          if (response.status === 200) {
-            this.userCreated.id = response.data.id
-
-            successMessage(messages.successSave)
-            this.handleFinish()
-          }
-        })
-        .catch(error => {
-          this.handleError(error.response)
-
-          this.$emit('setLoading', false)
-        })
-
-      await this.$emit('handleUploadImage', this.userCreated.id)
+    setLoading(loading) {
+      this.$store.commit('membershipModuleMembers/setLoadingFormWizard', loading)
     },
 
     handleNextTab() {
@@ -357,13 +327,13 @@ export default {
       this.$emit('handlePrevTab')
     },
 
-    handleFinish() {
-      this.$emit('handleFinish')
+    handleResetForm() {
+      this.$refs.address.reset()
     },
 
     async getAddressByZipCode() {
       if (this.getFormData.zipCode.length === 9) {
-        this.$emit('setLoading', true)
+        this.setLoading(true)
 
         await getAddressByZipCode(strClear(this.getFormData.zipCode))
           .then(response => {
@@ -394,38 +364,8 @@ export default {
             }
           })
 
-        this.$emit('setLoading', false)
+        this.setLoading(false)
       }
-    },
-
-    setFormData() {
-      return {
-        name: this.getFormData.name,
-        email: this.getFormData.email,
-        password: this.getFormData.password,
-        passwordConfirmation: this.getFormData.passwordConfirmation,
-        profileId: this.getFormData.profile.id,
-        modulesId: getArrayAttr(this.getFormData.modules, 'id'),
-        churchId: this.getFormData.church.id,
-        phone: strClear(this.getFormData.phone),
-        zipCode: strClear(this.getFormData.zipCode),
-        address: this.getFormData.address,
-        numberAddress: this.getFormData.numberAddress,
-        complement: this.getFormData.complement,
-        district: this.getFormData.district,
-        cityId: this.getFormData.city.id,
-        uf: this.getFormData.state.uf,
-      }
-    },
-
-    handleError(response) {
-      const errors = response.status === 400 || response.status === 404
-
-      if (errors) {
-        return warningMessage(response.data.error)
-      }
-
-      return warningMessage(messages.impossible)
     },
 
     clearZipCodeAddress() {

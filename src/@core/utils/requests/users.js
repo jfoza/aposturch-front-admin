@@ -81,14 +81,3 @@ export const updateUser = (id, form) => new Promise((resolve, reject) => {
       reject(error)
     })
 })
-
-export const updateStatusUser = id => new Promise((resolve, reject) => {
-  axiosIns
-    .put(apiRoutes.updateStatusUser(id))
-    .then(response => {
-      resolve(response)
-    })
-    .catch(error => {
-      reject(error)
-    })
-})

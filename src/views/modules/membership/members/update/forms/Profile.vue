@@ -1,5 +1,8 @@
 <template>
-  <section class="card p-3">
+  <overlay
+    class-name="card p-3"
+    :show="loading"
+  >
     <validation-observer
       ref="profileForm"
     >
@@ -23,7 +26,7 @@
               >
                 <v-select
                   id="profile"
-                  v-model="formData.profile"
+                  v-model="getFormData.profile"
                   :options="profiles"
                   variant="custom"
                   item-text="description"
@@ -57,7 +60,7 @@
         </b-row>
       </b-form>
     </validation-observer>
-  </section>
+  </overlay>
 </template>
 
 <script>
@@ -67,23 +70,23 @@ import {
   BCol,
   BForm,
   BFormGroup,
-  BSpinner,
 } from 'bootstrap-vue'
 import { required } from '@validations'
 import vSelect from 'vue-select'
 import { updateProfileData } from '@core/utils/requests/members'
 import { successMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
+import Overlay from '@/views/components/custom/Overlay.vue'
 
 export default {
   components: {
+    Overlay,
     ValidationObserver,
     ValidationProvider,
     BRow,
     BCol,
     BForm,
     BFormGroup,
-    BSpinner,
     vSelect,
   },
 
@@ -91,33 +94,19 @@ export default {
     return {
       required,
 
-      formData: {
-        profile: null,
-      },
+      loading: false,
 
-      profiles: this.$store.state.membershipModuleStore.profilesInUpdateMember,
+      profiles: this.$store.state.membershipModuleMembers.profilesInUpdateMember,
     }
   },
 
   computed: {
-    getMemberInUpdate() {
-      return this.$store.state.membershipModuleStore.memberInUpdate
+    getFormData() {
+      return this.$store.getters['membershipModuleMembers/getFormData']
     },
-  },
-
-  mounted() {
-    this.setFormData()
   },
 
   methods: {
-    setFormData() {
-      const { profile } = this.getMemberInUpdate
-
-      this.formData = {
-        profile,
-      }
-    },
-
     async handleFormSubmit() {
       const result = new Promise((resolve, reject) => {
         this.$refs.profileForm.validate()
@@ -137,12 +126,12 @@ export default {
     },
 
     async update() {
-      this.$emit('setLoading', true)
+      this.loading = true
 
-      const { userId } = this.getMemberInUpdate
+      const { userId } = this.getFormData
 
       const formData = {
-        profileId: this.formData.profile.id,
+        profileId: this.getFormData.profile.id,
       }
 
       await updateProfileData(userId, formData)
@@ -155,7 +144,7 @@ export default {
           this.handleError(error.response)
         })
 
-      this.$emit('setLoading', false)
+      this.loading = false
     },
   },
 }

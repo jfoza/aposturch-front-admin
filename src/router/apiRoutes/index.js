@@ -9,7 +9,6 @@ export default {
   adminUsers: '/admin/admin-users',
   adminUserId: id => `/admin/admin-users/id/${id}`,
   updateAdminUserId: id => `/admin/admin-users/${id}`,
-  updateStatusUser: id => `/admin/users/status/id/${id}`,
   userAlreadyExistsByEmail: email => `/admin/users/email/${email}`,
   userImageAvatar: '/admin/users/upload/image',
   profiles: '/admin/profiles',
@@ -36,6 +35,7 @@ export default {
 
   members: `${membershipModule}/members`,
   memberUserId: id => `${membershipModule}/members/user/${id}`,
+  memberUpdateStatus: id => `${membershipModule}/members/status/id/${id}`,
 
   memberUpdateGeneralData: id => `${membershipModule}/members/general-data/id/${id}`,
   memberUpdateAddressData: id => `${membershipModule}/members/address-data/id/${id}`,

@@ -12,7 +12,7 @@ import verticalMenu from './vertical-menu'
 import defineMenus from './define-menus'
 import usersModuleStore from './modules/users'
 import routes from './routes'
-import membershipModuleStore from './modules/membership'
+import membershipModuleMembers from './modules/membership/members'
 import storeModuleDepartments from './modules/store/departments'
 import storeModuleCategories from './modules/store/categories'
 import storeModuleProducts from './modules/store/products'
@@ -28,7 +28,7 @@ export default new Vuex.Store({
     defineMenus,
     routes,
     usersModuleStore,
-    membershipModuleStore,
+    membershipModuleMembers,
     storeModuleDepartments,
     storeModuleCategories,
     storeModuleProducts,
@@ -41,7 +41,7 @@ export default new Vuex.Store({
         'defineMenus',
         'routes',
         'usersModuleStore',
-        'membershipModuleStore',
+        'membershipModuleMembers',
       ],
     }),
   ],

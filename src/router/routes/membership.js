@@ -74,7 +74,7 @@ export default [
   {
     path: membershipModuleRouter.membersInsert.path,
     name: membershipModuleRouter.membersInsert.name,
-    component: () => import('@/views/modules/membership/members/insert/Insert.vue'),
+    component: () => import('@/views/modules/membership/members/insert/Index.vue'),
     meta: {
       resource: 'ACL',
       subject: subjects.MEMBERSHIP_MODULE_MEMBERS,

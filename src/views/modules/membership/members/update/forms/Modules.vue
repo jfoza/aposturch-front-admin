@@ -1,5 +1,8 @@
 <template>
-  <section class="card p-3">
+  <overlay
+    class-name="card p-3"
+    :show="loading"
+  >
     <validation-observer
       ref="modulesForm"
     >
@@ -23,7 +26,7 @@
               >
                 <v-select
                   id="module"
-                  v-model="formData.modules"
+                  v-model="getFormData.modules"
                   :options="modules"
                   variant="custom"
                   item-text="module_description"
@@ -59,7 +62,7 @@
         </b-row>
       </b-form>
     </validation-observer>
-  </section>
+  </overlay>
 </template>
 
 <script>
@@ -76,9 +79,11 @@ import { updateModulesData } from '@core/utils/requests/members'
 import { successMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
 import { getArrayAttr } from '@core/utils/utils'
+import Overlay from '@/views/components/custom/Overlay.vue'
 
 export default {
   components: {
+    Overlay,
     ValidationObserver,
     ValidationProvider,
     BRow,
@@ -92,33 +97,19 @@ export default {
     return {
       required,
 
-      formData: {
-        modules: [],
-      },
+      loading: false,
 
-      modules: this.$store.state.membershipModuleStore.modulesInUpdateMember,
+      modules: this.$store.state.membershipModuleMembers.modulesInUpdateMember,
     }
   },
 
   computed: {
-    getMemberInUpdate() {
-      return this.$store.state.membershipModuleStore.memberInUpdate
+    getFormData() {
+      return this.$store.getters['membershipModuleMembers/getFormData']
     },
-  },
-
-  mounted() {
-    this.setFormData()
   },
 
   methods: {
-    setFormData() {
-      const { modules } = this.getMemberInUpdate
-
-      this.formData = {
-        modules,
-      }
-    },
-
     async handleFormSubmit() {
       const result = new Promise((resolve, reject) => {
         this.$refs.modulesForm.validate()
@@ -138,12 +129,12 @@ export default {
     },
 
     async update() {
-      this.$emit('setLoading', true)
+      this.loading = true
 
-      const { userId } = this.getMemberInUpdate
+      const { userId } = this.getFormData
 
       const formData = {
-        modulesId: getArrayAttr(this.formData.modules, 'id'),
+        modulesId: getArrayAttr(this.getFormData.modules, 'id'),
       }
 
       await updateModulesData(userId, formData)
@@ -156,7 +147,7 @@ export default {
           this.handleError(error.response)
         })
 
-      this.$emit('setLoading', false)
+      this.loading = false
     },
   },
 }

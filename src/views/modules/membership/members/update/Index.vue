@@ -34,6 +34,20 @@
           <!-- title -->
           <template #title>
             <feather-icon
+              icon="ImageIcon"
+              size="18"
+              class="mr-50"
+            />
+            <span class="font-weight-bold">Imagem de perfil</span>
+          </template>
+
+          <avatar />
+        </b-tab>
+
+        <b-tab :disabled="disableMenus">
+          <!-- title -->
+          <template #title>
+            <feather-icon
               icon="MapPinIcon"
               size="18"
               class="mr-50"
@@ -114,6 +128,7 @@ import profileTypes from '@core/utils/profileTypes'
 import Overlay from '@/views/components/custom/Overlay.vue'
 import PageHeader from '@/views/components/custom/PageHeader.vue'
 import GeneralInfo from './forms/GeneralInfo.vue'
+import Avatar from './forms/Avatar.vue'
 import AddressData from './forms/AddressData.vue'
 import Churches from './forms/Churches.vue'
 import Profile from './forms/Profile.vue'
@@ -127,6 +142,7 @@ export default {
     BTabs,
     BTab,
     GeneralInfo,
+    Avatar,
     AddressData,
     Churches,
     Profile,
@@ -233,6 +249,7 @@ export default {
           profileDescription,
           church,
           modules,
+          image,
         } = response.data
 
         this.$store.commit(
@@ -248,6 +265,7 @@ export default {
             district,
             complement,
             modules,
+            image: image || { id: '', type: '', path: '' },
             city: { id: cityId, description: cityDescription },
             state: { uf },
             church,

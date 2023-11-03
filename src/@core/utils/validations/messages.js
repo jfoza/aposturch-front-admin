@@ -22,6 +22,8 @@ export const messages = {
   confirmDeleteUserChurch: 'Deseja remover o vínculo deste usuário com esta igreja ?',
   confirmGenerateNewPassword: 'Tem certeza que deseja gerar uma nova senha para este usuário ?',
 
+  confirmRemoveUserAvatar: 'Deseja remover a imagem de perfil deste usuário ?',
+
   confirmUpdateMemberStatus: {
     title1: 'Tem certeza que deseja inativar ?',
     title2: 'Tem certeza que deseja ativar ?',

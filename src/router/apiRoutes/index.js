@@ -11,6 +11,7 @@ export default {
   updateAdminUserId: id => `/admin/admin-users/${id}`,
   userAlreadyExistsByEmail: email => `/admin/users/email/${email}`,
   userImageAvatar: '/admin/users/upload/image',
+  removeUserImageAvatar: id => `/admin/users/image/id/${id}`,
   profiles: '/admin/profiles',
 
   customers: '/admin/customers',

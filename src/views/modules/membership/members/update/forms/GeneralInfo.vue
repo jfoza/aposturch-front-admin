@@ -87,7 +87,6 @@
               </validation-provider>
             </b-form-group>
           </b-col>
-
         </b-row>
 
         <b-row>
@@ -194,8 +193,6 @@ export default {
           }
         })
         .catch(error => {
-          console.log(error)
-
           this.handleError(error.response)
         })
 

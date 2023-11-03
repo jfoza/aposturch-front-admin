@@ -305,12 +305,10 @@
           >
             <template #cell(name)="row">
               <div class="d-flex align-items-center">
-                <font-awesome-icon
-                  v-if="isAdminChurch(row.item.profile_unique_name)"
-                  icon="fa-solid fa-user-tie"
-                  style="margin-right: .3rem"
+                <icon-by-profile
+                  :profile="row.item.profile_unique_name"
                 />
-                <span>{{ row.value }}</span>
+                <span style="margin-left: .3rem">{{ row.value }}</span>
               </div>
             </template>
 
@@ -417,12 +415,10 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { subjects, actions } from '@/libs/acl/rules'
 import profilesUniqueName from '@core/utils/profiles'
+import IconByProfile from '@/views/modules/membership/members/components/IconByProfile.vue'
 import {
   faWhatsapp,
 } from '@fortawesome/free-brands-svg-icons'
-import {
-  faUserTie,
-} from '@fortawesome/free-solid-svg-icons'
 import Vue from 'vue'
 import { getCitiesInPersons } from '@core/utils/requests/cities'
 import { getChurchesUserLogged } from '@core/utils/requests/churches'
@@ -438,7 +434,6 @@ import {
 
 library.add(
   faWhatsapp,
-  faUserTie,
 )
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
@@ -450,6 +445,7 @@ export default {
     ValidationObserver,
     PageHeader,
     vSelect,
+    IconByProfile,
     BRow,
     BCol,
     BForm,
@@ -679,10 +675,6 @@ export default {
       }
 
       return false
-    },
-
-    isAdminChurch(profileUniqueName) {
-      return profileUniqueName === profilesUniqueName.ADMIN_CHURCH
     },
 
     redirectUpdatePage(item) {

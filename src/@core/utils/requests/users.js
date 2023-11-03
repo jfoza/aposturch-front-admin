@@ -71,6 +71,17 @@ export const saveUserImageAvatar = formData => new Promise((resolve, reject) => 
     })
 })
 
+export const removeUserImageAvatar = id => new Promise((resolve, reject) => {
+  axiosIns
+    .delete(apiRoutes.removeUserImageAvatar(id))
+    .then(response => {
+      resolve(response)
+    })
+    .catch(error => {
+      reject(error)
+    })
+})
+
 export const updateUser = (id, form) => new Promise((resolve, reject) => {
   axiosIns
     .put(apiRoutes.updateAdminUserId(id), form)

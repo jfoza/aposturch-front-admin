@@ -99,6 +99,23 @@
               :state="state"
               message="Entrar"
             />
+
+            <div class="divider my-2">
+              <div class="divider-text">
+                ou
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-outline-form w-100 mb-2"
+            >
+              <b-img
+                :src="googleIcon"
+                class="google-icon"
+              />
+              Continuar com google
+            </button>
           </b-form>
 
           <b-link
@@ -133,6 +150,7 @@ import {
   BCardTitle,
   BForm,
   BAlert,
+  BImg,
   VBTooltip,
   BIconExclamationCircle,
 } from 'bootstrap-vue'
@@ -140,6 +158,7 @@ import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import { getHomeRouteForLoggedInUser } from '@/auth/utils'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import { messages } from '@core/utils/validations/messages'
+import googleIcon from '@/assets/images/icons/custom/google.svg'
 
 export default {
   directives: {
@@ -161,6 +180,7 @@ export default {
     BCardTitle,
     BForm,
     BAlert,
+    BImg,
     BIconExclamationCircle,
     LoadButton,
   },
@@ -170,10 +190,15 @@ export default {
       required,
       email,
 
+      googleIcon,
+
       auth: {
         email: '',
         password: '',
       },
+
+      googleAuthToken: '',
+
       alert: {
         show: false,
         message: '',
@@ -238,6 +263,25 @@ export default {
         })
 
       this.state = true
+    },
+
+    async handleGoogleLogin() {
+
+    },
+
+    async handleGoogleAuthVerify() {
+      await this.$gAuth.signIn()
+        .then(response => {
+          this.googleAuthToken = response.getAuthResponse().access_token
+        })
+        .catch(error => {
+          console.log(error)
+
+          this.showAlert(
+            'Não foi possível realizar a sua solicitação.',
+            'danger',
+          )
+        })
     },
 
     // eslint-disable-next-line consistent-return

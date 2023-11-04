@@ -4,6 +4,8 @@ import VueCompositionAPI from '@vue/composition-api'
 
 import i18n from '@/libs/i18n'
 import VueMask, { VueMaskDirective } from 'v-mask'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import GAuth from 'vue-google-oauth2'
 import router from './router'
 import store from './store'
 import App from './App.vue'
@@ -22,9 +24,17 @@ import '@/libs/vue-select'
 import '@/libs/tour'
 import '@/@core/scss/vue/libs/vue-select.scss'
 
+const googleAuthOption = {
+  clientId: process.env.VUE_APP_GOOGLE_CLIENT_ID,
+  scope: 'profile email',
+  prompt: 'select_account',
+  fetch_basic_profile: true,
+}
+
 // BSV Plugin Registration
 Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)
+Vue.use(GAuth, googleAuthOption)
 Vue.use(VueMask)
 
 Vue.directive('mask', VueMaskDirective)

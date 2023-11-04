@@ -67,7 +67,6 @@ export default {
   background-color: $colors-palette2;
   color: $white;
   width: 100%;
-  margin-bottom: 2rem;
   transition: .3s background-color;
 }
 

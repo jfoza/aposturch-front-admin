@@ -1,134 +1,139 @@
 <template>
-  <validation-observer ref="login">
-    <b-row class="w-100 m-0">
-      <b-col
-        lg="12"
-        class="d-flex justify-content-center"
-      >
-        <section class="card-auth-admin">
-          <div class="custom-logo-app">
-            <application-logo />
-          </div>
-
-          <b-card-title
-            class="mt-2 mb-1 font-weight-bold text-center"
-            title-tag="h2"
-          >
-            Seja bem-vind@!
-          </b-card-title>
-          <b-card-text class="mb-2">
-            Por favor, insira os dados da sua conta para acessar a área administrativa.
-          </b-card-text>
-
-          <b-alert
-            v-if="alert.show"
-            show
-            fade
-            variant="danger"
-          >
-            <div class="custom-alert">
-              <span>
-                <BIconExclamationCircle />
-                {{ alert.message }}
-              </span>
+  <overlay
+    :show="loading"
+  >
+    <validation-observer ref="login">
+      <b-row class="w-100 m-0">
+        <b-col
+          lg="12"
+          class="d-flex justify-content-center"
+        >
+          <section class="card-auth-admin">
+            <div class="custom-logo-app">
+              <application-logo />
             </div>
-          </b-alert>
 
-          <b-form
-            class="mt-2 w-100"
-            @submit.prevent="formSubmit"
-          >
-            <!-- email -->
-            <b-form-group
-              label="E-mail"
-              label-for="login-email"
+            <b-card-title
+              class="mt-2 mb-1 font-weight-bold text-center"
+              title-tag="h2"
             >
-              <validation-provider
-                #default="{ errors }"
-                name="E-mail"
-                rules="required|email"
-              >
-                <b-form-input
-                  id="login-email"
-                  v-model="auth.email"
-                  name="login-email"
-                  :state="errors.length > 0 ? false : null"
-                  placeholder="email@email.com"
-                  autocomplete="off"
-                  @focus="alert.show = false"
-                />
+              Seja bem-vind@!
+            </b-card-title>
+            <b-card-text class="mb-2">
+              Por favor, insira os dados da sua conta para acessar a área administrativa.
+            </b-card-text>
 
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
+            <b-alert
+              v-if="alert.show"
+              show
+              fade
+              variant="danger"
+            >
+              <div class="custom-alert">
+                <span>
+                  <BIconExclamationCircle />
+                  {{ alert.message }}
+                </span>
+              </div>
+            </b-alert>
 
-            <!-- forgot password -->
-            <b-form-group>
-              <validation-provider
-                #default="{ errors }"
-                name="Senha"
-                rules="required"
+            <b-form
+              class="mt-2 w-100"
+              @submit.prevent="formSubmit"
+            >
+              <!-- email -->
+              <b-form-group
+                label="E-mail"
+                label-for="login-email"
               >
-                <b-input-group
-                  class="input-group-merge"
-                  :class="errors.length > 0 ? 'is-invalid':null"
+                <validation-provider
+                  #default="{ errors }"
+                  name="E-mail"
+                  rules="required|email"
                 >
                   <b-form-input
-                    id="password"
-                    v-model="auth.password"
-                    :type="passwordFieldType"
-                    class="form-control-merge"
+                    id="login-email"
+                    v-model="auth.email"
+                    name="login-email"
                     :state="errors.length > 0 ? false : null"
-                    placeholder="********"
+                    placeholder="email@email.com"
+                    autocomplete="off"
+                    @focus="alert.show = false"
                   />
 
-                  <b-input-group-append is-text>
-                    <feather-icon
-                      class="cursor-pointer"
-                      :icon="passwordToggleIcon"
-                      @click="togglePasswordVisibility"
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+
+              <!-- forgot password -->
+              <b-form-group>
+                <validation-provider
+                  #default="{ errors }"
+                  name="Senha"
+                  rules="required"
+                >
+                  <b-input-group
+                    class="input-group-merge"
+                    :class="errors.length > 0 ? 'is-invalid':null"
+                  >
+                    <b-form-input
+                      id="password"
+                      v-model="auth.password"
+                      :type="passwordFieldType"
+                      class="form-control-merge"
+                      :state="errors.length > 0 ? false : null"
+                      placeholder="********"
                     />
-                  </b-input-group-append>
-                </b-input-group>
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
 
-            <load-button
-              type="submit"
-              :state="state"
-              message="Entrar"
-            />
+                    <b-input-group-append is-text>
+                      <feather-icon
+                        class="cursor-pointer"
+                        :icon="passwordToggleIcon"
+                        @click="togglePasswordVisibility"
+                      />
+                    </b-input-group-append>
+                  </b-input-group>
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
 
-            <div class="divider my-2">
-              <div class="divider-text">
-                ou
-              </div>
-            </div>
-
-            <button
-              type="button"
-              class="btn btn-outline-form w-100 mb-2"
-            >
-              <b-img
-                :src="googleIcon"
-                class="google-icon"
+              <load-button
+                type="submit"
+                :state="state"
+                message="Entrar"
               />
-              Continuar com google
-            </button>
-          </b-form>
 
-          <b-link
-            :to="{ name: '' }"
-            class="text-center"
-          >
-            <BIconChevronLeft />
-            <span class="ml-1">Voltar ao Site</span>
-          </b-link>
-        </section>
-      </b-col>
-    </b-row>
-  </validation-observer>
+              <div class="divider my-2">
+                <div class="divider-text">
+                  ou
+                </div>
+              </div>
+
+              <button
+                type="button"
+                class="btn btn-outline-form w-100 mb-2"
+                @click="handleInitCodeClient"
+              >
+                <b-img
+                  :src="googleIcon"
+                  class="google-icon"
+                />
+                Continuar com google
+              </button>
+            </b-form>
+
+            <b-link
+              :to="{ name: '' }"
+              class="text-center"
+            >
+              <BIconChevronLeft />
+              <span class="ml-1">Voltar ao Site</span>
+            </b-link>
+          </section>
+        </b-col>
+      </b-row>
+    </validation-observer>
+  </overlay>
 </template>
 
 <script>
@@ -159,12 +164,14 @@ import { getHomeRouteForLoggedInUser } from '@/auth/utils'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import { messages } from '@core/utils/validations/messages'
 import googleIcon from '@/assets/images/icons/custom/google.svg'
+import Overlay from '@/views/components/custom/Overlay.vue'
 
 export default {
   directives: {
     'b-tooltip': VBTooltip,
   },
   components: {
+    Overlay,
     ValidationObserver,
     ValidationProvider,
     ApplicationLogo,
@@ -192,12 +199,13 @@ export default {
 
       googleIcon,
 
+      loading: false,
+
       auth: {
         email: '',
         password: '',
+        googleAuthToken: '',
       },
-
-      googleAuthToken: '',
 
       alert: {
         show: false,
@@ -245,16 +253,39 @@ export default {
       }
     },
 
-    async handleLogin() {
-      this.state = false
+    async handleInitCodeClient() {
+      const clientId = process.env.VUE_APP_GOOGLE_CLIENT_ID
 
-      await this.$store.dispatch('sessions/login', this.auth)
+      const tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: clientId,
+        scope: 'profile email',
+        ux_mode: 'popup',
+        callback: response => {
+          if (response.access_token) {
+            this.handleGoogleLogin(response.access_token)
+          }
+        },
+      })
+
+      tokenClient.requestAccessToken()
+    },
+
+    async handleLogin() {
+      this.loading = true
+
+      const auth = {
+        email: this.auth.email,
+        password: this.auth.password,
+      }
+
+      await this.$store.dispatch('sessions/login', auth)
         .then(response => {
           const { status } = response.request
           const token = response.data.accessToken
           const userData = response.data.user
 
           if (status === 200 && token) {
+            this.clear()
             this.abilitySessionAndRedirect(userData)
           }
         })
@@ -262,26 +293,32 @@ export default {
           this.errorHandling(error.response)
         })
 
-      this.state = true
+      this.loading = false
     },
 
-    async handleGoogleLogin() {
+    async handleGoogleLogin(googleAuthToken) {
+      this.loading = true
 
-    },
+      const auth = {
+        googleAuthToken,
+      }
 
-    async handleGoogleAuthVerify() {
-      await this.$gAuth.signIn()
+      await this.$store.dispatch('sessions/login', auth)
         .then(response => {
-          this.googleAuthToken = response.getAuthResponse().access_token
+          const { status } = response.request
+          const token = response.data.accessToken
+          const userData = response.data.user
+
+          if (status === 200 && token) {
+            this.clear()
+            this.abilitySessionAndRedirect(userData)
+          }
         })
         .catch(error => {
-          console.log(error)
-
-          this.showAlert(
-            'Não foi possível realizar a sua solicitação.',
-            'danger',
-          )
+          this.errorHandling(error.response)
         })
+
+      this.loading = false
     },
 
     // eslint-disable-next-line consistent-return
@@ -330,6 +367,12 @@ export default {
           'danger',
         )
       }
+    },
+
+    clear() {
+      this.auth.email = ''
+      this.auth.password = ''
+      this.auth.googleAuthToken = ''
     },
 
     showAlert(message, variant) {

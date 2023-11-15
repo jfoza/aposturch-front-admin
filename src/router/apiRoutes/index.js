@@ -3,6 +3,7 @@ const storeModule = 'admin/modules/store'
 
 export default {
   login: '/admin/auth/login',
+  googleLogin: '/admin/auth/login/google',
   logout: '/auth/logout',
 
   me: '/admin/admin-users/me',

@@ -54,10 +54,16 @@ const mutations = {
 }
 
 const actions = {
-  login({ commit }, userData) {
+  login({ commit }, auth) {
+    let route = apiRoutes.login
+
+    if (auth.googleAuthToken) {
+      route = apiRoutes.googleLogin
+    }
+
     return new Promise((resolve, reject) => {
       api
-        .post(apiRoutes.login, userData)
+        .post(route, auth)
         .then(response => {
           commit('DEFINE_LOGGED_USER', {
             token: response.data.accessToken,
@@ -72,19 +78,24 @@ const actions = {
         })
     })
   },
+
   logout({ commit }) {
     commit('LOGOUT_USER')
     commit('STOP_COUNT')
   },
+
   startCount({ commit }) {
     commit('START_COUNT')
   },
+
   stopCount({ commit }) {
     commit('STOP_COUNT')
   },
+
   setCount({ commit }, newCount) {
     commit('SET_COUNT', newCount)
   },
+
   setRefCount({ commit }, newRefCount) {
     commit('SET_REF_COUNT', newRefCount)
   },

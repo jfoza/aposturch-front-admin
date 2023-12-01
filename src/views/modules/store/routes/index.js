@@ -67,4 +67,15 @@ export default {
     path: '/produtos/atualizar-dados',
     name: 'store-products-update',
   },
+
+  // VENDAS
+  sales: {
+    path: '/vendas',
+    name: 'store-sales',
+  },
+
+  salesInsert: {
+    path: '/vendas/novo',
+    name: 'store-sales-insert',
+  },
 }

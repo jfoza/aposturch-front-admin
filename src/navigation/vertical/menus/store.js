@@ -3,7 +3,7 @@ import storeModuleRouter from '@/views/modules/store/routes'
 
 export default [
   {
-    title: 'Store',
+    title: 'Home',
     icon: 'HomeIcon',
     route: storeModuleRouter.home.name,
     resource: subjects.STORE_MODULE,
@@ -21,7 +21,7 @@ export default [
         action: actions.INSERT,
       },
       {
-        title: 'Ver departamentos',
+        title: 'Listar departamentos',
         route: storeModuleRouter.departments.name,
         resource: subjects.STORE_MODULE_DEPARTMENTS,
         action: actions.VIEW,
@@ -40,32 +40,13 @@ export default [
         action: actions.INSERT,
       },
       {
-        title: 'Ver categorias',
+        title: 'Listar categorias',
         route: storeModuleRouter.categories.name,
         resource: subjects.STORE_MODULE_CATEGORIES,
         action: actions.VIEW,
       },
     ],
   },
-
-  // {
-  //   title: 'Prefixos',
-  //   icon: 'CodeIcon',
-  //   children: [
-  //     {
-  //       title: 'Cadastrar novo',
-  //       route: storeModuleRouter.prefixesInsert.name,
-  //       resource: subjects.UNIQUE_CODE_PREFIXES,
-  //       action: actions.INSERT,
-  //     },
-  //     {
-  //       title: 'Ver prefixos',
-  //       route: storeModuleRouter.prefixes.name,
-  //       resource: subjects.UNIQUE_CODE_PREFIXES,
-  //       action: actions.VIEW,
-  //     },
-  //   ],
-  // },
 
   {
     title: 'Produtos',
@@ -78,8 +59,27 @@ export default [
         action: actions.INSERT,
       },
       {
-        title: 'Ver produtos',
+        title: 'Listar produtos',
         route: storeModuleRouter.products.name,
+        resource: subjects.STORE_MODULE_PRODUCTS,
+        action: actions.VIEW,
+      },
+    ],
+  },
+
+  {
+    title: 'Vendas',
+    icon: 'ShoppingCartIcon',
+    children: [
+      {
+        title: 'Nova venda',
+        route: storeModuleRouter.salesInsert.name,
+        resource: subjects.STORE_MODULE_PRODUCTS,
+        action: actions.INSERT,
+      },
+      {
+        title: 'Listar vendas',
+        route: storeModuleRouter.sales.name,
         resource: subjects.STORE_MODULE_PRODUCTS,
         action: actions.VIEW,
       },

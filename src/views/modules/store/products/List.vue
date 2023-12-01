@@ -278,12 +278,12 @@
               <span>{{ row.value }}</span>
             </template>
 
-            <template #cell(value)="row">
+            <template #cell(product_value)="row">
               <span>{{ moneyFormatBRL(row.value) }}</span>
             </template>
 
             <template #cell(quantity_balance)="row">
-              <span>{{ row.item.quantity + '/' + row.item.balance }}</span>
+              <span>{{ row.item.product_quantity + '/' + row.item.product_balance }}</span>
             </template>
 
             <template #cell(active)="row">
@@ -335,7 +335,7 @@
           sm="12"
         >
           <CustomPagination
-            :paginacao="paginationData"
+            :pagination-data="paginationData"
             @page-cliked="updateCurrentPage"
           />
         </b-col>
@@ -489,7 +489,7 @@ export default {
         { key: 'product_code', label: 'CÓDIGO', sortable: true },
         { key: 'product_name', label: 'NOME', sortable: true },
         {
-          key: 'value', label: 'VALOR',
+          key: 'product_value', label: 'VALOR',
         },
         {
           key: 'quantity_balance', label: 'QUANTIDADE/SALDO', thClass: 'text-center', tdClass: 'text-center', sortable: true,

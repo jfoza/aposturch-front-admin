@@ -3,6 +3,7 @@ const path = require('path')
 module.exports = {
   devServer: {
     disableHostCheck: true,
+    public: process.env.VUE_APP_APP_URL,
   },
   publicPath: '/',
   lintOnSave: false,

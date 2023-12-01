@@ -2,9 +2,15 @@
 //  ? TIP:  It is recommended to use this file for overriding bootstrap variables.
 //  ================================================================================================
 
+$font-weight-bolder: 600 !default;
+
+$danger: #dc3545 !default;
+
 $medium: 1200px;
 $small: 575px;
 $very-small: 348px;
+
+$product-card-width: 240px;
 
 $custom-dark: #454545;
 $custom-orange: rgba(245,193,57);

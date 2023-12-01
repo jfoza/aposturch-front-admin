@@ -257,7 +257,7 @@
             sm="12"
           >
             <CustomPagination
-              :paginacao="paginationData"
+              :pagination-data="paginationData"
               @page-cliked="updateCurrentPage"
             />
           </b-col>

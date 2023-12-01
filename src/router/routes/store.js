@@ -81,40 +81,6 @@ export default [
     },
   },
 
-  // PREFIXES
-  // {
-  //   path: storeModuleRouter.prefixes.path,
-  //   name: storeModuleRouter.prefixes.name,
-  //   component: () => import('@/views/modules/store/prefixes/List.vue'),
-  //   meta: {
-  //     resource: 'ACL',
-  //     subject: subjects.UNIQUE_CODE_PREFIXES,
-  //     action: actions.VIEW,
-  //   },
-  // },
-  //
-  // {
-  //   path: storeModuleRouter.prefixesInsert.path,
-  //   name: storeModuleRouter.prefixesInsert.name,
-  //   component: () => import('@/views/modules/store/prefixes/Insert.vue'),
-  //   meta: {
-  //     resource: 'ACL',
-  //     subject: subjects.UNIQUE_CODE_PREFIXES,
-  //     action: actions.INSERT,
-  //   },
-  // },
-  //
-  // {
-  //   path: storeModuleRouter.prefixesUpdate.path,
-  //   name: storeModuleRouter.prefixesUpdate.name,
-  //   component: () => import('@/views/modules/store/prefixes/Update.vue'),
-  //   meta: {
-  //     resource: 'ACL',
-  //     subject: subjects.UNIQUE_CODE_PREFIXES,
-  //     action: actions.UPDATE,
-  //   },
-  // },
-
   // PRODUCTS
   {
     path: storeModuleRouter.products.path,
@@ -146,6 +112,29 @@ export default [
       resource: 'ACL',
       subject: subjects.STORE_MODULE_PRODUCTS,
       action: actions.UPDATE,
+    },
+  },
+
+  // SALES
+  {
+    path: storeModuleRouter.sales.path,
+    name: storeModuleRouter.sales.name,
+    component: () => import('@/views/modules/store/sales/List.vue'),
+    meta: {
+      resource: 'ACL',
+      subject: subjects.STORE_MODULE_PRODUCTS,
+      action: actions.VIEW,
+    },
+  },
+
+  {
+    path: storeModuleRouter.salesInsert.path,
+    name: storeModuleRouter.salesInsert.name,
+    component: () => import('@/views/modules/store/sales/Insert.vue'),
+    meta: {
+      resource: 'ACL',
+      subject: subjects.STORE_MODULE_PRODUCTS,
+      action: actions.INSERT,
     },
   },
 ]

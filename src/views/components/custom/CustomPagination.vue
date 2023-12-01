@@ -1,13 +1,13 @@
 <template>
   <div class="d-flex flex-row justify-content-between">
     <span class="text-placeholder-color mb-0 ">
-      Mostrando {{ paginacao.fromLine }} a {{ paginacao.toLine }} de {{ paginacao.totalLines }} resultados
+      Mostrando {{ getPaginationData.fromLine }} a {{ getPaginationData.toLine }} de {{ getPaginationData.totalLines }} resultados
     </span>
     <b-pagination
       id="pagination"
-      v-model="paginacao.currentPage"
-      :total-rows="paginacao.totalLines"
-      :per-page="paginacao.defaultSize"
+      v-model="getPaginationData.currentPage"
+      :total-rows="getPaginationData.totalLines"
+      :per-page="getPaginationData.defaultSize"
       first-number
       last-number
       align="right"
@@ -43,8 +43,28 @@ export default {
     BPagination,
   },
   props: {
-    paginacao: {
+    paginationData: {
       required: true,
+      type: Object,
+      default: () => ({
+        currentPage: 0,
+        totalLines: 0,
+        fromLine: 0,
+        toLine: 0,
+        defaultSize: 30,
+      }),
+    },
+  },
+
+  computed: {
+    getPaginationData() {
+      return {
+        currentPage: this.paginationData.currentPage,
+        totalLines: this.paginationData.totalLines,
+        fromLine: this.paginationData.fromLine,
+        toLine: this.paginationData.toLine,
+        defaultSize: this.paginationData.defaultSize,
+      }
     },
   },
 
@@ -56,9 +76,11 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '@/assets/scss/variables/variables';
+
 .page-item.active .page-link {
-  background-color: #2772C0;
+  background-color: $colors-palette2 !important;
   color: #fff !important;
   font-weight: bold;
   font-size: 16px;
@@ -67,7 +89,7 @@ export default {
 }
 
 .page-item.next-item .page-link:hover, .page-item.prev-item .page-link:hover {
-  background-color: #2772C0 !important;
+  background-color: $colors-palette2 !important;
   color: #fff !important;
 }
 </style>

@@ -71,6 +71,7 @@ export default {
   }
 
   .overlay .overlay-area {
+    width: 100%;
     content: '';
     position: absolute;
     left: 0;
@@ -89,6 +90,6 @@ export default {
     height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    margin-top: 150px;
   }
 </style>

@@ -91,7 +91,14 @@ export default {
             product_balance,
             highlight_product,
             category,
+            image,
           } = response.data
+
+          let imageLinks = [{ id: '', type: '', path: '' }]
+
+          if (image.length > 0) {
+            imageLinks = image
+          }
 
           this.$store.commit('storeModuleProducts/setProductsForm', {
             id,
@@ -103,6 +110,7 @@ export default {
             productQuantity: product_quantity,
             highlightProduct: highlight_product,
             categories: category,
+            imageLinks,
           })
 
           this.linkItems[1].name = product_name

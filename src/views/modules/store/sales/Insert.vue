@@ -44,7 +44,7 @@
             <Product
               :product-id="item.id"
               :product-name="item.product_name"
-              :product-img="item.product_image"
+              :product-img="item.image.length > 0 ? item.image[0].path : null"
               :product-price="item.product_value"
             />
           </div>

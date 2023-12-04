@@ -22,7 +22,7 @@ import {
   validatorPassword,
   validatorCNPJ,
   validatorCPF,
-  validatorCellPhone,
+  validatorCellPhone, validatorUrlValidator,
 } from './validators'
 
 // ////////////////////////////////////////////////////////
@@ -71,6 +71,11 @@ export const cpf = extend('cpf', {
 export const cellPhone = extend('cellPhone', {
   validate: validatorCellPhone,
   message: messages.invalidPhone,
+})
+
+export const url = extend('url', {
+  validate: validatorUrlValidator,
+  message: messages.invalidUrl,
 })
 
 localize({ en: ptBR })

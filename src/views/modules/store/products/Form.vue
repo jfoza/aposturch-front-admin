@@ -252,6 +252,68 @@
 
         <b-row>
           <b-col
+            md="12"
+            lg="6"
+            class="mb-1"
+          >
+            <b-alert
+              v-model="imagesLinkLimitAlert"
+              v-height-fade.appear
+              variant="warning"
+              dismissible
+            >
+              <div class="alert-body">
+                São permitidos no máximo 3 links de imagem.
+              </div>
+            </b-alert>
+
+            <div
+              v-for="(item, key) in getFormData.imageLinks"
+              :key="key"
+              class="mb-2"
+            >
+              <small class="img-links-title">
+                {{ `Imagem link ${key + 1}` }}
+              </small>
+
+              <div class="img-links-btn-inputs">
+                <validation-provider
+                  #default="{ errors }"
+                  rules="url"
+                  class="img-links-container-input"
+                >
+                  <b-form-input
+                    id="link1"
+                    v-model="item.path"
+                    autocomplete="off"
+                  />
+
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+
+                <div class="img-links-btn-plus">
+                  <button-rounded-circle
+                    v-if="key === getFormData.imageLinks.length - 1"
+                    button-size="22"
+                    feather-icon="PlusIcon"
+                    @action="handlePushImageLink"
+                  />
+
+                  <button-icon
+                    v-else
+                    color="#0B132B"
+                    size="18"
+                    feather-icon="Trash2Icon"
+                    @action="handleRemoveImageLink(key)"
+                  />
+                </div>
+              </div>
+            </div>
+          </b-col>
+        </b-row>
+
+        <b-row>
+          <b-col
             cols="12"
             class="mt-3"
           >
@@ -307,6 +369,7 @@ import {
   BInputGroupAppend,
   BFormCheckbox,
   BFormTextarea,
+  BAlert,
   VBTooltip,
 } from 'bootstrap-vue'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
@@ -325,9 +388,14 @@ import { createProduct, updateProduct } from '@core/utils/requests/products'
 import { generateUniqueCode, getAllPrefixes } from '@core/utils/requests/prefixes'
 import { getAllCategories } from '@core/utils/requests/categories'
 import { getArrayAttr } from '@core/utils/utils'
+import ButtonRoundedCircle from '@/views/components/custom/ButtonRoundedCircle.vue'
+import ButtonIcon from '@/views/components/custom/ButtonIcon.vue'
+import { heightFade } from '@core/directives/animations'
 
 export default {
   components: {
+    ButtonIcon,
+    ButtonRoundedCircle,
     vSelect,
     Overlay,
     Cleave,
@@ -342,11 +410,13 @@ export default {
     BInputGroupAppend,
     BFormCheckbox,
     BFormTextarea,
+    BAlert,
     Money,
   },
 
   directives: {
     'b-tooltip': VBTooltip,
+    'height-fade': heightFade,
   },
 
   props: {
@@ -377,6 +447,8 @@ export default {
       productBalance: '',
 
       quantityBalanceError: '',
+
+      imagesLinkLimitAlert: false,
 
       inputOptions: {
         productCode: {
@@ -440,6 +512,12 @@ export default {
         categoriesId = getArrayAttr(this.getFormData.categories, 'id')
       }
 
+      let imageLinks = this.getFormData.imageLinks.length > 0
+        ? getArrayAttr(this.getFormData.imageLinks, 'path')
+        : []
+
+      imageLinks = imageLinks.filter(i => i.trim())
+
       const formData = {
         productName: this.getFormData.productName,
         productDescription: this.getFormData.productDescription,
@@ -447,6 +525,7 @@ export default {
         value: this.getFormData.productValue,
         quantity: parseInt(this.getFormData.productQuantity, 10),
         highlightProduct: this.getFormData.highlightProduct,
+        imageLinks,
         categoriesId,
       }
 
@@ -637,11 +716,44 @@ export default {
     formReset() {
       this.$refs.formItems.reset()
     },
+
+    handlePushImageLink() {
+      if (this.getFormData.imageLinks.length >= 3) {
+        this.imagesLinkLimitAlert = true
+
+        return
+      }
+
+      this.$store.commit('storeModuleProducts/handlePushImageLink')
+    },
+
+    handleRemoveImageLink(item) {
+      this.$store.commit('storeModuleProducts/handleRemoveImageLink', item)
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
+.image-links-title {
+
+}
+
+.img-links-container-input {
+  width: calc(100% - 22px);
+}
+
+.img-links-btn-inputs {
+  display: flex;
+}
+
+.img-links-btn-plus {
+  width: 30px;
+  display: flex;
+  justify-content: end;
+  align-items: center
+}
+
 @media(max-width: 400px) {
   .button-custom-size {
     width: 100%;

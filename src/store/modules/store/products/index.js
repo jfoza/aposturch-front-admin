@@ -1,5 +1,7 @@
 /* eslint-disable no-shadow */
 
+import { uuidV4Generate } from '@core/utils/validations/uuidv4'
+
 const state = {
   chooseProduct: null,
 
@@ -14,6 +16,7 @@ const state = {
     productBalance: '',
     highlightProduct: false,
     categories: [],
+    imageLinks: [],
   },
 }
 
@@ -33,6 +36,7 @@ const mutations = {
       productBalance,
       highlightProduct,
       categories,
+      imageLinks,
     } = itemData
 
     state.productsForm = {
@@ -45,6 +49,7 @@ const mutations = {
       productBalance,
       highlightProduct,
       categories,
+      imageLinks,
     }
   },
 
@@ -60,11 +65,26 @@ const mutations = {
       productBalance: '',
       highlightProduct: false,
       categories: [],
+      imageLinks: [
+        { id: '', type: '', path: '' },
+      ],
     }
   },
 
   clearChooseProduct(state) {
     state.chooseProduct = null
+  },
+
+  handlePushImageLink(state) {
+    state.productsForm.imageLinks.push({
+      id: '',
+      type: '',
+      path: '',
+    })
+  },
+
+  handleRemoveImageLink(state, item) {
+    state.productsForm.imageLinks.splice(item, 1)
   },
 }
 

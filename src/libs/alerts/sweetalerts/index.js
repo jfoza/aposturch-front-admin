@@ -63,6 +63,21 @@ export const successMessageAction = message => new Promise(resolve => {
   })
 })
 
+export const warningMessageBasicAction = message => new Promise(resolve => {
+  Swal.fire({
+    iconHtml: iconHtml(exclamationWarningIcon),
+    html: `${message || ''}`,
+    confirmButtonText: 'Ok',
+    customClass: {
+      confirmButton: 'confirm-button-sweet',
+    },
+  }).then(result => {
+    if (result.isConfirmed) {
+      resolve()
+    }
+  })
+})
+
 export const warningMessageAction = (title, message, confirmButtonMessage) => new Promise(resolve => {
   Swal.fire({
     iconHtml: iconHtml(exclamationWarningIcon),

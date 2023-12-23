@@ -58,6 +58,11 @@ export default {
     name: 'store-products',
   },
 
+  productDetails: {
+    path: '/produtos/detalhes',
+    name: 'store-product-details',
+  },
+
   productsInsert: {
     path: '/produtos/novo',
     name: 'store-products-insert',

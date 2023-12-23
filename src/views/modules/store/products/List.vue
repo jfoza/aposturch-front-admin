@@ -322,6 +322,13 @@
               <button-icon
                 color="#2772C0"
                 size="18"
+                feather-icon="EyeIcon"
+                @action="redirectProductDetails(row.item)"
+              />
+
+              <button-icon
+                color="#2772C0"
+                size="18"
                 feather-icon="EditIcon"
                 @action="redirectUpdatePage(row.item)"
               />
@@ -376,6 +383,7 @@ import Overlay from '@/views/components/custom/Overlay.vue'
 import { getArrayAttr, moneyFormatBRL } from '@core/utils/utils'
 import { getAllCategories } from '@core/utils/requests/categories'
 import { getAllProducts, updateStatusProducts } from '@core/utils/requests/products'
+import storeModuleRouter from '@/views/modules/store/routes'
 
 export default {
   components: {
@@ -619,6 +627,18 @@ export default {
         this.productsToUpdateStatus = []
         this.checkAll = false
       }
+    },
+
+    redirectProductDetails({ product_unique_name }) {
+      this.$store.commit(
+        'storeModuleProducts/setLinkItemsRoutes',
+        {
+          name: 'Produtos',
+          routeName: this.getStoreModuleRoutes.products.name,
+        },
+      )
+
+      this.$router.push({ path: `${storeModuleRouter.productDetails.path}/${product_unique_name}` })
     },
 
     redirectUpdatePage(item) {

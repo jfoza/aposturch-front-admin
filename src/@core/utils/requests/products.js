@@ -23,6 +23,17 @@ export const getProductId = id => new Promise((resolve, reject) => {
     })
 })
 
+export const getProductUniqueName = uniqueName => new Promise((resolve, reject) => {
+  axiosIns
+    .get(apiRoutes.productUniqueName(uniqueName))
+    .then(response => {
+      resolve(response)
+    })
+    .catch(error => {
+      reject(error)
+    })
+})
+
 export const createProduct = form => new Promise((resolve, reject) => {
   axiosIns
     .post(apiRoutes.products, form)

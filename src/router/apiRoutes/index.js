@@ -62,4 +62,5 @@ export default {
   products: `${storeModule}/products`,
   productsStatus: `${storeModule}/products/status`,
   productId: id => `${storeModule}/products/id/${id}`,
+  productUniqueName: uniqueName => `${storeModule}/products/unique-name/${uniqueName}`,
 }

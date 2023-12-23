@@ -43,9 +43,11 @@
           >
             <Product
               :product-id="item.id"
+              :product-unique-name="item.product_unique_name"
               :product-name="item.product_name"
               :product-img="item.image.length > 0 ? item.image[0].path : null"
               :product-price="item.product_value"
+              @setLinkItemsRoute="setLinkItemsRoute"
             />
           </div>
         </div>
@@ -149,6 +151,12 @@ export default {
     }
   },
 
+  computed: {
+    getStoreModuleRoutes() {
+      return this.$store.getters['routes/getStoreModuleRoutes']
+    },
+  },
+
   mounted() {
     this.handleGetProducts()
   },
@@ -179,6 +187,16 @@ export default {
       }
     },
 
+    setLinkItemsRoute() {
+      this.$store.commit(
+        'storeModuleProducts/setLinkItemsRoutes',
+        {
+          name: 'Nova Venda',
+          routeName: this.getStoreModuleRoutes.salesInsert.name,
+        },
+      )
+    },
+
     async clearFiltersAndFindAll() {
       this.search.nameOrCode = ''
 
@@ -198,15 +216,6 @@ export default {
       this.paginationData.toLine = data.to
       this.paginationData.totalLines = data.total
       this.paginationData.currentPage = data.current_page
-    },
-
-    updateQtdView(event) {
-      if (!event) {
-        this.paginationData.defaultSize = 10
-      }
-
-      this.paginationData.currentPage = 1
-      this.handleGetProducts()
     },
 
     updateCurrentPage(page) {

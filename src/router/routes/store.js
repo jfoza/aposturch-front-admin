@@ -94,6 +94,18 @@ export default [
   },
 
   {
+    path: `${storeModuleRouter.productDetails.path}/:productUniqueName`,
+    name: storeModuleRouter.productDetails.name,
+    component: () => import('@/views/modules/store/products/ProductDetails.vue'),
+    props: true,
+    meta: {
+      resource: 'ACL',
+      subject: subjects.STORE_MODULE_PRODUCTS,
+      action: actions.VIEW,
+    },
+  },
+
+  {
     path: storeModuleRouter.productsInsert.path,
     name: storeModuleRouter.productsInsert.name,
     component: () => import('@/views/modules/store/products/Insert.vue'),

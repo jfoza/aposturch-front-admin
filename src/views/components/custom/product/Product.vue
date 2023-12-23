@@ -5,11 +5,15 @@
     no-body
   >
     <div class="item-img text-center">
-      <img
-        alt=""
-        :class="productImg ? 'img-fluid p-img' : 'img-fluid no-img'"
-        :src="productImg ? productImg : noImageIcon"
+      <b-link
+        @click="redirectProductDetails"
       >
+        <img
+          alt=""
+          :class="productImg ? 'img-fluid p-img' : 'img-fluid no-img'"
+          :src="productImg ? productImg : noImageIcon"
+        >
+      </b-link>
     </div>
 
     <!-- Product Details -->
@@ -29,9 +33,13 @@
       </div>
       <div class="p-info">
         <div class="item-name">
-          <h6>
-            {{ productName }}
-          </h6>
+          <b-link
+            @click="redirectProductDetails"
+          >
+            <h6>
+              {{ productName }}
+            </h6>
+          </b-link>
         </div>
 
         <div class="item-add-cart">
@@ -59,6 +67,7 @@ import {
 
 import cartPlusIcon from '@/assets/images/icons/custom/cart-plus-light-icon.png'
 import noImageIcon from '@/assets/images/icons/custom/no-image-icon.png'
+import storeModuleRouter from '@/views/modules/store/routes'
 
 export default {
   components: {
@@ -74,6 +83,11 @@ export default {
     },
 
     productId: {
+      type: String,
+      default: '',
+    },
+
+    productUniqueName: {
       type: String,
       default: '',
     },
@@ -98,6 +112,8 @@ export default {
     return {
       cartPlusIcon,
       noImageIcon,
+
+      storeModuleRouter,
     }
   },
 
@@ -112,6 +128,18 @@ export default {
         price: priceSplit[0] ? priceSplit[0] : '0',
         priceCents: priceSplit[1] ? priceSplit[1] : '00',
       }
+    },
+
+    getProductUniqueName() {
+      return this.productUniqueName
+    },
+  },
+
+  methods: {
+    redirectProductDetails() {
+      this.$emit('setLinkItemsRoute')
+
+      this.$router.push({ path: `${storeModuleRouter.productDetails.path}/${this.getProductUniqueName}` })
     },
   },
 }

@@ -114,3 +114,9 @@ export const validatorCellPhone = phone => {
 
   return validatorEqualDigits(phone)
 }
+
+export function validateNoSpecialChars(value, fieldName) {
+  const hasSpecialChars = /^[!@#$%^&*(),?":{}|<>]|[^.\w\s]/.test(value)
+
+  return !hasSpecialChars
+}

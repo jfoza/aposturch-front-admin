@@ -39,7 +39,7 @@
                 <validation-provider
                   #default="{ errors }"
                   name="Nome"
-                  rules="required"
+                  rules="required|noSpecialChars"
                 >
                   <b-form-input
                     id="name"
@@ -425,7 +425,10 @@ import {
 import Upload from '@/views/components/custom/Upload'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import {
-  required, email, min,
+  required,
+  email,
+  min,
+  noSpecialChars,
 } from '@validations'
 import { statusForm } from '@core/utils/statusForm'
 import vSelect from 'vue-select'
@@ -473,6 +476,8 @@ export default {
       required,
       email,
       min,
+      noSpecialChars,
+
       statusForm,
       titlePage: '',
 

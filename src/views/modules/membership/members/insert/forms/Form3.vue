@@ -42,7 +42,7 @@
               <validation-provider
                 #default="{ errors }"
                 name="Nome"
-                rules="required"
+                rules="required|noSpecialChars"
               >
                 <b-form-input
                   id="name"
@@ -223,7 +223,11 @@ import {
   BInputGroupAppend,
   BFormInput,
 } from 'bootstrap-vue'
-import { required, confirmed } from '@validations'
+import {
+  required,
+  confirmed,
+  noSpecialChars,
+} from '@validations'
 import ButtonNext from '@/views/components/custom/ButtonNext.vue'
 import ButtonPrev from '@/views/components/custom/ButtonPrev.vue'
 import { statusForm } from '@core/utils/statusForm'
@@ -251,6 +255,8 @@ export default {
     return {
       required,
       confirmed,
+      noSpecialChars,
+
       statusForm,
 
       churches: [],

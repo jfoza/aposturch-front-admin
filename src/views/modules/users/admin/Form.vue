@@ -20,7 +20,7 @@
                 <validation-provider
                   #default="{ errors }"
                   name="Nome"
-                  rules="required"
+                  rules="required|noSpecialChars"
                 >
                   <b-form-input
                     id="name"
@@ -224,7 +224,11 @@ import {
 } from 'bootstrap-vue'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import {
-  required, email, password, confirmed,
+  required,
+  email,
+  password,
+  confirmed,
+  noSpecialChars,
 } from '@validations'
 import { getProfiles, createUser, updateUser } from '@core/utils/requests/users'
 import { statusForm } from '@core/utils/statusForm'
@@ -269,6 +273,8 @@ export default {
       email,
       password,
       confirmed,
+      noSpecialChars,
+
       statusForm,
       titlePage: '',
 

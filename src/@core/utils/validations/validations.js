@@ -22,7 +22,9 @@ import {
   validatorPassword,
   validatorCNPJ,
   validatorCPF,
-  validatorCellPhone, validatorUrlValidator,
+  validatorCellPhone,
+  validatorUrlValidator,
+  validateNoSpecialChars,
 } from './validators'
 
 // ////////////////////////////////////////////////////////
@@ -76,6 +78,11 @@ export const cellPhone = extend('cellPhone', {
 export const url = extend('url', {
   validate: validatorUrlValidator,
   message: messages.invalidUrl,
+})
+
+export const noSpecialChars = extend('noSpecialChars', {
+  validate: (value, [fieldName]) => validateNoSpecialChars(value, fieldName),
+  message: fieldName => messages.hasSpecialChars(fieldName),
 })
 
 localize({ en: ptBR })

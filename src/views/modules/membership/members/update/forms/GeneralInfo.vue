@@ -22,7 +22,7 @@
               <validation-provider
                 #default="{ errors }"
                 name="Nome"
-                rules="required"
+                rules="required|noSpecialChars"
               >
                 <b-form-input
                   id="name"
@@ -120,7 +120,11 @@ import {
   BFormGroup,
   BFormInput,
 } from 'bootstrap-vue'
-import { required, confirmed } from '@validations'
+import {
+  required,
+  confirmed,
+  noSpecialChars,
+} from '@validations'
 import { statusForm } from '@core/utils/statusForm'
 import { successMessage, warningMessage } from '@/libs/alerts/sweetalerts'
 import { messages } from '@core/utils/validations/messages'
@@ -144,6 +148,8 @@ export default {
     return {
       required,
       confirmed,
+      noSpecialChars,
+
       statusForm,
 
       loading: false,

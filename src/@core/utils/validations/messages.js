@@ -8,6 +8,7 @@ export const messages = {
   invalidPassword: 'A senha digitada não está de acordo com as regras acima.',
   invalidPasswordConfirmation: 'O campo confirmação de senha deve ser igual ao campo senha.',
   invalidUrl: 'URL inválida.',
+  hasSpecialChars: field => `O campo ${field} não pode conter caracteres especiais.`,
 
   successSave: 'Dados salvos com sucesso',
   errorUploadImage: 'Não foi possível realizar o upload da imagem para este registro, caso o erro persista, entre em contato com o suporte.',

@@ -5,7 +5,7 @@
       :link-items="linkItems"
     />
 
-    <section class="ecommerce-searchbar mt-1 mb-4">
+    <section class="ecommerce-searchbar mt-1 mb-5">
       <b-row
         class="justify-content-center"
       >
@@ -36,6 +36,26 @@
       :show="loading"
     >
       <section>
+        <div
+          class="d-flex justify-center-center align-items-center pl-1"
+        >
+          <span class="mr-50">Ordenar por:</span>
+          <v-select
+            id="orders"
+            v-model="chooseOrderOption"
+            style="width: 160px"
+            :options="orderOptions"
+            variant="custom"
+            item-text="value"
+            item-value="key"
+            label="value"
+            :clearable="false"
+            @input="handleGetProducts"
+          >
+            <span slot="no-options">Nenhuma opção selecionável.</span>
+          </v-select>
+        </div>
+
         <div class="products-list">
           <div
             v-for="(item, index) in products"
@@ -47,6 +67,7 @@
               :product-name="item.product_name"
               :product-img="item.image.length > 0 ? item.image[0].path : null"
               :product-price="item.product_value"
+              :product-balance="item.product_balance"
               @setLinkItemsRoute="setLinkItemsRoute"
             />
           </div>
@@ -104,9 +125,11 @@ import {
 import Product from '@/views/components/custom/product/Product.vue'
 import { getAllProducts } from '@core/utils/requests/products'
 import CustomPagination from '@/views/components/custom/CustomPagination.vue'
+import vSelect from 'vue-select'
 
 export default {
   components: {
+    vSelect,
     CustomPagination,
     Product,
     Overlay,
@@ -134,6 +157,15 @@ export default {
           active: true,
         },
       ],
+
+      orderOptions: [
+        { key: 'product_name', value: 'A - Z', order: 'asc' },
+        { key: 'product_name', value: 'Z - A', order: 'desc' },
+        { key: 'product_value', value: 'Menor preço', order: 'asc' },
+        { key: 'product_value', value: 'Maior preço', order: 'desc' },
+      ],
+
+      chooseOrderOption: { key: 'product_name', value: 'A - Z', order: 'asc' },
 
       paginationData: {
         currentPage: 0,
@@ -207,6 +239,8 @@ export default {
       return {
         perPage: this.paginationData.defaultSize,
         page: this.paginationData.currentPage,
+        columnName: this.chooseOrderOption.key,
+        columnOrder: this.chooseOrderOption.order,
         nameOrCode: this.search.nameOrCode,
       }
     },

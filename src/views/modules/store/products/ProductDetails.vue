@@ -20,12 +20,16 @@
             md="5"
             class="mb-2 mb-md-0"
           >
-            <img
+            <div
               v-if="product.image.length === 0"
-              alt=""
-              class="img-fluid no-img"
-              :src="noImageIcon"
+              class="h-100 d-flex justify-content-center align-items-center"
             >
+              <img
+                alt=""
+                class="img-fluid no-img"
+                :src="noImageIcon"
+              >
+            </div>
 
             <b-carousel
               v-if="product.image.length > 0"
@@ -55,17 +59,29 @@
             <div class="p-text">
               <h4>{{ product.productName }}</h4>
 
-              <div class="ecommerce-details-price d-flex flex-wrap mt-1">
+              <div class="ecommerce-details-price d-flex flex-wrap mt-2">
                 <h4 class="item-price mr-1 mb-0">
                   {{ moneyFormatBRL(product.productValue) }}
                 </h4>
               </div>
 
-              <p class="mt-1">
-                Disponível - <span class="text-success">Em estoque</span>
-              </p>
+              <span
+                v-if="product.productBalance === 0 || !product.productBalance"
+                class="text-danger"
+              >
+                Sem estoque
+              </span>
+              <div
+                v-if="product.productBalance && product.productBalance > 0"
+                class="d-flex"
+              >
+                <span class="text-success">Disponível:</span>
+                <p class="balance-info">
+                  {{ product.productBalance }}
+                </p>
+              </div>
 
-              <b-card-text>
+              <b-card-text class="mt-2">
                 {{ product.productDescription }}
               </b-card-text>
 
@@ -277,6 +293,10 @@ export default {
 @import '@/assets/scss/variables/variables';
 @import "~@core/scss/base/pages/app-ecommerce-details";
 
+h4, p {
+  margin: 0;
+}
+
 .product-slide img {
   width: 100%;
   height: 430px;
@@ -290,6 +310,17 @@ export default {
 
 .p-text {
   padding-right: 2rem;
+}
+
+.no-img {
+  width: 100%;
+  height: 45px;
+  object-fit: scale-down;
+  object-position: center;
+}
+
+.balance-info {
+  margin-left: 5px;
 }
 
 @media (width < 768px) {

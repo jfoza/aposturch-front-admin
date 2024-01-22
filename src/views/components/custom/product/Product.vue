@@ -18,7 +18,7 @@
 
     <!-- Product Details -->
     <b-card-body class="custom-card-body">
-      <div class="item-wrapper">
+      <div class="d-flex justify-content-between">
         <div class="p-price-area">
           <p class="p-money">
             R$
@@ -29,6 +29,24 @@
           <p class="p-price-cents">
             {{ getProductPrice.priceCents }}
           </p>
+        </div>
+
+        <div class="item-balance">
+          <span
+            v-if="getProductBalance === 0 || !getProductBalance"
+            class="text-danger"
+          >
+            Sem estoque
+          </span>
+          <div
+            v-if="getProductBalance && getProductBalance > 0"
+            class="d-flex"
+          >
+            <span class="text-success">Disponível:</span>
+            <p class="balance-info">
+              {{ getProductBalance }}
+            </p>
+          </div>
         </div>
       </div>
       <div class="p-info">
@@ -43,14 +61,18 @@
         </div>
 
         <div class="item-add-cart">
-          <b-link
+          <button
+            v-b-tooltip.hover
+            type="button"
+            :disabled="getProductBalance === 0 || !getProductBalance"
+            :title="getProductBalance === 0 || !getProductBalance ? 'Produto sem estoque' : ''"
             class="btn btn-rounded"
           >
             <b-img
               class="icon-cart-plus-img"
               :src="cartPlusIcon"
             />
-          </b-link>
+          </button>
         </div>
       </div>
     </b-card-body>
@@ -63,6 +85,7 @@ import {
   BCardBody,
   BImg,
   BLink,
+  VBTooltip,
 } from 'bootstrap-vue'
 
 import cartPlusIcon from '@/assets/images/icons/custom/cart-plus-light-icon.png'
@@ -76,6 +99,11 @@ export default {
     BImg,
     BLink,
   },
+
+  directives: {
+    'b-tooltip': VBTooltip,
+  },
+
   props: {
     className: {
       type: String,
@@ -106,6 +134,11 @@ export default {
       type: String,
       default: '0.00',
     },
+
+    productBalance: {
+      type: Number,
+      default: 0,
+    },
   },
 
   data() {
@@ -132,6 +165,10 @@ export default {
 
     getProductUniqueName() {
       return this.productUniqueName
+    },
+
+    getProductBalance() {
+      return this.productBalance
     },
   },
 
